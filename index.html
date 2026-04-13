@@ -17,7 +17,7 @@
 :root{
   --gold:#c9a84c;--gold-l:#e8d48b;--gold-d:#8b6914;
   --bg:#0a0a12;--bg2:#111119;
-  --card:rgba(255,255,255,0.035);--card-b:rgba(255,255,255,0.07);
+  --card:rgba(255,255,255,0.06);--card-b:rgba(255,255,255,0.12);
   --t1:#fff;--t2:#aaa;--t3:#666;
   --edge:#2C2C34;--bloom:#7B68EE;--easy:#E8E8E8;--drop:#3D1C6E;
 }
@@ -26,10 +26,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 #app{width:100%;height:100%;position:relative;overflow:hidden}
 
 /* PAGE */
-.p{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;opacity:0;transform:translateX(50px);transition:opacity .4s,transform .4s;pointer-events:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+.p{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateX(50px);transition:opacity .4s,transform .4s;pointer-events:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .p.on{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
 .p.out{opacity:0;transform:translateX(-50px);z-index:1}
-.pi{padding:48px 24px 40px;flex:1}
+.pi{padding:48px 24px 40px;flex:1;width:100%;max-width:420px;margin:0 auto}
 .serif{font-family:'Noto Serif SC',serif}
 
 /* BTN */
@@ -79,7 +79,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .multi-hint{font-size:11px;color:var(--t3);margin-top:8px;text-align:center}
 
 /* LOADING */
-#sLoad{justify-content:center;align-items:center;background:radial-gradient(ellipse at 50% 50%,#1a1520,var(--bg) 55%)}
+#sLoad{justify-content:center;align-items:center;background:radial-gradient(ellipse at 50% 50%,#1a1520,var(--bg) 55%);text-align:center}
 .spin{width:100px;height:100px;border:3px solid rgba(201,168,76,.12);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite;margin-bottom:24px}
 @keyframes sp{to{transform:rotate(360deg)}}
 

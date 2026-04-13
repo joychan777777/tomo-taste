@@ -11,7 +11,7 @@
 :root{
   --gold:#c9a84c;--gold-l:#e8d48b;--gold-d:#8b6914;
   --bg:#0a0a12;--bg2:#111119;--bg3:#161622;
-  --card:rgba(255,255,255,0.04);--card-b:rgba(255,255,255,0.08);
+  --card:rgba(255,255,255,0.06);--card-b:rgba(255,255,255,0.12);
   --t1:#fff;--t2:#aaa;--t3:#666;--t4:#444;
   --edge:#2C2C34;--bloom:#7B68EE;--easy:#E8E8E8;--drop:#3D1C6E;
   --green:#4caf50;--red:#e53935;
@@ -135,6 +135,37 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;heigh
 
 /* notify dot */
 .dot{width:8px;height:8px;background:var(--red);border-radius:50%;position:absolute;top:4px;right:calc(50% - 16px)}
+
+/* === TEST QUESTIONS === */
+.qbar{display:flex;gap:4px;margin-bottom:24px}
+.qb{height:4px;flex:1;border-radius:2px;background:#1a1a24;transition:background .35s}
+.qb.d{background:var(--gold)}.qb.c{background:linear-gradient(90deg,var(--gold),#333)}
+.qn{font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:8px}
+.qt{font-family:'Noto Serif SC',serif;font-size:20px;line-height:1.65;margin-bottom:24px}
+.qo{display:flex;flex-direction:column;gap:10px}
+.qopt{background:var(--card);border:1px solid var(--card-b);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none}
+.qopt:active{transform:scale(.98)}
+.qopt .em{font-size:24px;flex-shrink:0}
+.qopt .lb{font-size:13px;color:var(--t2);line-height:1.5}
+.qopt.sel{background:rgba(201,168,76,.1);border-color:var(--gold)}
+.qopt.sel .lb{color:var(--gold)}
+
+/* === TEST RESULT CARD === */
+.rc{background:var(--card);border:1px solid var(--card-b);border-radius:20px;padding:28px 20px;text-align:center;margin-bottom:16px}
+.rc-edge{border-color:rgba(44,44,52,.5);background:linear-gradient(160deg,rgba(44,44,52,.15),rgba(0,0,0,.1))}
+.rc-bloom{border-color:rgba(123,104,238,.2);background:linear-gradient(160deg,rgba(123,104,238,.06),rgba(0,0,0,.1))}
+.rc-easy{border-color:rgba(232,232,232,.15);background:linear-gradient(160deg,rgba(232,232,232,.04),rgba(0,0,0,.1))}
+.rc-drop{border-color:rgba(61,28,110,.3);background:linear-gradient(160deg,rgba(61,28,110,.1),rgba(0,0,0,.1))}
+.rs{font-size:52px;margin-bottom:10px}
+.rn{font-family:'Noto Serif SC',serif;font-size:28px;font-weight:700;color:var(--gold);margin-bottom:4px}
+.re{font-size:13px;color:var(--t3);letter-spacing:2px;margin-bottom:6px}
+.rt{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:10px}
+.rtg{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);border-radius:20px;padding:4px 12px;font-size:11px;color:var(--gold)}
+@keyframes rpop{0%{opacity:0;transform:scale(.85) translateY(20px)}100%{opacity:1;transform:none}}
+
+/* === PORTRAIT === */
+.portrait{width:160px;height:160px;border-radius:50%;object-fit:cover;margin:0 auto 12px;display:block;border:3px solid rgba(201,168,76,.25);box-shadow:0 0 30px rgba(201,168,76,.08)}
+.emoji-fb{font-size:52px;margin-bottom:10px}
 </style>
 </head>
 <body>
@@ -278,9 +309,11 @@ function returnFromTest() {
   switchTab('pgHome');
 }
 
+let testGender = 'm';
+
 function renderTest() {
   document.getElementById('pgTest').innerHTML = `
-    <div style="padding:max(54px, env(safe-area-inset-top)) 20px 20px;text-align:center">
+    <div style="padding:max(54px, env(safe-area-inset-top)) 20px 20px;text-align:center;max-width:420px;margin:0 auto">
       <div style="font-size:11px;color:var(--t3);letter-spacing:3px;margin-bottom:16px">TOMO · 味觉DNA测试</div>
       <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:24px">
         手里端着 <b style="color:var(--gold)">Jam·晨雾</b>（测试酒）<br>
@@ -291,7 +324,23 @@ function renderTest() {
   `;
   testStep = 0;
   testAns = new Array(8).fill(null);
-  renderTestQ(0);
+  renderGenderQ();
+}
+
+function renderGenderQ() {
+  document.getElementById('testArea').innerHTML = `
+    <div style="font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:10px">开始之前</div>
+    <div class="serif" style="font-size:20px;line-height:1.7;margin-bottom:28px">你的味觉人格<br>想以什么形象出现？</div>
+    <div style="display:flex;gap:20px;justify-content:center">
+      <div class="qopt" style="flex-direction:column;width:120px;padding:24px 12px;text-align:center;justify-content:center" onclick="testGender='m';this.closest('div').querySelectorAll('.qopt').forEach(o=>o.classList.remove('sel'));this.classList.add('sel');setTimeout(()=>renderTestQ(0),400)">
+        <span style="font-size:42px">🧔</span><span class="lb" style="margin-top:8px;font-size:15px">他</span>
+      </div>
+      <div class="qopt" style="flex-direction:column;width:120px;padding:24px 12px;text-align:center;justify-content:center" onclick="testGender='f';this.closest('div').querySelectorAll('.qopt').forEach(o=>o.classList.remove('sel'));this.classList.add('sel');setTimeout(()=>renderTestQ(0),400)">
+        <span style="font-size:42px">👩</span><span class="lb" style="margin-top:8px;font-size:15px">她</span>
+      </div>
+    </div>
+    <div style="font-size:11px;color:var(--t3);margin-top:20px">仅影响人格形象展示</div>
+  `;
 }
 
 const TQ = [
@@ -315,17 +364,39 @@ const TQ = [
 
 let testStep = 0, testAns = new Array(8).fill(null);
 
+// Persona portraits mapping
+const PERSONA_IMG = {
+  '黑锋': {m:'TOMO12位人格/黑锋男性Q版.png', f:'TOMO12位人格/黑锋女性Q版.png'},
+  '铁饮': {m:'TOMO12位人格/铁饮男性Q版.png', f:'TOMO12位人格/铁饮女性Q版.png'},
+  '猎浪': {m:'TOMO12位人格/猎浪男性Q版.jpg', f:'TOMO12位人格/猎浪女性Q版.png'},
+  '蜜语': {m:'TOMO12位人格/蜜语男性Q版.png', f:'TOMO12位人格/蜜语女性Q版.png'},
+  '甜刺': {m:'TOMO12位人格/甜刺男性Q版.png', f:'TOMO12位人格/甜刺女性Q版.png'},
+  '花信': {m:'TOMO12位人格/花信男性Q版.png', f:'TOMO12位人格/花信女性Q版.jpg'},
+  '清弦': {m:'TOMO12位人格/清弦男性Q版.png', f:'TOMO12位人格/清弦女性Q版.png'},
+  '暗潮': {m:'TOMO12位人格/暗潮男性Q版.png', f:'TOMO12位人格/暗潮女性Q版.png'},
+  '恒频': {m:'TOMO12位人格/恒频男性Q版.png', f:'TOMO12位人格/恒频女性Q版.png'},
+  '果心': {m:'TOMO12位人格/果心男性Q版.png', f:'TOMO12位人格/果心女性Q版.png'},
+  '深渊': {m:'TOMO12位人格/深渊男性Q版.png', f:'TOMO12位人格/深渊女性Q版.png'},
+  '浅渡': {m:'TOMO12位人格/浅渡男性Q版.png', f:'TOMO12位人格/浅渡女性Q版.png'}
+};
+function getPersonaImg(bio) {
+  const p = PERSONA_IMG[bio];
+  return p ? p[testGender] : '';
+}
+
 function renderTestQ(qi) {
   const q = TQ[qi];
   const barHTML = Array.from({length:8},(_,i) => `<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
   document.getElementById('testArea').innerHTML = `
-    <div class="qbar">${barHTML}</div>
-    <div class="qn">问题 ${qi+1} / 8</div>
-    <div class="qt serif" style="text-align:left">${q.title}</div>
-    <div class="qo" id="tqo">
-      ${q.o.map((o,oi) => `<div class="qopt" data-oi="${oi}" onclick="testPick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}
+    <div style="text-align:left">
+      <div class="qbar">${barHTML}</div>
+      <div class="qn">问题 ${qi+1} / 8</div>
+      <div class="qt serif">${q.title}</div>
+      <div class="qo" id="tqo">
+        ${q.o.map((o,oi) => `<div class="qopt" data-oi="${oi}" onclick="testPick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}
+      </div>
+      ${q.multi ? '<div style="font-size:11px;color:var(--t3);margin-top:8px;text-align:center">可多选，最多2个</div>' : ''}
     </div>
-    ${q.multi ? '<div style="font-size:11px;color:var(--t3);margin-top:8px;text-align:center">可多选，最多2个</div>' : ''}
   `;
 }
 
@@ -358,10 +429,12 @@ function testAdvance(qi) {
 function showTestResult() {
   // Simplified persona assignment for demo
   const persona = U.persona;
+  const img = getPersonaImg(persona.bio);
   U.hops += 100;
   document.getElementById('testArea').innerHTML = `
     <div class="rc rc-edge" style="animation:rpop .55s cubic-bezier(.34,1.56,.64,1)">
-      <div class="rs">${persona.emoji}</div>
+      <img class="portrait" src="${img}" alt="${persona.bio}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="emoji-fb" style="display:none">${persona.emoji}</div>
       <div class="rn serif">${persona.bio}</div>
       <div class="re">${persona.suit} · ${persona.pro}</div>
       <div style="font-size:13px;color:var(--t2);margin:10px 0;line-height:1.85;text-align:left">你天生追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。</div>
