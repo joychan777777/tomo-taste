@@ -142,6 +142,7 @@ input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;heigh
 
 <!-- Pages -->
 <div class="page on" id="pgHome"></div>
+<div class="page" id="pgTest"></div>
 <div class="page" id="pgVote"></div>
 <div class="page" id="pgScan"></div>
 <div class="page" id="pgShop"></div>
@@ -262,6 +263,125 @@ function showToast(em, t, s) {
 }
 
 // ============================================================
+//  TOMO TEST (embedded from index.html core logic)
+// ============================================================
+function goTest() {
+  // Hide tab bar during test
+  document.querySelector('.tabs').style.display = 'none';
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById('pgTest').classList.add('on');
+  renderTest();
+}
+
+function returnFromTest() {
+  document.querySelector('.tabs').style.display = 'flex';
+  switchTab('pgHome');
+}
+
+function renderTest() {
+  document.getElementById('pgTest').innerHTML = `
+    <div style="padding:max(54px, env(safe-area-inset-top)) 20px 20px;text-align:center">
+      <div style="font-size:11px;color:var(--t3);letter-spacing:3px;margin-bottom:16px">TOMO · 味觉DNA测试</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:24px">
+        手里端着 <b style="color:var(--gold)">Jam·晨雾</b>（测试酒）<br>
+        边喝边答 · 不问偏好，问感知
+      </div>
+      <div id="testArea"></div>
+    </div>
+  `;
+  testStep = 0;
+  testAns = new Array(8).fill(null);
+  renderTestQ(0);
+}
+
+const TQ = [
+  { title:'看看杯子里的酒——<br>它的颜色让你想到……', multi:false,
+    o:[ {e:'🍯',t:'阳光穿过蜂蜜'}, {e:'🥃',t:'午后的琥珀'}, {e:'☕',t:'深夜的咖啡'}, {e:'🫥',t:'没什么特别感觉'} ]},
+  { title:'凑近杯口——你闻到了什么？', multi:true, maxSel:2,
+    o:[ {e:'🌿',t:'花园里的草和花'}, {e:'🍑',t:'水果店门口'}, {e:'🍞',t:'面包房/咖啡店'}, {e:'🫠',t:'有点刺鼻/酒精感'}, {e:'❓',t:'说不上来'} ]},
+  { title:'喝一小口——苦味强度如何？', multi:false,
+    o:[ {e:'💧',t:'几乎没有苦味'}, {e:'🌊',t:'有一点，但很舒服'}, {e:'⚡',t:'明显的苦，我喜欢'}, {e:'🔥',t:'很苦，但还想再喝'}, {e:'🚫',t:'太苦了'} ]},
+  { title:'如果有苦味，它停留在哪里？', multi:false,
+    o:[ {e:'👅',t:'舌尖一闪就走了'}, {e:'🌀',t:'舌头两侧慢慢扩散'}, {e:'🫁',t:'喉咙深处回荡'}, {e:'🤷',t:'没什么苦味/不确定'} ]},
+  { title:'咽下去——嘴里留下了什么？', multi:false,
+    o:[ {e:'💨',t:'很清爽，像喝了口水'}, {e:'🍞',t:'有点厚，像嚼了面包'}, {e:'🍵',t:'有点涩，像浓茶'}, {e:'🫥',t:'好像什么都没留下'} ]},
+  { title:'什么时候你最想来一杯？', multi:false,
+    o:[ {e:'🌙',t:'一个人安静待着的时候'}, {e:'👥',t:'和两三个朋友聊天'}, {e:'🎉',t:'球赛/聚会/热闹的地方'}, {e:'😶',t:'其实不怎么想喝酒'} ]},
+  { title:'这杯酒喝完——', multi:false,
+    o:[ {e:'🔄',t:'再来一杯同样的'}, {e:'🔀',t:'想换一款试试'}, {e:'✋',t:'够了，今天不喝了'} ]},
+  { title:'你喝酒，通常是因为——', multi:false,
+    o:[ {e:'🥂',t:'喜欢那种微醺的感觉'}, {e:'👅',t:'就是喜欢酒的味道'}, {e:'🤝',t:'跟朋友在一起才喝'}, {e:'🤔',t:'不常喝/没想过为什么'} ]}
+];
+
+let testStep = 0, testAns = new Array(8).fill(null);
+
+function renderTestQ(qi) {
+  const q = TQ[qi];
+  const barHTML = Array.from({length:8},(_,i) => `<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
+  document.getElementById('testArea').innerHTML = `
+    <div class="qbar">${barHTML}</div>
+    <div class="qn">问题 ${qi+1} / 8</div>
+    <div class="qt serif" style="text-align:left">${q.title}</div>
+    <div class="qo" id="tqo">
+      ${q.o.map((o,oi) => `<div class="qopt" data-oi="${oi}" onclick="testPick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}
+    </div>
+    ${q.multi ? '<div style="font-size:11px;color:var(--t3);margin-top:8px;text-align:center">可多选，最多2个</div>' : ''}
+  `;
+}
+
+function testPick(qi, oi, el) {
+  const q = TQ[qi];
+  if (navigator.vibrate) navigator.vibrate(8);
+  if (q.multi) {
+    let sel = Array.isArray(testAns[qi]) ? testAns[qi] : [];
+    const idx = sel.indexOf(oi);
+    if (idx >= 0) { sel.splice(idx,1); el.classList.remove('sel'); }
+    else {
+      if (sel.length >= q.maxSel) { const old=sel.shift(); document.querySelector('#tqo [data-oi="'+old+'"]').classList.remove('sel'); }
+      sel.push(oi); el.classList.add('sel');
+    }
+    testAns[qi] = sel.length ? [...sel] : null;
+    if (testAns[qi] && testAns[qi].length >= q.maxSel) setTimeout(() => testAdvance(qi), 600);
+  } else {
+    testAns[qi] = oi;
+    el.closest('.qo').querySelectorAll('.qopt').forEach(o => o.classList.remove('sel'));
+    el.classList.add('sel');
+    setTimeout(() => testAdvance(qi), 350);
+  }
+}
+
+function testAdvance(qi) {
+  if (qi < 7) { renderTestQ(qi + 1); }
+  else { showTestResult(); }
+}
+
+function showTestResult() {
+  // Simplified persona assignment for demo
+  const persona = U.persona;
+  U.hops += 100;
+  document.getElementById('testArea').innerHTML = `
+    <div class="rc rc-edge" style="animation:rpop .55s cubic-bezier(.34,1.56,.64,1)">
+      <div class="rs">${persona.emoji}</div>
+      <div class="rn serif">${persona.bio}</div>
+      <div class="re">${persona.suit} · ${persona.pro}</div>
+      <div style="font-size:13px;color:var(--t2);margin:10px 0;line-height:1.85;text-align:left">你天生追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。</div>
+      <div class="rt">
+        <span class="rtg">层次路线</span><span class="rtg">West Coast IPA</span><span class="rtg">35元/杯</span><span class="rtg">理性品鉴</span>
+      </div>
+    </div>
+    <div style="font-size:12px;color:var(--t3);margin-bottom:4px">为你推荐 · JAM 首单</div>
+    <div class="card" style="display:flex;align-items:center;gap:12px">
+      <div class="sku-bottle"></div>
+      <div><div style="font-size:15px">Jam·西风</div><div style="font-size:12px;color:var(--t3)">西海岸 IPA · ABV 7%</div></div>
+      <div style="margin-left:auto;font-size:20px;color:var(--gold);font-weight:700">¥35</div>
+    </div>
+    <div style="font-size:13px;color:var(--gold);text-align:center;margin:12px 0">🌿 +100 酒花 · 测试完成奖励</div>
+    <button class="btn" style="margin-top:12px" onclick="returnFromTest()">进入 TOMO 主页 →</button>
+  `;
+  showToast('🧬', '味觉DNA已解锁！', '♠♦ 铁饮 · +100 酒花');
+}
+
+// ============================================================
 //  HOME PAGE
 // ============================================================
 function renderHome() {
@@ -276,8 +396,18 @@ function renderHome() {
 
   document.getElementById('pgHome').innerHTML = `
     <div class="hdr">
-      <h1>共醸 TOMO</h1>
+      <img src="logo.png" alt="共醸 GÒNNIANG とも" style="height:48px;object-fit:contain;margin-bottom:6px" onerror="this.outerHTML='<h1 style=\\'font-size:20px;color:var(--gold);font-weight:700;letter-spacing:2px\\'>共醸 TOMO</h1>'">
       <div class="sub">JAM · 即兴精酿 · 梭鱼湾</div>
+    </div>
+
+    <!-- TOMO Test Entry -->
+    <div class="section">
+      <div class="card card-gold" style="cursor:pointer;text-align:center" onclick="goTest()">
+        <div style="font-size:28px;margin-bottom:8px">🧬</div>
+        <div style="font-size:16px;font-weight:700;color:var(--gold)" class="serif">发现你的味觉DNA</div>
+        <div style="font-size:12px;color:var(--t2);margin-top:6px">8道感官题 · 90秒 · 边喝边答</div>
+        <div style="margin-top:12px"><span class="btn btn-sm">开始 TOMO 测试 →</span></div>
+      </div>
     </div>
 
     <!-- Mood Selection -->
