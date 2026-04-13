@@ -7,10 +7,9 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="format-detection" content="telephone=no">
 <title>TOMO · 共醸味觉DNA</title>
-<meta name="description" content="4道题，找到你的味觉人格。共醸 GÒNNIANG · JAM即兴精酿">
-<!-- Open Graph for WeChat sharing -->
+<meta name="description" content="8道感官题，找到你的味觉人格。共醸 GÒNNIANG · JAM即兴精酿">
 <meta property="og:title" content="你是哪种味觉人格？">
-<meta property="og:description" content="4道题，找到属于你的精酿风格。共醸 · JAM即兴精酿">
+<meta property="og:description" content="8道感官题，发现你的味觉DNA。共醸 · JAM即兴精酿">
 <meta property="og:type" content="website">
 <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🍺</text></svg>">
 <style>
@@ -26,21 +25,19 @@
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:'Noto Sans SC',-apple-system,sans-serif;touch-action:manipulation}
 #app{width:100%;height:100%;position:relative;overflow:hidden}
 
-/* Pages */
 .p{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;opacity:0;transform:translateX(50px);transition:opacity .4s,transform .4s;pointer-events:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .p.on{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
 .p.out{opacity:0;transform:translateX(-50px);z-index:1}
-.pi{padding:56px 24px 40px;flex:1}
+.pi{padding:48px 24px 40px;flex:1}
 .serif{font-family:'Noto Serif SC',serif}
 
-/* Buttons */
 .btn{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold),var(--gold-d));border:none;border-radius:14px;padding:16px;font-size:16px;color:#000;font-weight:700;letter-spacing:2px;cursor:pointer;width:100%;font-family:'Noto Sans SC',sans-serif;transition:transform .12s}
 .btn:active{transform:scale(.97)}
 .btn-g{background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold);font-weight:500}
 .btn-g:active{background:rgba(201,168,76,.06)}
 .btn-s{padding:12px 20px;font-size:14px;width:auto;border-radius:12px}
 
-/* ===== SPLASH ===== */
+/* SPLASH */
 #s0{background:radial-gradient(ellipse at 50% 38%,#1a1520,var(--bg) 70%);justify-content:center;align-items:center;text-align:center}
 .logo{font-family:'Noto Serif SC',serif;font-size:68px;font-weight:900;color:var(--gold);letter-spacing:10px;text-shadow:0 0 50px rgba(201,168,76,.2);animation:pop .9s ease-out}
 @keyframes pop{0%{opacity:0;transform:scale(.8) translateY(16px)}100%{opacity:1;transform:none}}
@@ -53,45 +50,46 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .ring-t{font-size:17px;color:var(--gold);letter-spacing:3px}
 .hint{font-size:12px;color:var(--t3);margin-top:18px;animation:fu .8s ease .7s both}
 
-/* ===== QUESTIONS ===== */
-.qbar{display:flex;gap:5px;margin-bottom:28px}
+/* QUESTIONS */
+.qbar{display:flex;gap:4px;margin-bottom:24px}
 .qb{height:4px;flex:1;border-radius:2px;background:#1a1a24;transition:background .35s}
 .qb.d{background:var(--gold)}.qb.c{background:linear-gradient(90deg,var(--gold),#333)}
 .qn{font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:8px}
-.qt{font-family:'Noto Serif SC',serif;font-size:22px;line-height:1.65;margin-bottom:32px}
-.qo{display:flex;flex-direction:column;gap:11px}
-.qopt{background:var(--card);border:1px solid var(--card-b);border-radius:14px;padding:16px 18px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none}
+.qt{font-family:'Noto Serif SC',serif;font-size:20px;line-height:1.65;margin-bottom:24px}
+.qo{display:flex;flex-direction:column;gap:10px}
+.qopt{background:var(--card);border:1px solid var(--card-b);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .2s;-webkit-user-select:none;user-select:none}
 .qopt:active{transform:scale(.98)}
-.qopt .em{font-size:26px;flex-shrink:0}
-.qopt .lb{font-size:14px;color:var(--t2);line-height:1.5}
+.qopt .em{font-size:24px;flex-shrink:0}
+.qopt .lb{font-size:13px;color:var(--t2);line-height:1.5}
 .qopt.sel{background:rgba(201,168,76,.1);border-color:var(--gold)}
 .qopt.sel .lb{color:var(--gold)}
+.qopt.dis{opacity:.35;pointer-events:none}
+.multi-hint{font-size:11px;color:var(--t3);margin-top:8px;text-align:center}
 
-/* ===== LOADING ===== */
-#s5{justify-content:center;align-items:center;background:radial-gradient(ellipse at 50% 50%,#1a1520,var(--bg) 55%)}
+/* LOADING */
+#sLoad{justify-content:center;align-items:center;background:radial-gradient(ellipse at 50% 50%,#1a1520,var(--bg) 55%)}
 .spin{width:100px;height:100px;border:3px solid rgba(201,168,76,.12);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite;margin-bottom:24px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* ===== RESULT ===== */
-.rc{border-radius:24px;padding:30px 22px;text-align:center;margin-bottom:22px;animation:rpop .55s cubic-bezier(.34,1.56,.64,1)}
+/* RESULT */
+.rc{border-radius:24px;padding:28px 20px;text-align:center;margin-bottom:22px;animation:rpop .55s cubic-bezier(.34,1.56,.64,1)}
 @keyframes rpop{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
 .rc-edge{background:linear-gradient(135deg,rgba(44,44,52,.5),rgba(44,44,52,.2));border:1px solid rgba(44,44,52,.6)}
 .rc-bloom{background:linear-gradient(135deg,rgba(123,104,238,.15),rgba(176,196,222,.08));border:1px solid rgba(123,104,238,.3)}
 .rc-easy{background:linear-gradient(135deg,rgba(232,232,232,.1),rgba(245,245,247,.05));border:1px solid rgba(232,232,232,.2)}
 .rc-drop{background:linear-gradient(135deg,rgba(61,28,110,.25),rgba(26,10,46,.15));border:1px solid rgba(61,28,110,.4)}
-.rs{font-size:64px;margin-bottom:2px}
-.rn{font-family:'Noto Serif SC',serif;font-size:28px;color:var(--gold)}
-.re{font-size:12px;color:var(--t3);letter-spacing:5px;margin-bottom:14px}
+.rs{font-size:56px;margin-bottom:2px}
+.rn{font-family:'Noto Serif SC',serif;font-size:26px;color:var(--gold)}
+.re{font-size:12px;color:var(--t3);letter-spacing:5px;margin-bottom:10px}
 .rl{font-size:13px;color:var(--t2);margin-bottom:10px;letter-spacing:2px}
-.rd{font-size:14px;color:var(--t2);line-height:1.85;text-align:left}
-.rt{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:16px}
-.rtg{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);border-radius:18px;padding:4px 12px;font-size:12px;color:var(--gold)}
-
-.rec{background:var(--card);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin:10px 0 24px}
+.rd{font-size:13px;color:var(--t2);line-height:1.85;text-align:left}
+.rt{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px}
+.rtg{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.15);border-radius:18px;padding:4px 12px;font-size:11px;color:var(--gold)}
+.rec{background:var(--card);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin:10px 0 8px}
 .bot{width:38px;height:54px;background:linear-gradient(180deg,var(--gold),var(--gold-d));border-radius:5px 5px 3px 3px;position:relative;flex-shrink:0}
 .bot::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:13px;height:8px;background:var(--gold);border-radius:3px 3px 0 0}
 
-/* ===== VOTE ===== */
+/* VOTE */
 .vc{background:var(--card);border:1px solid var(--card-b);border-radius:18px;padding:16px 18px;margin-bottom:11px;cursor:pointer;transition:all .25s}
 .vc:active{transform:scale(.98)}
 .vc.vd{border-color:var(--gold);background:rgba(201,168,76,.06)}
@@ -103,10 +101,9 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .vbg-g{background:linear-gradient(90deg,var(--gold),var(--gold-l))}
 .vbg-d{background:rgba(201,168,76,.25)}
 
-/* ===== NOTIFY ===== */
 .nb{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.18);border-radius:16px;padding:22px;text-align:center;margin:18px 0}
 
-/* ===== PROFILE ===== */
+/* PROFILE */
 .ph{display:flex;align-items:center;gap:14px;margin-bottom:24px}
 .pa{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#5a3d0a);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid var(--gold)}
 .pb{display:inline-flex;align-items:center;gap:4px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:18px;padding:3px 10px;font-size:11px;color:var(--gold);margin-top:3px}
@@ -120,7 +117,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .dt{flex:1;height:5px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden}
 .df{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:3px;transition:width .8s ease .3s}
 .dv{font-size:11px;color:var(--gold);width:24px;text-align:right}
-
 .stit{font-size:12px;color:var(--t3);letter-spacing:2px;margin-bottom:12px}
 .tl{position:relative;padding-left:20px}
 .tl::before{content:'';position:absolute;left:4px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--gold),rgba(201,168,76,.06))}
@@ -128,15 +124,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .ti::before{content:'';position:absolute;left:-20px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
 .td{font-size:10px;color:var(--t3)}
 .tt{font-size:13px;color:var(--t2);margin-top:1px;line-height:1.5}
-
 .fm{font-family:'Noto Serif SC',serif;font-size:18px;line-height:1.9;color:var(--gold);text-align:center;margin:32px 0;opacity:0;animation:ff 1.2s ease .4s forwards}
 @keyframes ff{to{opacity:1}}
-
-/* Share */
 .share-row{display:flex;gap:10px;margin-top:16px}
 .share-row .btn{flex:1}
-
-/* footer */
 .foot{text-align:center;padding:20px;font-size:10px;color:#333}
 </style>
 </head>
@@ -149,188 +140,459 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   <div class="logo">共醸</div>
   <div class="logo-s">GÒNNIANG とも</div>
   <div class="logo-jam">JAM · 即兴精酿</div>
-  <div class="ring" onclick="go(1)"><div class="ring-t">发现你的<br>味觉DNA</div></div>
-  <div class="hint">4 道题 · 30 秒 · 找到你的味觉人格</div>
+  <div class="ring" onclick="go('s1')"><div class="ring-t">发现你的<br>味觉DNA</div></div>
+  <div class="hint">8 道感官题 · 90 秒 · 边喝边答</div>
 </div>
 </div>
 
-<!-- S1-S4: Questions (JS rendered) -->
+<!-- S1-S8: Questions (JS rendered) -->
 <div class="p" id="s1"></div>
 <div class="p" id="s2"></div>
 <div class="p" id="s3"></div>
 <div class="p" id="s4"></div>
+<div class="p" id="s5"></div>
+<div class="p" id="s6"></div>
+<div class="p" id="s7"></div>
+<div class="p" id="s8"></div>
 
-<!-- S5: Loading -->
-<div class="p" id="s5">
+<!-- Loading -->
+<div class="p" id="sLoad">
   <div class="spin"></div>
   <div style="font-size:15px;color:var(--t3);letter-spacing:3px">正在分析你的味觉 DNA…</div>
 </div>
 
-<!-- S6: Result -->
-<div class="p" id="s6"></div>
-
-<!-- S7: Vote -->
-<div class="p" id="s7"></div>
-
-<!-- S8: Vote Success -->
-<div class="p" id="s8"></div>
-
-<!-- S9: Delivery -->
-<div class="p" id="s9"></div>
-
-<!-- S10: Profile -->
-<div class="p" id="s10"></div>
+<!-- Result -->
+<div class="p" id="sResult"></div>
+<!-- Vote -->
+<div class="p" id="sVote"></div>
+<!-- Vote Success -->
+<div class="p" id="sVoted"></div>
+<!-- Delivery -->
+<div class="p" id="sDeliv"></div>
+<!-- Profile -->
+<div class="p" id="sProf"></div>
 
 </div>
 <script>
 // ============================================================
 //  CONFIG — Google Form integration
-//  Replace FORM_URL with your Google Form's submit URL
-//  Map each ENTRY_xxx to the corresponding form field ID
 // ============================================================
 const GFORM = {
-  url: '', // e.g. 'https://docs.google.com/forms/d/e/xxxx/formResponse'
-  fields: {
-    q1: 'entry.1000001',
-    q2: 'entry.1000002',
-    q3: 'entry.1000003',
-    q4: 'entry.1000004',
-    result: 'entry.1000005',
-    timestamp: 'entry.1000006'
-  }
+  url: '',
+  fields: { q1:'entry.1000001',q2:'entry.1000002',q3:'entry.1000003',q4:'entry.1000004',q5:'entry.1000005',q6:'entry.1000006',q7:'entry.1000007',q8:'entry.1000008',result:'entry.1000009',timestamp:'entry.1000010' }
 };
-
-function submitToGForm(data) {
-  if (!GFORM.url) return; // skip if not configured
-  const fd = new FormData();
-  fd.append(GFORM.fields.q1, data.q1);
-  fd.append(GFORM.fields.q2, data.q2);
-  fd.append(GFORM.fields.q3, data.q3);
-  fd.append(GFORM.fields.q4, data.q4);
-  fd.append(GFORM.fields.result, data.result);
-  fd.append(GFORM.fields.timestamp, new Date().toISOString());
-  fetch(GFORM.url, { method:'POST', mode:'no-cors', body: fd }).catch(()=>{});
+function submitToGForm(data){
+  if(!GFORM.url)return;
+  const fd=new FormData();
+  Object.keys(data).forEach(k=>{if(GFORM.fields[k])fd.append(GFORM.fields[k],data[k]);});
+  fd.append(GFORM.fields.timestamp,new Date().toISOString());
+  fetch(GFORM.url,{method:'POST',mode:'no-cors',body:fd}).catch(()=>{});
 }
 
 // ============================================================
-//  DATA — from 产品战略手册 v2.0
+//  PAGES — ordered page IDs for navigation
 // ============================================================
-const Q = [
-  { q:'周五晚上，<br>你用什么犒劳自己？',
+const PAGES=['s0','s1','s2','s3','s4','s5','s6','s7','s8','sLoad','sResult','sVote','sVoted','sDeliv','sProf'];
+let curPage='s0';
+
+// ============================================================
+//  8 QUESTIONS — from TOMO_系统规范_v1.0 §2.3
+//  multi: true = allow up to 2 selections (Q2 only)
+//  Each option: e=emoji, t=text, code=data encoding
+//  Scoring applied in calcPersona()
+// ============================================================
+const Q=[
+  { id:'q1', title:'看看杯子里的酒——<br>它的颜色让你想到……',
+    multi:false,
     o:[
-      {e:'⚡',t:'来杯够劲的——越苦越清醒',w:[4,0,0,1]},
-      {e:'🍹',t:'水果味的，甜但不腻',w:[0,4,0,1]},
-      {e:'🍺',t:'清爽不上头，随便喝喝',w:[0,0,4,1]},
-      {e:'🎲',t:'看心情——最好是没喝过的',w:[1,1,1,4]}
+      {e:'🍯',t:'阳光穿过蜂蜜',code:'visual_light'},
+      {e:'🥃',t:'午后的琥珀',code:'visual_medium'},
+      {e:'☕',t:'深夜的咖啡',code:'visual_dark'},
+      {e:'🫥',t:'没什么特别感觉',code:'visual_null'}
     ]},
-  { q:'朋友问你口味偏好，<br>你怎么形容？',
+  { id:'q2', title:'凑近杯口——<br>你闻到了什么？',
+    multi:true, maxSel:2,
     o:[
-      {e:'☕',t:'像黑咖啡，越苦越上瘾',w:[4,0,1,0]},
-      {e:'🍰',t:'像甜品，温暖治愈有回味',w:[0,4,0,1]},
-      {e:'💧',t:'像白水加了一点什么——刚刚好',w:[0,1,4,0]},
-      {e:'🎭',t:'说不清，每次都想试不一样的',w:[1,0,0,4]}
+      {e:'🌿',t:'花园里的草和花',code:'aroma_herbal'},
+      {e:'🍑',t:'水果店门口',code:'aroma_fruit'},
+      {e:'🍞',t:'面包房/咖啡店',code:'aroma_roast'},
+      {e:'🫠',t:'有点刺鼻/酒精感',code:'aroma_alcohol'},
+      {e:'❓',t:'说不上来/没闻到什么',code:'aroma_null'}
     ]},
-  { q:'球队落后两球，<br>你最想喝什么？',
+  { id:'q3', title:'喝一小口——<br>苦味强度如何？',
+    multi:false,
     o:[
-      {e:'🥃',t:'来杯重的，一口压住情绪',w:[4,0,0,1]},
-      {e:'🍋',t:'算了，来杯果味缓一缓',w:[0,3,1,1]},
-      {e:'🍻',t:'什么都行，先跟旁边的人干一杯',w:[0,0,3,2]},
-      {e:'🔥',t:'越特别越好——今晚值得来点不一样的',w:[1,0,0,4]}
+      {e:'💧',t:'几乎没有苦味',code:'bitter_1'},
+      {e:'🌊',t:'有一点，但很舒服',code:'bitter_2'},
+      {e:'⚡',t:'明显的苦，我喜欢',code:'bitter_3'},
+      {e:'🔥',t:'很苦，但还想再喝',code:'bitter_4'},
+      {e:'🚫',t:'太苦了',code:'bitter_5'}
     ]},
-  { q:'如果你能决定<br>下一款共醸的口味——',
+  { id:'q4', title:'如果有苦味，<br>它停留在哪里？',
+    multi:false,
     o:[
-      {e:'🌿',t:'用最好的啤酒花，苦出层次感',w:[4,0,0,1]},
-      {e:'🍊',t:'热带水果爆炸，喝起来像度假',w:[0,4,1,0]},
-      {e:'🧊',t:'零糖零负担，日常随时能喝',w:[0,0,4,0]},
-      {e:'🧪',t:'搞点实验——从来没人做过的',w:[0,0,0,5]}
+      {e:'👅',t:'舌尖一闪就走了',code:'bitter_pos_tip'},
+      {e:'🌀',t:'舌头两侧慢慢扩散',code:'bitter_pos_side'},
+      {e:'🫁',t:'喉咙深处回荡',code:'bitter_pos_throat'},
+      {e:'🤷',t:'没什么苦味/不确定',code:'bitter_pos_null'}
+    ]},
+  { id:'q5', title:'咽下去——<br>嘴里留下了什么？',
+    multi:false,
+    o:[
+      {e:'💨',t:'很清爽，像喝了口水',code:'aftertaste_clean'},
+      {e:'🍞',t:'有点厚，像嚼了面包',code:'aftertaste_heavy'},
+      {e:'🍵',t:'有点涩，像浓茶',code:'aftertaste_astringent'},
+      {e:'🫥',t:'好像什么都没留下',code:'aftertaste_null'}
+    ]},
+  { id:'q6', title:'什么时候<br>你最想来一杯？',
+    multi:false,
+    o:[
+      {e:'🌙',t:'一个人安静待着的时候',code:'scene_solo'},
+      {e:'👥',t:'和两三个朋友聊天',code:'scene_small'},
+      {e:'🎉',t:'球赛/聚会/热闹的地方',code:'scene_crowd'},
+      {e:'😶',t:'其实不怎么想喝酒',code:'scene_null'}
+    ]},
+  { id:'q7', title:'这杯酒喝完——',
+    multi:false,
+    o:[
+      {e:'🔄',t:'再来一杯同样的',code:'accept_repeat'},
+      {e:'🔀',t:'想换一款试试',code:'accept_explore'},
+      {e:'✋',t:'够了，今天不喝了',code:'accept_stop'}
+    ]},
+  { id:'q8', title:'你喝酒，<br>通常是因为——',
+    multi:false,
+    o:[
+      {e:'🥂',t:'喜欢那种微醺的感觉',code:'motive_feeling'},
+      {e:'👅',t:'就是喜欢酒的味道',code:'motive_taste'},
+      {e:'🤝',t:'跟朋友在一起才喝',code:'motive_social'},
+      {e:'🤔',t:'不常喝/没想过为什么',code:'motive_null'}
     ]}
 ];
 
-const P = [
-  { id:'edge', suit:'♠', name:'EDGE · 锐', sub:'主音吉他',
-    cls:'rc-edge',
-    desc:'你天生偏好锐利、复杂的苦味层次。IPA 里的西海岸松脂、世涛里的深焙咖啡——你追求的不是好喝，是「有劲」。你是精酿世界里的主音吉他手：敢 Solo、不怕出格、每一口都要有存在感。',
-    tags:['重口味','IPA & 世涛','30-40元/杯','深度饮者'],
+// ============================================================
+//  12 PERSONAS — from TOMO_系统规范_v1.0 §3.2 + §4.1
+// ============================================================
+const PERSONAS=[
+  { id:1, bio:'黑锋', pro:'深渊客', suit:'♠♥', quad:'edge',
+    cls:'rc-edge', emoji:'♠',
+    motto:'「扎手，但温的。」',
+    desc:'你天生捕捉深层苦味。双倍IPA里的松脂轰击、帝国世涛里的深焙余韵——你追求的不是"好喝"，是"有劲"。苦味停留在喉咙深处回荡的那种满足感，是你和精酿世界最深的共鸣。',
+    tags:['重口路线','双倍IPA / 帝国世涛','40元/杯','深度品鉴'],
     reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40',
-    bars:[92,15,20,78], motto:'"敢Solo的人，喝敢Solo的酒"' },
-  { id:'bloom', suit:'♥', name:'BLOOM · 甜', sub:'和声',
-    cls:'rc-bloom',
-    desc:'你被温柔的甜蜜吸引。果啤里的热带余韵、芒果凤梨西打的阳光感——你喝酒不是为了对抗世界，是为了拥抱它。你是即兴乐队里的和声：让每个音符都舒服，让每个人都想靠近。',
-    tags:['果味甜蜜','西打 & 果啤','25-35元/杯','感性饮者'],
+    explore:'Jam·蜜浪', exploreS:'芒果凤梨西打 · 35元',
+    bars:[95,15,10,80]},
+  { id:2, bio:'铁饮', pro:'鉴味师', suit:'♠♦', quad:'edge',
+    cls:'rc-edge', emoji:'♠',
+    motto:'「不动。」',
+    desc:'你追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。每一口都在解构风味。',
+    tags:['层次路线','West Coast IPA / 波特','35元/杯','理性品鉴'],
+    reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35',
+    explore:'Jam·白噪', exploreS:'零糖皮尔森 · 18元',
+    bars:[85,20,25,70]},
+  { id:3, bio:'猎浪', pro:'酒花徒', suit:'♠♣', quad:'edge',
+    cls:'rc-edge', emoji:'♠',
+    motto:'「下一个。」',
+    desc:'你的鼻子比舌头先行动。新英格兰IPA里的热带花香、鲜花IPA里的茉莉桂花——对你来说，酒花的香气就是一切。永远在追下一款限定款，永远不满足。',
+    tags:['芬芳路线','新英格兰IPA / 鲜花IPA','35元/杯','香气猎手'],
+    reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35',
+    explore:'当季DROP限定款', exploreS:'季节限定 · 价格待定',
+    bars:[75,30,20,90]},
+  { id:4, bio:'蜜语', pro:'蜜语者', suit:'♥♦', quad:'bloom',
+    cls:'rc-bloom', emoji:'♥',
+    motto:'「嗯。」',
+    desc:'你被温柔的麦芽甜蜜吸引。小麦白啤里的丝滑口感、蜂蜜艾尔的暖意——你喝酒不是为了挑战味蕾，是为了被味蕾拥抱。厚重的余韵让你觉得安心。',
+    tags:['温柔路线','小麦白啤 / 蜂蜜艾尔','35元/杯','感性品鉴'],
     reco:'Jam·蜜浪', recoS:'芒果凤梨西打 · ABV 4%', recoP:'¥35',
-    bars:[12,90,48,35], motto:'"好的和声，让每个人都舒服"' },
-  { id:'easy', suit:'♦', name:'EASY · 轻', sub:'节拍',
-    cls:'rc-easy',
-    desc:'你追求恰到好处的平衡。零糖皮尔森的干净收尾、比利时白啤的丝滑口感——你不在乎极端风格，你要的是「日常随时能喝」。你是乐队的节拍：不抢风头，但没有你，整首歌都会散。',
-    tags:['清爽零负担','拉格 & 小麦','18-22元/杯','日饮型'],
+    explore:'Jam·白噪', exploreS:'零糖皮尔森 · 18元',
+    bars:[15,88,50,35]},
+  { id:5, bio:'甜刺', pro:'畅言家', suit:'♥♠', quad:'bloom',
+    cls:'rc-bloom', emoji:'♥',
+    motto:'「别被我骗了。」',
+    desc:'你是社交场的味觉中枢。球赛嗨的时候、聚会热的时候——你需要一杯在手才完整。你喝的不只是酒，是和身边人分享此刻的仪式。热闹的地方就有你。',
+    tags:['社交路线','拉格 / 果味啤','35元/杯','社交达人'],
+    reco:'Jam·绯语', recoS:'草莓杨梅石榴 · ABV 4%', recoP:'¥35',
+    explore:'Jam·黑潮', exploreS:'燕麦世涛 · 30元',
+    bars:[20,82,45,40]},
+  { id:6, bio:'花信', pro:'清风使', suit:'♥♣', quad:'bloom',
+    cls:'rc-bloom', emoji:'♥',
+    motto:'「看这里。」',
+    desc:'你被清爽和视觉美感同时俘获。柑橘小麦的干净收尾、气泡酒的细腻泡沫——你追求的是"刚刚好"的愉悦。一杯值得拍照分享的酒，对你来说就是好酒。',
+    tags:['极简路线','柑橘小麦 / 气泡酒','25元/杯','视觉系'],
+    reco:'Jam·青果', recoS:'原榨苹果西打 · ABV 4.5%', recoP:'¥25',
+    explore:'当季DROP限定款', exploreS:'季节限定 · 社交货币',
+    bars:[10,75,60,50]},
+  { id:7, bio:'清弦', pro:'寻芳客', suit:'♦♥', quad:'easy',
+    cls:'rc-easy', emoji:'♦',
+    motto:'「轻。」',
+    desc:'你追求恰到好处的平衡。零糖皮尔森的干净收尾、果味IPA里若隐若现的热带香——你不要极端，要的是"日常随时能喝"。简单的好喝，才是真功夫。',
+    tags:['探索路线','果味IPA / 西打','18元/杯','日饮探索型'],
     reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18',
-    bars:[18,30,88,25], motto:'"好的节拍，你只管跟着走"' },
-  { id:'drop', suit:'♣', name:'DROP · 奇', sub:'即兴Solo',
-    cls:'rc-drop',
-    desc:'你是探索型饮者，永远在寻找「从来没喝过的」。实验性配方、季节限定、功能性成分——你相信每一次喝酒都应该是一次冒险。你是即兴 Solo 本身：只演一次，不可复制，错过就没了。',
-    tags:['限定款猎手','实验 & 联名','35-55元/杯','FOMO 驱动'],
-    reco:'Jam·混响', recoS:'芒果凤梨奶昔酸 IPA · ABV 6.8%', recoP:'¥55',
-    bars:[45,42,15,95], motto:'"这一段Solo，只演一次"' }
+    explore:'Jam·蜜浪', exploreS:'芒果凤梨西打 · 35元',
+    bars:[18,40,88,25]},
+  { id:8, bio:'暗潮', pro:'精算师', suit:'♦♠', quad:'easy',
+    cls:'rc-easy', emoji:'♦',
+    motto:'「看到了吗。」',
+    desc:'你表面喝得清淡，暗地里研究配方。比利时三料的复杂酵母风味、自然发酵酸啤的微生物魔法——你享受"看懂"一款酒的过程。有进化为♠的潜力。',
+    tags:['研究路线','比利时三料 / 酸啤','18元/杯','工艺研究型'],
+    reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18',
+    explore:'Jam·铁幕', exploreS:'英式苦啤ESB · 35元',
+    bars:[30,25,80,45]},
+  { id:9, bio:'恒频', pro:'重墨客', suit:'♦♦', quad:'easy',
+    cls:'rc-easy', emoji:'♦',
+    motto:'「每天。」',
+    desc:'你追求的是一种频率——每天、每晚、固定的那一杯。Porter的深色麦芽、Stout的巧克力尾韵——你不需要惊喜，你需要确定性。找到了就不换。',
+    tags:['深邃路线','Porter / Stout','18元/杯','日饮忠诚型'],
+    reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18',
+    explore:'Jam·黑潮', exploreS:'燕麦世涛 · 30元',
+    bars:[35,20,85,30]},
+  { id:10, bio:'果心', pro:'守艺人', suit:'♥♥', quad:'bloom',
+    cls:'rc-bloom', emoji:'♥',
+    motto:'「就这样。」',
+    desc:'你是最纯粹的♥BLOOM型——不跨象限，不冒险。慕尼黑拉格的经典、英式Ale的传统——你追求的是"确定的好喝"。忠诚度极高，一旦认定就不走。',
+    tags:['经典路线','慕尼黑拉格 / 英式Ale','18元/杯','忠诚型'],
+    reco:'Jam·晨雾', recoS:'比利时小麦白啤 · ABV 4.5%', recoP:'¥18',
+    explore:'Jam·绯语', exploreS:'草莓杨梅石榴 · 35元',
+    bars:[10,90,55,15]},
+  { id:11, bio:'深渊', pro:'微醺客', suit:'♠♠', quad:'edge',
+    cls:'rc-edge', emoji:'♠',
+    motto:'「………」',
+    desc:'你是最纯粹的♠EDGE型——独饮、沉浸、微醺。大麦酒的缓慢灼烧、帝国世涛的厚重裹挟——你喝酒不为社交，是为了和自己独处的那个时刻。',
+    tags:['沉浸路线','大麦酒 / 帝国世涛','40元/杯','体验沉浸型'],
+    reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40',
+    explore:'Jam·铁幕', exploreS:'英式苦啤ESB · 35元',
+    bars:[92,10,15,75]},
+  { id:12, bio:'浅渡', pro:'探趣人', suit:'♦♣', quad:'easy',
+    cls:'rc-easy', emoji:'♦',
+    motto:'「嘶——」',
+    desc:'你刚踩进精酿的水里，水纹还在荡。什么都想试一口，味觉人格尚在形成。这不是弱点——好奇心是最强的进化引擎。3次消费后，你可能变成任何人格。',
+    tags:['发现路线','什么都想试','18元/杯','新手好奇型'],
+    reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18',
+    explore:'当季DROP限定款', exploreS:'季节限定 · 好奇驱动',
+    bars:[20,30,60,55]}
 ];
 
-const BEERS = [
-  { name:'🍊 Jam·西风', style:'西海岸 IPA · ABV 7%', votes:1847, pct:0 },
-  { name:'🌊 Jam·潮汐', style:'海盐古斯 · ABV 4.5%', votes:1253, pct:0 },
-  { name:'🌸 Jam·深海', style:'褐藻多糖皮尔森 · ABV 4.5%', votes:901, pct:0 }
+// ============================================================
+//  VOTE BEERS (demo data)
+// ============================================================
+const BEERS=[
+  {name:'🍊 Jam·西风',style:'西海岸 IPA · ABV 7%',votes:1847,pct:0},
+  {name:'🌊 Jam·潮汐',style:'海盐古斯 · ABV 4.5%',votes:1253,pct:0},
+  {name:'🌸 Jam·深海',style:'褐藻多糖皮尔森 · ABV 4.5%',votes:901,pct:0}
 ];
-function calcPct(){ const t=BEERS.reduce((a,b)=>a+b.votes,0); BEERS.forEach(b=>b.pct=Math.round(b.votes/t*100)); }
+function calcPct(){const t=BEERS.reduce((a,b)=>a+b.votes,0);BEERS.forEach(b=>b.pct=Math.round(b.votes/t*100));}
 calcPct();
 
 // ============================================================
 //  STATE
 // ============================================================
-let cur=0, ans=[-1,-1,-1,-1], votedI=-1;
+// ans[i] = selected option index (number) or array of indices for multi-select
+let ans=new Array(8).fill(null);
+let votedI=-1;
 
 // ============================================================
 //  RENDER QUESTIONS
 // ============================================================
 Q.forEach((q,qi)=>{
   const el=document.getElementById('s'+(qi+1));
+  const barHTML=Array.from({length:8},(_, i)=>`<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
+  const multiNote=q.multi?`<div class="multi-hint">可多选，最多 ${q.maxSel} 个</div>`:'';
   el.innerHTML=`<div class="pi">
-    <div class="qbar">${[0,1,2,3].map(i=>`<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('')}</div>
-    <div class="qn">问题 ${qi+1} / 4</div>
-    <div class="qt serif">${q.q}</div>
-    <div class="qo">${q.o.map((o,oi)=>`<div class="qopt" onclick="pick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}</div>
+    <div class="qbar">${barHTML}</div>
+    <div class="qn">问题 ${qi+1} / 8</div>
+    <div class="qt serif">${q.title}</div>
+    <div class="qo" id="qo${qi}">${q.o.map((o,oi)=>`<div class="qopt" data-qi="${qi}" data-oi="${oi}" onclick="pick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}</div>
+    ${multiNote}
   </div>`;
 });
 
 function pick(qi,oi,el){
-  ans[qi]=oi;
-  el.closest('.qo').querySelectorAll('.qopt').forEach(o=>o.classList.remove('sel'));
-  el.classList.add('sel');
+  const q=Q[qi];
   if(navigator.vibrate)navigator.vibrate(8);
-  setTimeout(()=>{
-    if(qi<3)go(qi+2);
-    else{go(5);setTimeout(showResult,1800);}
-  },350);
+
+  if(q.multi){
+    // Multi-select logic (Q2)
+    let sel=ans[qi];
+    if(!Array.isArray(sel))sel=[];
+    const idx=sel.indexOf(oi);
+    if(idx>=0){
+      sel.splice(idx,1);
+      el.classList.remove('sel');
+    }else{
+      if(sel.length>=q.maxSel){
+        // un-select oldest
+        const oldest=sel.shift();
+        document.querySelector(`#qo${qi} [data-oi="${oldest}"]`).classList.remove('sel');
+      }
+      sel.push(oi);
+      el.classList.add('sel');
+    }
+    ans[qi]=sel.length?[...sel]:null;
+    // If aroma_null selected, deselect others
+    if(q.o[oi].code==='aroma_null'&&sel.includes(oi)){
+      sel.forEach(s=>{if(s!==oi)document.querySelector(`#qo${qi} [data-oi="${s}"]`).classList.remove('sel');});
+      ans[qi]=[oi];
+    }else if(sel.length>0&&sel.some(s=>q.o[s].code==='aroma_null')&&q.o[oi].code!=='aroma_null'){
+      const ni=sel.indexOf(q.o.findIndex(o=>o.code==='aroma_null'));
+      if(ni>=0){sel.splice(ni,1);document.querySelector(`#qo${qi} [data-oi="${q.o.findIndex(o=>o.code==='aroma_null')}"]`).classList.remove('sel');}
+      ans[qi]=[...sel];
+    }
+    // Auto-advance after 600ms if maxSel reached or null selected
+    if((ans[qi]&&ans[qi].length>=q.maxSel)||q.o[oi].code==='aroma_null'){
+      setTimeout(()=>advance(qi),600);
+    }
+  }else{
+    // Single select
+    ans[qi]=oi;
+    el.closest('.qo').querySelectorAll('.qopt').forEach(o=>o.classList.remove('sel'));
+    el.classList.add('sel');
+    setTimeout(()=>advance(qi),350);
+  }
 }
 
-function calc(){
-  const s=[0,0,0,0]; // edge,bloom,easy,drop
-  ans.forEach((a,qi)=>{ if(a>=0) Q[qi].o[a].w.forEach((v,i)=>s[i]+=v); });
-  let mx=0; s.forEach((v,i)=>{if(v>s[mx])mx=i;}); return mx;
+function advance(qi){
+  if(qi<7){
+    go('s'+(qi+2));
+  }else{
+    go('sLoad');
+    setTimeout(showResult,1800);
+  }
 }
 
-function showResult(){
-  const pi=calc(), p=P[pi];
-  // Submit to Google Forms
-  submitToGForm({
-    q1: Q[0].o[ans[0]]?.t||'', q2: Q[1].o[ans[1]]?.t||'',
-    q3: Q[2].o[ans[2]]?.t||'', q4: Q[3].o[ans[3]]?.t||'',
-    result: p.name
+// ============================================================
+//  SCORING ALGORITHM — TOMO_系统规范 §2.4
+// ============================================================
+function getCode(qi){
+  const a=ans[qi];
+  if(a===null||a===undefined)return[];
+  if(Array.isArray(a))return a.map(i=>Q[qi].o[i].code);
+  return[Q[qi].o[a].code];
+}
+function has(qi,code){return getCode(qi).includes(code);}
+function q3val(){
+  const a=ans[2];
+  if(a===null)return 0;
+  const c=Q[2].o[a].code;
+  return parseInt(c.replace('bitter_',''))||0;
+}
+
+function calcPersona(){
+  let sE=0,sB=0,sD=0; // EDGE, BLOOM, EASY (DROP=0)
+
+  // Q1 Visual
+  if(has(0,'visual_dark')){sE+=2;}
+  else if(has(0,'visual_light')){sD+=2;}
+  else if(has(0,'visual_medium')){sB+=1;}
+
+  // Q2 Aroma (multi-select, each contributes)
+  const q2=getCode(1);
+  q2.forEach(c=>{
+    if(c==='aroma_herbal')sE+=3;
+    else if(c==='aroma_fruit')sB+=3;
+    else if(c==='aroma_roast'){/* cross with Q3 below */}
+    else if(c==='aroma_alcohol')sE+=1;
+    else if(c==='aroma_null')sD+=2;
   });
+  // aroma_roast cross-check with Q3
+  if(q2.includes('aroma_roast')){
+    if(q3val()>=3)sE+=2;else sD+=1;
+  }
 
-  document.getElementById('s6').innerHTML=`<div class="pi">
+  // Q3 Bitter intensity
+  const bv=q3val();
+  if(bv===4){sE+=4;}
+  else if(bv===3){sE+=3;}
+  else if(bv===2){sB+=1;}
+  else if(bv===1){sD+=3;}
+  else if(bv===5){sD+=4;sE-=3;}
+
+  // Q4 Bitter position (no quadrant change, only sub-persona)
+  // handled in sub-persona step
+
+  // Q5 Aftertaste
+  if(has(4,'aftertaste_clean')){sD+=2;}
+  else if(has(4,'aftertaste_heavy')){
+    if(sE>sB&&sE>sD)sE+=2;else sB+=2; // heavy→EDGE if already high, else BLOOM
+  }
+  else if(has(4,'aftertaste_astringent')){sE+=1;}
+  else if(has(4,'aftertaste_null')){sD+=1;}
+  // Cross: Q5 heavy + Q2 roast → extra EDGE
+  if(has(4,'aftertaste_heavy')&&q2.includes('aroma_roast'))sE+=1;
+
+  // Q6 Scene — only sub-persona, no quadrant (minor tiebreak)
+
+  // Q7 Accept — only sub-persona
+
+  // Q8 Motive
+  if(has(7,'motive_taste'))sE+=2;
+  // motive_feeling, motive_social, motive_null → sub-persona only
+
+  // ── Step 1: Primary quadrant ──
+  const scores={edge:sE,bloom:sB,easy:sD};
+  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const primary=sorted[0][0];
+  const secondary=sorted[1][0];
+
+  // ── Step 2: Cross-quadrant specials (checked first) ──
+  // #10 果心: BLOOM highest + Q7=repeat + Q8≠social
+  if(primary==='bloom'&&has(6,'accept_repeat')&&!has(7,'motive_social'))return PERSONAS[9];
+  // #11 深渊: EDGE highest + Q8=feeling + Q6=solo
+  if(primary==='edge'&&has(7,'motive_feeling')&&has(5,'scene_solo'))return PERSONAS[10];
+  // #12 浅渡: any quadrant + Q8=null + Q7=explore
+  if(has(7,'motive_null')&&has(6,'accept_explore'))return PERSONAS[11];
+
+  // ── Step 3: Sub-persona within primary quadrant ──
+  if(primary==='edge'){
+    // 01 黑锋: Q3≥3 + Q4=throat
+    if(q3val()>=3&&has(3,'bitter_pos_throat'))return PERSONAS[0];
+    // 02 铁饮: Q3≥3 + Q4=side
+    if(q3val()>=3&&has(3,'bitter_pos_side'))return PERSONAS[1];
+    // 03 猎浪: Q2 herbal + Q4=tip
+    if(q2.includes('aroma_herbal')&&has(3,'bitter_pos_tip'))return PERSONAS[2];
+    return PERSONAS[1]; // default: 铁饮
+  }
+  if(primary==='bloom'){
+    // 04 蜜语: Q5=heavy or Q2 roast
+    if(has(4,'aftertaste_heavy')||q2.includes('aroma_roast'))return PERSONAS[3];
+    // 05 甜刺: Q8=social or Q6=crowd
+    if(has(7,'motive_social')||has(5,'scene_crowd'))return PERSONAS[4];
+    // 06 花信: Q5=clean + Q1=light
+    if(has(4,'aftertaste_clean')&&has(0,'visual_light'))return PERSONAS[5];
+    return PERSONAS[3]; // default: 蜜语
+  }
+  if(primary==='easy'){
+    // 07 清弦: Q2 fruit + Q7=explore
+    if(q2.includes('aroma_fruit')&&has(6,'accept_explore'))return PERSONAS[6];
+    // 08 暗潮: Q2 roast + Q8=taste
+    if(q2.includes('aroma_roast')&&has(7,'motive_taste'))return PERSONAS[7];
+    // 09 恒频: Q5=heavy + Q1≠light
+    if(has(4,'aftertaste_heavy')&&!has(0,'visual_light'))return PERSONAS[8];
+    return PERSONAS[6]; // default: 清弦
+  }
+  return PERSONAS[6]; // fallback
+}
+
+// ============================================================
+//  SHOW RESULT
+// ============================================================
+function showResult(){
+  const p=calcPersona();
+  // Submit form data
+  const fd={result:p.bio+'('+p.pro+')'};
+  Q.forEach((q,i)=>{
+    const a=ans[i];
+    if(a===null)fd['q'+(i+1)]='(跳过)';
+    else if(Array.isArray(a))fd['q'+(i+1)]=a.map(j=>Q[i].o[j].t).join('+');
+    else fd['q'+(i+1)]=Q[i].o[a].t;
+  });
+  submitToGForm(fd);
+
+  const el=document.getElementById('sResult');
+  el.innerHTML=`<div class="pi">
     <div style="text-align:center;font-size:11px;color:var(--t3);letter-spacing:4px;margin-bottom:6px">你的味觉 DNA</div>
     <div class="rc ${p.cls}">
-      <div class="rs">${p.suit}</div>
-      <div class="rn serif">${p.name}</div>
-      <div class="re">${p.sub}</div>
+      <div class="rs">${p.emoji}</div>
+      <div class="rn serif">${p.bio}</div>
+      <div class="re">${p.suit} · ${p.pro}</div>
       <div class="rl">${p.motto}</div>
       <div class="rd">${p.desc}</div>
       <div class="rt">${p.tags.map(t=>`<span class="rtg">${t}</span>`).join('')}</div>
@@ -341,11 +603,12 @@ function showResult(){
       <div><div style="font-size:15px">${p.reco}</div><div style="font-size:12px;color:var(--t3)">${p.recoS}</div></div>
       <div style="margin-left:auto;font-size:20px;color:var(--gold);font-weight:700">${p.recoP}</div>
     </div>
-    <button class="btn" onclick="go(7)">看看下月投票 →</button>
+    <div style="font-size:11px;color:var(--t3);margin-bottom:18px;padding:0 4px">下次试试 → <span style="color:var(--gold)">${p.explore}</span> <span style="font-size:10px">${p.exploreS}</span></div>
+    <button class="btn" onclick="renderVote();go('sVote')">看看下月投票 →</button>
     <div style="height:8px"></div>
-    <button class="btn btn-g" onclick="renderProf();go(10)">查看我的 TOMO 主页</button>
+    <button class="btn btn-g" onclick="renderProf();go('sProf')">查看我的 TOMO 主页</button>
   </div>`;
-  go(6);
+  go('sResult');
 }
 
 // ============================================================
@@ -354,7 +617,7 @@ function showResult(){
 function renderVote(){
   calcPct();
   const total=BEERS.reduce((a,b)=>a+b.votes,0);
-  document.getElementById('s7').innerHTML=`<div class="pi">
+  document.getElementById('sVote').innerHTML=`<div class="pi">
     <div style="font-size:11px;color:var(--gold);letter-spacing:3px;margin-bottom:5px">七月共饮系列 · 投票中</div>
     <div class="serif" style="font-size:22px;margin-bottom:3px">下月你想喝什么？</div>
     <div style="font-size:11px;color:var(--t3);margin-bottom:16px">投票截止 · 6月30日 23:59</div>
@@ -368,17 +631,16 @@ function renderVote(){
       <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3)"><span>${b.votes.toLocaleString()} 票</span><span style="color:var(--gold);font-weight:600">${b.pct}%</span></div>
     </div>`).join('')}
     <div style="margin-top:18px">
-      ${votedI>=0?`<button class="btn" onclick="renderVoted();go(8)">确认投票</button>`
+      ${votedI>=0?`<button class="btn" onclick="renderVoted();go('sVoted')">确认投票</button>`
         :`<div style="text-align:center;font-size:12px;color:var(--t3);padding:14px">选择你想喝的口味</div>`}
     </div>
   </div>`;
 }
-renderVote();
 
 function vote(i){
   if(votedI===i)return;
   if(votedI>=0)BEERS[votedI].votes--;
-  votedI=i; BEERS[i].votes++;
+  votedI=i;BEERS[i].votes++;
   if(navigator.vibrate)navigator.vibrate(12);
   renderVote();
 }
@@ -388,7 +650,7 @@ function vote(i){
 // ============================================================
 function renderVoted(){
   const b=BEERS[votedI]||BEERS[0];
-  document.getElementById('s8').innerHTML=`<div class="pi" style="text-align:center">
+  document.getElementById('sVoted').innerHTML=`<div class="pi" style="text-align:center">
     <div style="height:30px"></div>
     <div style="width:80px;height:80px;border-radius:50%;background:linear-gradient(135deg,var(--gold),var(--gold-d));display:flex;align-items:center;justify-content:center;font-size:38px;margin:0 auto 20px;animation:rpop .5s cubic-bezier(.34,1.56,.64,1);box-shadow:0 0 35px rgba(201,168,76,.25)">🗳️</div>
     <div class="serif" style="font-size:22px;color:var(--gold);margin-bottom:10px">投票成功</div>
@@ -399,7 +661,7 @@ function renderVoted(){
       <div style="font-size:12px;color:var(--t3)">届时你将收到通知 · 优先购买权已锁定</div>
     </div>
     <div style="font-size:13px;color:var(--t3);margin-bottom:24px;line-height:1.8">你是第 <span style="color:var(--gold);font-size:17px;font-weight:700">${(BEERS.reduce((a,b)=>a+b.votes,0)+1).toLocaleString()}</span> 位投票者<br>酒标将印上所有共酿者编号</div>
-    <button class="btn" onclick="renderDeliv();go(9)">模拟 → Day 30 酒已上市</button>
+    <button class="btn" onclick="renderDeliv();go('sDeliv')">模拟 → Day 30 酒已上市</button>
   </div>`;
 }
 
@@ -407,8 +669,8 @@ function renderVoted(){
 //  DELIVERY
 // ============================================================
 function renderDeliv(){
-  const b=BEERS[votedI]||BEERS[0], total=BEERS.reduce((a,b)=>a+b.votes,0);
-  document.getElementById('s9').innerHTML=`<div class="pi" style="text-align:center">
+  const b=BEERS[votedI]||BEERS[0],total=BEERS.reduce((a,b)=>a+b.votes,0);
+  document.getElementById('sDeliv').innerHTML=`<div class="pi" style="text-align:center">
     <div style="height:20px"></div>
     <div style="font-size:44px;margin-bottom:14px">🍺</div>
     <div class="serif" style="font-size:20px;color:var(--gold);margin-bottom:8px">你投票的酒，上市了</div>
@@ -419,7 +681,7 @@ function renderDeliv(){
       <div style="font-size:12px;color:var(--t3);margin-top:3px">酒标已印名 · 限量 ${total.toLocaleString()} 瓶</div>
     </div>
     <div style="font-size:13px;color:var(--t2);line-height:1.8;margin:16px 0">从投票到这瓶酒诞生<br><span style="font-size:26px;color:var(--gold);font-weight:900">28 天</span><br><span style="font-size:11px;color:var(--t3)">传统品牌：6-12 个月</span></div>
-    <button class="btn" onclick="renderProf();go(10)">查看我的 TOMO →</button>
+    <button class="btn" onclick="renderProf();go('sProf')">查看我的 TOMO →</button>
   </div>`;
 }
 
@@ -427,13 +689,14 @@ function renderDeliv(){
 //  PROFILE
 // ============================================================
 function renderProf(){
-  const pi=calc(), p=P[pi];
-  document.getElementById('s10').innerHTML=`<div class="pi">
+  const p=calcPersona();
+  const barLabels=['苦度','甜度','清爽','复杂'];
+  document.getElementById('sProf').innerHTML=`<div class="pi">
     <div class="ph">
-      <div class="pa">${p.suit}</div>
+      <div class="pa">${p.emoji}</div>
       <div>
         <div style="font-size:18px;font-weight:700">我的 TOMO</div>
-        <div class="pb">♠7 共醸師 · ${p.name}</div>
+        <div class="pb">♠7 共醸師 · ${p.bio}（${p.pro}）</div>
       </div>
     </div>
     <div class="sts">
@@ -443,18 +706,19 @@ function renderProf(){
     </div>
     <div class="dn">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div style="font-size:30px">${p.suit}</div>
-        <div style="font-size:16px;color:var(--gold);font-weight:700">${p.name}</div>
+        <div style="font-size:30px">${p.emoji}</div>
+        <div style="font-size:14px;color:var(--gold);font-weight:700">${p.suit} · ${p.bio}</div>
       </div>
-      ${['苦度','甜度','果香','复杂'].map((l,i)=>`<div class="dr"><span class="dl">${l}</span><div class="dt"><div class="df" id="db${i}" style="width:0%"></div></div><span class="dv">${p.bars[i]}</span></div>`).join('')}
+      ${barLabels.map((l,i)=>`<div class="dr"><span class="dl">${l}</span><div class="dt"><div class="df" id="db${i}" style="width:0%"></div></div><span class="dv">${p.bars[i]}</span></div>`).join('')}
     </div>
     <div class="stit">参与历史 · 不可迁移</div>
     <div class="tl">
-      <div class="ti"><div class="td">Day 90 · 2026.09.15</div><div class="tt">累计参与 <span style="color:var(--gold)">90 天</span>，离开 = 放弃这一切</div></div>
+      <div class="ti"><div class="td">Day 90 · 2026.09.15</div><div class="tt">盲品对决 × 3 · 品鉴力 <span style="color:var(--gold)">+15</span></div></div>
+      <div class="ti"><div class="td">Day 75 · 2026.09.01</div><div class="tt">风味滑块投票 · 苦度建议被采纳</div></div>
       <div class="ti"><div class="td">Day 60 · 2026.08.15</div><div class="tt">晋升 <span style="color:var(--gold)">♠7 共醸師</span></div></div>
       <div class="ti"><div class="td">Day 30 · 2026.07.15</div><div class="tt">共酿者 <span style="color:var(--gold)">#0892</span> · 酒已上市</div></div>
       <div class="ti"><div class="td">Day 7 · 2026.06.22</div><div class="tt">首次投票 · 七月共饮系列</div></div>
-      <div class="ti"><div class="td">Day 1 · 2026.06.15</div><div class="tt">梭鱼湾扫码 · <span style="color:var(--gold)">${p.suit} ${p.name}</span></div></div>
+      <div class="ti"><div class="td">Day 1 · 2026.06.15</div><div class="tt">梭鱼湾扫码 · TOMO测试 → <span style="color:var(--gold)">${p.suit} ${p.bio}</span></div></div>
     </div>
     <div class="fm">「我们不锁定你的钱包。<br>我们锁定的是你和这个品牌<br>共同走过的时间。」</div>
     <div class="share-row">
@@ -463,35 +727,42 @@ function renderProf(){
     </div>
     <div class="foot">共醸 GÒNNIANG · JAM即兴精酿<br>taste.gongniang.com</div>
   </div>`;
-  setTimeout(()=>{ p.bars.forEach((v,i)=>{ const e=document.getElementById('db'+i); if(e)e.style.width=v+'%'; }); },300);
+  setTimeout(()=>{p.bars.forEach((v,i)=>{const e=document.getElementById('db'+i);if(e)e.style.width=v+'%';});},300);
 }
 
 // ============================================================
-//  SHARE (WeChat / clipboard)
+//  SHARE
 // ============================================================
 function share(){
-  const p=P[calc()];
-  const txt=`我的味觉DNA是 ${p.suit} ${p.name}！${p.motto}\n来测测你是什么味觉人格 → taste.gongniang.com\n#共醸 #JAM即兴精酿 #TOMO`;
+  const p=calcPersona();
+  const txt=`我的味觉DNA是 ${p.suit} ${p.bio}（${p.pro}）！${p.motto}\n来测测你是什么味觉人格 → taste.gongniang.com\n#共醸 #JAM即兴精酿 #TOMO`;
   if(navigator.share){
     navigator.share({title:'我的味觉DNA',text:txt,url:location.href}).catch(()=>{});
-  } else {
+  }else{
     navigator.clipboard.writeText(txt).then(()=>alert('已复制到剪贴板，去朋友圈粘贴吧！')).catch(()=>alert(txt));
   }
 }
 
 // ============================================================
-//  NAV
+//  NAVIGATION
 // ============================================================
-function go(i){
-  const pp=document.querySelectorAll('.p');
-  pp[cur].classList.remove('on'); pp[cur].classList.add('out');
-  setTimeout(()=>pp[cur].classList.remove('out'),450);
-  pp[i].classList.add('on'); pp[i].scrollTop=0; cur=i;
+function go(id){
+  const pages=document.querySelectorAll('.p');
+  pages.forEach(p=>{
+    if(p.id===curPage){p.classList.remove('on');p.classList.add('out');setTimeout(()=>p.classList.remove('out'),450);}
+  });
+  const target=document.getElementById(id);
+  if(target){target.classList.add('on');target.scrollTop=0;}
+  curPage=id;
 }
 function restart(){
-  votedI=-1; ans.fill(-1); renderVote();
-  document.querySelectorAll('.p').forEach(p=>{p.classList.remove('on','out')});
-  document.getElementById('s0').classList.add('on'); cur=0;
+  votedI=-1;ans.fill(null);
+  // Re-render questions to clear selections
+  Q.forEach((q,qi)=>{
+    document.querySelectorAll(`#qo${qi} .qopt`).forEach(o=>o.classList.remove('sel'));
+  });
+  document.querySelectorAll('.p').forEach(p=>{p.classList.remove('on','out');});
+  document.getElementById('s0').classList.add('on');curPage='s0';
 }
 </script>
 </body>
