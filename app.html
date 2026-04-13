@@ -345,21 +345,21 @@ function renderGenderQ() {
 
 const TQ = [
   { title:'看看杯子里的酒——<br>它的颜色让你想到……', multi:false,
-    o:[ {e:'🍯',t:'阳光穿过蜂蜜'}, {e:'🥃',t:'午后的琥珀'}, {e:'☕',t:'深夜的咖啡'}, {e:'🫥',t:'没什么特别感觉'} ]},
+    o:[ {e:'🍯',t:'阳光穿过蜂蜜',code:'visual_light'}, {e:'🥃',t:'午后的琥珀',code:'visual_medium'}, {e:'☕',t:'深夜的咖啡',code:'visual_dark'}, {e:'🫥',t:'没什么特别感觉',code:'visual_null'} ]},
   { title:'凑近杯口——你闻到了什么？', multi:true, maxSel:2,
-    o:[ {e:'🌿',t:'花园里的草和花'}, {e:'🍑',t:'水果店门口'}, {e:'🍞',t:'面包房/咖啡店'}, {e:'🫠',t:'有点刺鼻/酒精感'}, {e:'❓',t:'说不上来'} ]},
+    o:[ {e:'🌿',t:'花园里的草和花',code:'aroma_herbal'}, {e:'🍑',t:'水果店门口',code:'aroma_fruit'}, {e:'🍞',t:'面包房/咖啡店',code:'aroma_roast'}, {e:'🫠',t:'有点刺鼻/酒精感',code:'aroma_alcohol'}, {e:'❓',t:'说不上来/没闻到什么',code:'aroma_null'} ]},
   { title:'喝一小口——苦味强度如何？', multi:false,
-    o:[ {e:'💧',t:'几乎没有苦味'}, {e:'🌊',t:'有一点，但很舒服'}, {e:'⚡',t:'明显的苦，我喜欢'}, {e:'🔥',t:'很苦，但还想再喝'}, {e:'🚫',t:'太苦了'} ]},
+    o:[ {e:'💧',t:'几乎没有苦味',code:'bitter_1'}, {e:'🌊',t:'有一点，但很舒服',code:'bitter_2'}, {e:'⚡',t:'明显的苦，我喜欢',code:'bitter_3'}, {e:'🔥',t:'很苦，但还想再喝',code:'bitter_4'}, {e:'🚫',t:'太苦了',code:'bitter_5'} ]},
   { title:'如果有苦味，它停留在哪里？', multi:false,
-    o:[ {e:'👅',t:'舌尖一闪就走了'}, {e:'🌀',t:'舌头两侧慢慢扩散'}, {e:'🫁',t:'喉咙深处回荡'}, {e:'🤷',t:'没什么苦味/不确定'} ]},
+    o:[ {e:'👅',t:'舌尖一闪就走了',code:'bitter_pos_tip'}, {e:'🌀',t:'舌头两侧慢慢扩散',code:'bitter_pos_side'}, {e:'🫁',t:'喉咙深处回荡',code:'bitter_pos_throat'}, {e:'🤷',t:'没什么苦味/不确定',code:'bitter_pos_null'} ]},
   { title:'咽下去——嘴里留下了什么？', multi:false,
-    o:[ {e:'💨',t:'很清爽，像喝了口水'}, {e:'🍞',t:'有点厚，像嚼了面包'}, {e:'🍵',t:'有点涩，像浓茶'}, {e:'🫥',t:'好像什么都没留下'} ]},
+    o:[ {e:'💨',t:'很清爽，像喝了口水',code:'aftertaste_clean'}, {e:'🍞',t:'有点厚，像嚼了面包',code:'aftertaste_heavy'}, {e:'🍵',t:'有点涩，像浓茶',code:'aftertaste_astringent'}, {e:'🫥',t:'好像什么都没留下',code:'aftertaste_null'} ]},
   { title:'什么时候你最想来一杯？', multi:false,
-    o:[ {e:'🌙',t:'一个人安静待着的时候'}, {e:'👥',t:'和两三个朋友聊天'}, {e:'🎉',t:'球赛/聚会/热闹的地方'}, {e:'😶',t:'其实不怎么想喝酒'} ]},
+    o:[ {e:'🌙',t:'一个人安静待着的时候',code:'scene_solo'}, {e:'👥',t:'和两三个朋友聊天',code:'scene_small'}, {e:'🎉',t:'球赛/聚会/热闹的地方',code:'scene_crowd'}, {e:'😶',t:'其实不怎么想喝酒',code:'scene_null'} ]},
   { title:'这杯酒喝完——', multi:false,
-    o:[ {e:'🔄',t:'再来一杯同样的'}, {e:'🔀',t:'想换一款试试'}, {e:'✋',t:'够了，今天不喝了'} ]},
+    o:[ {e:'🔄',t:'再来一杯同样的',code:'accept_repeat'}, {e:'🔀',t:'想换一款试试',code:'accept_explore'}, {e:'✋',t:'够了，今天不喝了',code:'accept_stop'} ]},
   { title:'你喝酒，通常是因为——', multi:false,
-    o:[ {e:'🥂',t:'喜欢那种微醺的感觉'}, {e:'👅',t:'就是喜欢酒的味道'}, {e:'🤝',t:'跟朋友在一起才喝'}, {e:'🤔',t:'不常喝/没想过为什么'} ]}
+    o:[ {e:'🥂',t:'喜欢那种微醺的感觉',code:'motive_feeling'}, {e:'👅',t:'就是喜欢酒的味道',code:'motive_taste'}, {e:'🤝',t:'跟朋友在一起才喝',code:'motive_social'}, {e:'🤔',t:'不常喝/没想过为什么',code:'motive_null'} ]}
 ];
 
 let testStep = 0, testAns = new Array(8).fill(null);
@@ -382,6 +382,154 @@ const PERSONA_IMG = {
 function getPersonaImg(bio) {
   const p = PERSONA_IMG[bio];
   return p ? p[testGender] : '';
+}
+
+// ============================================================
+//  12 PERSONAS — full data from TOMO_系统规范 §3.2 + §4.1
+// ============================================================
+const PERSONAS=[
+  { id:1, bio:'黑锋', pro:'深渊客', suit:'♠♥', quad:'edge', cls:'rc-edge', emoji:'♠',
+    motto:'「扎手，但温的。」',
+    desc:'你天生捕捉深层苦味。双倍IPA里的松脂轰击、帝国世涛里的深焙余韵——你追求的不是"好喝"，是"有劲"。',
+    tags:['重口路线','双倍IPA / 帝国世涛','40元/杯','深度品鉴'],
+    reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40'},
+  { id:2, bio:'铁饮', pro:'鉴味师', suit:'♠♦', quad:'edge', cls:'rc-edge', emoji:'♠',
+    motto:'「不动。」',
+    desc:'你追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。',
+    tags:['层次路线','West Coast IPA / 波特','35元/杯','理性品鉴'],
+    reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35'},
+  { id:3, bio:'猎浪', pro:'酒花徒', suit:'♠♣', quad:'edge', cls:'rc-edge', emoji:'♠',
+    motto:'「下一个。」',
+    desc:'你的鼻子比舌头先行动。新英格兰IPA里的热带花香、鲜花IPA里的茉莉桂花——对你来说，酒花的香气就是一切。',
+    tags:['芬芳路线','新英格兰IPA / 鲜花IPA','35元/杯','香气猎手'],
+    reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35'},
+  { id:4, bio:'蜜语', pro:'蜜语者', suit:'♥♦', quad:'bloom', cls:'rc-bloom', emoji:'♥',
+    motto:'「嗯。」',
+    desc:'你被温柔的麦芽甜蜜吸引。小麦白啤里的丝滑口感、蜂蜜艾尔的暖意——你喝酒是为了被味蕾拥抱。',
+    tags:['温柔路线','小麦白啤 / 蜂蜜艾尔','35元/杯','感性品鉴'],
+    reco:'Jam·蜜浪', recoS:'芒果凤梨西打 · ABV 4%', recoP:'¥35'},
+  { id:5, bio:'甜刺', pro:'畅言家', suit:'♥♠', quad:'bloom', cls:'rc-bloom', emoji:'♥',
+    motto:'「别被我骗了。」',
+    desc:'你是社交场的味觉中枢。球赛嗨的时候、聚会热的时候——你需要一杯在手才完整。',
+    tags:['社交路线','拉格 / 果味啤','35元/杯','社交达人'],
+    reco:'Jam·绯语', recoS:'草莓杨梅石榴 · ABV 4%', recoP:'¥35'},
+  { id:6, bio:'花信', pro:'清风使', suit:'♥♣', quad:'bloom', cls:'rc-bloom', emoji:'♥',
+    motto:'「看这里。」',
+    desc:'你被清爽和视觉美感同时俘获。柑橘小麦的干净收尾、气泡酒的细腻泡沫——你追求"刚刚好"的愉悦。',
+    tags:['极简路线','柑橘小麦 / 气泡酒','25元/杯','视觉系'],
+    reco:'Jam·青果', recoS:'原榨苹果西打 · ABV 4.5%', recoP:'¥25'},
+  { id:7, bio:'清弦', pro:'寻芳客', suit:'♦♥', quad:'easy', cls:'rc-easy', emoji:'♦',
+    motto:'「轻。」',
+    desc:'你追求恰到好处的平衡。零糖皮尔森的干净收尾、果味IPA里若隐若现的热带香——简单的好喝，才是真功夫。',
+    tags:['探索路线','果味IPA / 西打','18元/杯','日饮探索型'],
+    reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18'},
+  { id:8, bio:'暗潮', pro:'精算师', suit:'♦♠', quad:'easy', cls:'rc-easy', emoji:'♦',
+    motto:'「看到了吗。」',
+    desc:'你表面喝得清淡，暗地里研究配方。比利时三料的复杂酵母风味、自然发酵酸啤的微生物魔法——你享受"看懂"一款酒的过程。',
+    tags:['研究路线','比利时三料 / 酸啤','18元/杯','工艺研究型'],
+    reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18'},
+  { id:9, bio:'恒频', pro:'重墨客', suit:'♦♦', quad:'easy', cls:'rc-easy', emoji:'♦',
+    motto:'「每天。」',
+    desc:'你追求的是一种频率——每天、每晚、固定的那一杯。你不需要惊喜，你需要确定性。找到了就不换。',
+    tags:['深邃路线','Porter / Stout','18元/杯','日饮忠诚型'],
+    reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18'},
+  { id:10, bio:'果心', pro:'守艺人', suit:'♥♥', quad:'bloom', cls:'rc-bloom', emoji:'♥',
+    motto:'「就这样。」',
+    desc:'你是最纯粹的♥BLOOM型——不跨象限，不冒险。忠诚度极高，一旦认定就不走。',
+    tags:['经典路线','慕尼黑拉格 / 英式Ale','18元/杯','忠诚型'],
+    reco:'Jam·晨雾', recoS:'比利时小麦白啤 · ABV 4.5%', recoP:'¥18'},
+  { id:11, bio:'深渊', pro:'微醺客', suit:'♠♠', quad:'edge', cls:'rc-edge', emoji:'♠',
+    motto:'「………」',
+    desc:'你是最纯粹的♠EDGE型——独饮、沉浸、微醺。你喝酒不为社交，是为了和自己独处的那个时刻。',
+    tags:['沉浸路线','大麦酒 / 帝国世涛','40元/杯','体验沉浸型'],
+    reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40'},
+  { id:12, bio:'浅渡', pro:'探趣人', suit:'♦♣', quad:'easy', cls:'rc-easy', emoji:'♦',
+    motto:'「嘶——」',
+    desc:'你刚踩进精酿的水里，水纹还在荡。什么都想试一口，味觉人格尚在形成。好奇心是最强的进化引擎。',
+    tags:['发现路线','什么都想试','18元/杯','新手好奇型'],
+    reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18'}
+];
+
+// ============================================================
+//  SCORING ALGORITHM — TOMO_系统规范 §2.4
+// ============================================================
+function getCode(qi){
+  const a=testAns[qi];
+  if(a===null||a===undefined)return[];
+  if(Array.isArray(a))return a.map(i=>TQ[qi].o[i].code);
+  return[TQ[qi].o[a].code];
+}
+function has(qi,code){return getCode(qi).includes(code);}
+function q3val(){
+  const a=testAns[2];
+  if(a===null||a===undefined)return 0;
+  const c=TQ[2].o[a].code;
+  return parseInt(c.replace('bitter_',''))||0;
+}
+
+function calcPersona(){
+  let sE=0,sB=0,sD=0;
+  // Q1 Visual
+  if(has(0,'visual_dark'))sE+=2;
+  else if(has(0,'visual_light'))sD+=2;
+  else if(has(0,'visual_medium'))sB+=1;
+  // Q2 Aroma
+  const q2=getCode(1);
+  q2.forEach(c=>{
+    if(c==='aroma_herbal')sE+=3;
+    else if(c==='aroma_fruit')sB+=3;
+    else if(c==='aroma_roast'){/* cross with Q3 */}
+    else if(c==='aroma_alcohol')sE+=1;
+    else if(c==='aroma_null')sD+=2;
+  });
+  if(q2.includes('aroma_roast')){
+    if(q3val()>=3)sE+=2;else sD+=1;
+  }
+  // Q3 Bitter intensity
+  const bv=q3val();
+  if(bv===4)sE+=4;
+  else if(bv===3)sE+=3;
+  else if(bv===2)sB+=1;
+  else if(bv===1)sD+=3;
+  else if(bv===5){sD+=4;sE-=3;}
+  // Q5 Aftertaste
+  if(has(4,'aftertaste_clean'))sD+=2;
+  else if(has(4,'aftertaste_heavy')){
+    if(sE>sB&&sE>sD)sE+=2;else sB+=2;
+  }
+  else if(has(4,'aftertaste_astringent'))sE+=1;
+  else if(has(4,'aftertaste_null'))sD+=1;
+  if(has(4,'aftertaste_heavy')&&q2.includes('aroma_roast'))sE+=1;
+  // Q8 Motive
+  if(has(7,'motive_taste'))sE+=2;
+  // Step 1: Primary quadrant
+  const scores={edge:sE,bloom:sB,easy:sD};
+  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  const primary=sorted[0][0];
+  // Step 2: Cross-quadrant specials
+  if(primary==='bloom'&&has(6,'accept_repeat')&&!has(7,'motive_social'))return PERSONAS[9];
+  if(primary==='edge'&&has(7,'motive_feeling')&&has(5,'scene_solo'))return PERSONAS[10];
+  if(has(7,'motive_null')&&has(6,'accept_explore'))return PERSONAS[11];
+  // Step 3: Sub-persona
+  if(primary==='edge'){
+    if(q3val()>=3&&has(3,'bitter_pos_throat'))return PERSONAS[0];
+    if(q3val()>=3&&has(3,'bitter_pos_side'))return PERSONAS[1];
+    if(q2.includes('aroma_herbal')&&has(3,'bitter_pos_tip'))return PERSONAS[2];
+    return PERSONAS[1];
+  }
+  if(primary==='bloom'){
+    if(has(4,'aftertaste_heavy')||q2.includes('aroma_roast'))return PERSONAS[3];
+    if(has(7,'motive_social')||has(5,'scene_crowd'))return PERSONAS[4];
+    if(has(4,'aftertaste_clean')&&has(0,'visual_light'))return PERSONAS[5];
+    return PERSONAS[3];
+  }
+  if(primary==='easy'){
+    if(q2.includes('aroma_fruit')&&has(6,'accept_explore'))return PERSONAS[6];
+    if(q2.includes('aroma_roast')&&has(7,'motive_taste'))return PERSONAS[7];
+    if(has(4,'aftertaste_heavy')&&!has(0,'visual_light'))return PERSONAS[8];
+    return PERSONAS[6];
+  }
+  return PERSONAS[6];
 }
 
 function renderTestQ(qi) {
@@ -412,7 +560,19 @@ function testPick(qi, oi, el) {
       sel.push(oi); el.classList.add('sel');
     }
     testAns[qi] = sel.length ? [...sel] : null;
-    if (testAns[qi] && testAns[qi].length >= q.maxSel) setTimeout(() => testAdvance(qi), 600);
+    // aroma_null is mutually exclusive with other aromas
+    if(q.o[oi].code==='aroma_null'&&sel.includes(oi)){
+      sel.forEach(s=>{if(s!==oi)document.querySelector('#tqo [data-oi="'+s+'"]').classList.remove('sel');});
+      testAns[qi]=[oi];
+    }else if(sel.length>0&&sel.some(s=>q.o[s].code==='aroma_null')&&q.o[oi].code!=='aroma_null'){
+      const ni=q.o.findIndex(o=>o.code==='aroma_null');
+      const si=sel.indexOf(ni);
+      if(si>=0){sel.splice(si,1);document.querySelector('#tqo [data-oi="'+ni+'"]').classList.remove('sel');}
+      testAns[qi]=[...sel];
+    }
+    if((testAns[qi]&&testAns[qi].length>=q.maxSel)||q.o[oi].code==='aroma_null'){
+      setTimeout(() => testAdvance(qi), 600);
+    }
   } else {
     testAns[qi] = oi;
     el.closest('.qo').querySelectorAll('.qopt').forEach(o => o.classList.remove('sel'));
@@ -427,31 +587,33 @@ function testAdvance(qi) {
 }
 
 function showTestResult() {
-  // Simplified persona assignment for demo
-  const persona = U.persona;
+  const persona = calcPersona();
   const img = getPersonaImg(persona.bio);
+  // Update user state with real result
+  U.persona = persona;
   U.hops += 100;
   document.getElementById('testArea').innerHTML = `
-    <div class="rc rc-edge" style="animation:rpop .55s cubic-bezier(.34,1.56,.64,1)">
+    <div class="rc ${persona.cls}" style="animation:rpop .55s cubic-bezier(.34,1.56,.64,1)">
       <img class="portrait" src="${img}" alt="${persona.bio}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
       <div class="emoji-fb" style="display:none">${persona.emoji}</div>
       <div class="rn serif">${persona.bio}</div>
       <div class="re">${persona.suit} · ${persona.pro}</div>
-      <div style="font-size:13px;color:var(--t2);margin:10px 0;line-height:1.85;text-align:left">你天生追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。</div>
+      <div style="font-size:14px;color:var(--t2);margin:8px 0 4px;font-style:italic">${persona.motto}</div>
+      <div style="font-size:13px;color:var(--t2);margin:10px 0;line-height:1.85;text-align:left">${persona.desc}</div>
       <div class="rt">
-        <span class="rtg">层次路线</span><span class="rtg">West Coast IPA</span><span class="rtg">35元/杯</span><span class="rtg">理性品鉴</span>
+        ${persona.tags.map(t=>'<span class="rtg">'+t+'</span>').join('')}
       </div>
     </div>
     <div style="font-size:12px;color:var(--t3);margin-bottom:4px">为你推荐 · JAM 首单</div>
     <div class="card" style="display:flex;align-items:center;gap:12px">
       <div class="sku-bottle"></div>
-      <div><div style="font-size:15px">Jam·西风</div><div style="font-size:12px;color:var(--t3)">西海岸 IPA · ABV 7%</div></div>
-      <div style="margin-left:auto;font-size:20px;color:var(--gold);font-weight:700">¥35</div>
+      <div><div style="font-size:15px">${persona.reco}</div><div style="font-size:12px;color:var(--t3)">${persona.recoS}</div></div>
+      <div style="margin-left:auto;font-size:20px;color:var(--gold);font-weight:700">${persona.recoP}</div>
     </div>
     <div style="font-size:13px;color:var(--gold);text-align:center;margin:12px 0">🌿 +100 酒花 · 测试完成奖励</div>
     <button class="btn" style="margin-top:12px" onclick="returnFromTest()">进入 TOMO 主页 →</button>
   `;
-  showToast('🧬', '味觉DNA已解锁！', '♠♦ 铁饮 · +100 酒花');
+  showToast('🧬', '味觉DNA已解锁！', persona.suit + ' ' + persona.bio + ' · +100 酒花');
 }
 
 // ============================================================
