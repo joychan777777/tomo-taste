@@ -25,12 +25,14 @@
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:'Noto Sans SC',-apple-system,sans-serif;touch-action:manipulation}
 #app{width:100%;height:100%;position:relative;overflow:hidden}
 
+/* PAGE */
 .p{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;opacity:0;transform:translateX(50px);transition:opacity .4s,transform .4s;pointer-events:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
 .p.on{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
 .p.out{opacity:0;transform:translateX(-50px);z-index:1}
 .pi{padding:48px 24px 40px;flex:1}
 .serif{font-family:'Noto Serif SC',serif}
 
+/* BTN */
 .btn{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold),var(--gold-d));border:none;border-radius:14px;padding:16px;font-size:16px;color:#000;font-weight:700;letter-spacing:2px;cursor:pointer;width:100%;font-family:'Noto Sans SC',sans-serif;transition:transform .12s}
 .btn:active{transform:scale(.97)}
 .btn-g{background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold);font-weight:500}
@@ -49,6 +51,16 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 @keyframes rp{0%,100%{border-color:rgba(201,168,76,.2);box-shadow:0 0 0 0 rgba(201,168,76,.1)}50%{border-color:rgba(201,168,76,.55);box-shadow:0 0 35px 6px rgba(201,168,76,.06)}}
 .ring-t{font-size:17px;color:var(--gold);letter-spacing:3px}
 .hint{font-size:12px;color:var(--t3);margin-top:18px;animation:fu .8s ease .7s both}
+
+/* GENDER */
+#sGender{background:radial-gradient(ellipse at 50% 40%,#1a1520,var(--bg) 70%)}
+.gw{display:flex;gap:24px;justify-content:center;margin-top:36px}
+.gc{width:140px;padding:32px 16px 28px;border-radius:22px;background:var(--card);border:2px solid var(--card-b);text-align:center;cursor:pointer;transition:all .25s}
+.gc:active{transform:scale(.95)}
+.gc.sel{border-color:var(--gold);background:rgba(201,168,76,.08);box-shadow:0 0 20px rgba(201,168,76,.1)}
+.gc-icon{font-size:52px;margin-bottom:12px}
+.gc-label{font-size:16px;color:var(--t2);letter-spacing:3px;font-weight:500}
+.gc.sel .gc-label{color:var(--gold)}
 
 /* QUESTIONS */
 .qbar{display:flex;gap:4px;margin-bottom:24px}
@@ -78,7 +90,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .rc-bloom{background:linear-gradient(135deg,rgba(123,104,238,.15),rgba(176,196,222,.08));border:1px solid rgba(123,104,238,.3)}
 .rc-easy{background:linear-gradient(135deg,rgba(232,232,232,.1),rgba(245,245,247,.05));border:1px solid rgba(232,232,232,.2)}
 .rc-drop{background:linear-gradient(135deg,rgba(61,28,110,.25),rgba(26,10,46,.15));border:1px solid rgba(61,28,110,.4)}
-.rs{font-size:56px;margin-bottom:2px}
+
+/* PORTRAIT */
+.portrait{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid rgba(201,168,76,.25);box-shadow:0 0 40px rgba(201,168,76,.08);animation:rpop .6s cubic-bezier(.34,1.56,.64,1)}
+.portrait-sm{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
+.portrait-xs{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,168,76,.3)}
+.emoji-fb{font-size:56px;text-align:center;margin-bottom:2px}
+
 .rn{font-family:'Noto Serif SC',serif;font-size:26px;color:var(--gold)}
 .re{font-size:12px;color:var(--t3);letter-spacing:5px;margin-bottom:10px}
 .rl{font-size:13px;color:var(--t2);margin-bottom:10px;letter-spacing:2px}
@@ -100,12 +118,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .vbf{height:100%;border-radius:3px;transition:width .7s ease}
 .vbg-g{background:linear-gradient(90deg,var(--gold),var(--gold-l))}
 .vbg-d{background:rgba(201,168,76,.25)}
-
 .nb{background:rgba(201,168,76,.08);border:1px solid rgba(201,168,76,.18);border-radius:16px;padding:22px;text-align:center;margin:18px 0}
 
 /* PROFILE */
 .ph{display:flex;align-items:center;gap:14px;margin-bottom:24px}
-.pa{width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#5a3d0a);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid var(--gold)}
 .pb{display:inline-flex;align-items:center;gap:4px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:18px;padding:3px 10px;font-size:11px;color:var(--gold);margin-top:3px}
 .sts{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-bottom:20px}
 .st{background:var(--card);border-radius:14px;padding:14px 6px;text-align:center}
@@ -140,8 +156,27 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   <div class="logo">共醸</div>
   <div class="logo-s">GÒNNIANG とも</div>
   <div class="logo-jam">JAM · 即兴精酿</div>
-  <div class="ring" onclick="go('s1')"><div class="ring-t">发现你的<br>味觉DNA</div></div>
+  <div class="ring" onclick="go('sGender')"><div class="ring-t">发现你的<br>味觉DNA</div></div>
   <div class="hint">8 道感官题 · 90 秒 · 边喝边答</div>
+</div>
+</div>
+
+<!-- Gender Selection -->
+<div class="p" id="sGender">
+<div class="pi" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+  <div style="font-size:11px;color:var(--gold);letter-spacing:4px;margin-bottom:10px">开始之前</div>
+  <div class="serif" style="font-size:22px;text-align:center;line-height:1.7">你的味觉人格<br>想以什么形象出现？</div>
+  <div class="gw">
+    <div class="gc" onclick="pickGender('m',this)">
+      <div class="gc-icon">🧔</div>
+      <div class="gc-label">他</div>
+    </div>
+    <div class="gc" onclick="pickGender('f',this)">
+      <div class="gc-icon">👩</div>
+      <div class="gc-label">她</div>
+    </div>
+  </div>
+  <div style="font-size:11px;color:var(--t3);margin-top:28px">仅影响人格形象展示，不影响测试结果</div>
 </div>
 </div>
 
@@ -190,16 +225,26 @@ function submitToGForm(data){
 }
 
 // ============================================================
-//  PAGES — ordered page IDs for navigation
+//  STATE
 // ============================================================
-const PAGES=['s0','s1','s2','s3','s4','s5','s6','s7','s8','sLoad','sResult','sVote','sVoted','sDeliv','sProf'];
 let curPage='s0';
+let userGender='m'; // 'm' or 'f'
+let ans=new Array(8).fill(null);
+let votedI=-1;
+
+// ============================================================
+//  GENDER SELECTION
+// ============================================================
+function pickGender(g,el){
+  userGender=g;
+  if(navigator.vibrate)navigator.vibrate(8);
+  document.querySelectorAll('.gc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  setTimeout(()=>go('s1'),450);
+}
 
 // ============================================================
 //  8 QUESTIONS — from TOMO_系统规范_v1.0 §2.3
-//  multi: true = allow up to 2 selections (Q2 only)
-//  Each option: e=emoji, t=text, code=data encoding
-//  Scoring applied in calcPersona()
 // ============================================================
 const Q=[
   { id:'q1', title:'看看杯子里的酒——<br>它的颜色让你想到……',
@@ -271,10 +316,12 @@ const Q=[
 
 // ============================================================
 //  12 PERSONAS — from TOMO_系统规范_v1.0 §3.2 + §4.1
+//  imgM / imgF = gendered Q版 portrait paths
 // ============================================================
 const PERSONAS=[
   { id:1, bio:'黑锋', pro:'深渊客', suit:'♠♥', quad:'edge',
     cls:'rc-edge', emoji:'♠',
+    imgM:'TOMO12位人格/黑锋男性Q版.png', imgF:'TOMO12位人格/黑锋女性Q版.png',
     motto:'「扎手，但温的。」',
     desc:'你天生捕捉深层苦味。双倍IPA里的松脂轰击、帝国世涛里的深焙余韵——你追求的不是"好喝"，是"有劲"。苦味停留在喉咙深处回荡的那种满足感，是你和精酿世界最深的共鸣。',
     tags:['重口路线','双倍IPA / 帝国世涛','40元/杯','深度品鉴'],
@@ -283,6 +330,7 @@ const PERSONAS=[
     bars:[95,15,10,80]},
   { id:2, bio:'铁饮', pro:'鉴味师', suit:'♠♦', quad:'edge',
     cls:'rc-edge', emoji:'♠',
+    imgM:'TOMO12位人格/铁饮男性Q版.png', imgF:'TOMO12位人格/铁饮女性Q版.png',
     motto:'「不动。」',
     desc:'你追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。每一口都在解构风味。',
     tags:['层次路线','West Coast IPA / 波特','35元/杯','理性品鉴'],
@@ -291,6 +339,7 @@ const PERSONAS=[
     bars:[85,20,25,70]},
   { id:3, bio:'猎浪', pro:'酒花徒', suit:'♠♣', quad:'edge',
     cls:'rc-edge', emoji:'♠',
+    imgM:'TOMO12位人格/猎浪男性Q版.jpg', imgF:'TOMO12位人格/猎浪女性Q版.png',
     motto:'「下一个。」',
     desc:'你的鼻子比舌头先行动。新英格兰IPA里的热带花香、鲜花IPA里的茉莉桂花——对你来说，酒花的香气就是一切。永远在追下一款限定款，永远不满足。',
     tags:['芬芳路线','新英格兰IPA / 鲜花IPA','35元/杯','香气猎手'],
@@ -299,6 +348,7 @@ const PERSONAS=[
     bars:[75,30,20,90]},
   { id:4, bio:'蜜语', pro:'蜜语者', suit:'♥♦', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
+    imgM:'TOMO12位人格/蜜语男性Q版.png', imgF:'TOMO12位人格/蜜语女性Q版.png',
     motto:'「嗯。」',
     desc:'你被温柔的麦芽甜蜜吸引。小麦白啤里的丝滑口感、蜂蜜艾尔的暖意——你喝酒不是为了挑战味蕾，是为了被味蕾拥抱。厚重的余韵让你觉得安心。',
     tags:['温柔路线','小麦白啤 / 蜂蜜艾尔','35元/杯','感性品鉴'],
@@ -307,6 +357,7 @@ const PERSONAS=[
     bars:[15,88,50,35]},
   { id:5, bio:'甜刺', pro:'畅言家', suit:'♥♠', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
+    imgM:'TOMO12位人格/甜刺男性Q版.png', imgF:'TOMO12位人格/甜刺女性Q版.png',
     motto:'「别被我骗了。」',
     desc:'你是社交场的味觉中枢。球赛嗨的时候、聚会热的时候——你需要一杯在手才完整。你喝的不只是酒，是和身边人分享此刻的仪式。热闹的地方就有你。',
     tags:['社交路线','拉格 / 果味啤','35元/杯','社交达人'],
@@ -315,6 +366,7 @@ const PERSONAS=[
     bars:[20,82,45,40]},
   { id:6, bio:'花信', pro:'清风使', suit:'♥♣', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
+    imgM:'TOMO12位人格/花信男性Q版.png', imgF:'TOMO12位人格/花信女性Q版.jpg',
     motto:'「看这里。」',
     desc:'你被清爽和视觉美感同时俘获。柑橘小麦的干净收尾、气泡酒的细腻泡沫——你追求的是"刚刚好"的愉悦。一杯值得拍照分享的酒，对你来说就是好酒。',
     tags:['极简路线','柑橘小麦 / 气泡酒','25元/杯','视觉系'],
@@ -323,6 +375,7 @@ const PERSONAS=[
     bars:[10,75,60,50]},
   { id:7, bio:'清弦', pro:'寻芳客', suit:'♦♥', quad:'easy',
     cls:'rc-easy', emoji:'♦',
+    imgM:'TOMO12位人格/清弦男性Q版.png', imgF:'TOMO12位人格/清弦女性Q版.png',
     motto:'「轻。」',
     desc:'你追求恰到好处的平衡。零糖皮尔森的干净收尾、果味IPA里若隐若现的热带香——你不要极端，要的是"日常随时能喝"。简单的好喝，才是真功夫。',
     tags:['探索路线','果味IPA / 西打','18元/杯','日饮探索型'],
@@ -331,6 +384,7 @@ const PERSONAS=[
     bars:[18,40,88,25]},
   { id:8, bio:'暗潮', pro:'精算师', suit:'♦♠', quad:'easy',
     cls:'rc-easy', emoji:'♦',
+    imgM:'TOMO12位人格/暗潮男性Q版.png', imgF:'TOMO12位人格/暗潮女性Q版.png',
     motto:'「看到了吗。」',
     desc:'你表面喝得清淡，暗地里研究配方。比利时三料的复杂酵母风味、自然发酵酸啤的微生物魔法——你享受"看懂"一款酒的过程。有进化为♠的潜力。',
     tags:['研究路线','比利时三料 / 酸啤','18元/杯','工艺研究型'],
@@ -339,6 +393,7 @@ const PERSONAS=[
     bars:[30,25,80,45]},
   { id:9, bio:'恒频', pro:'重墨客', suit:'♦♦', quad:'easy',
     cls:'rc-easy', emoji:'♦',
+    imgM:'TOMO12位人格/恒频男性Q版.png', imgF:'TOMO12位人格/恒频女性Q版.png',
     motto:'「每天。」',
     desc:'你追求的是一种频率——每天、每晚、固定的那一杯。Porter的深色麦芽、Stout的巧克力尾韵——你不需要惊喜，你需要确定性。找到了就不换。',
     tags:['深邃路线','Porter / Stout','18元/杯','日饮忠诚型'],
@@ -347,6 +402,7 @@ const PERSONAS=[
     bars:[35,20,85,30]},
   { id:10, bio:'果心', pro:'守艺人', suit:'♥♥', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
+    imgM:'TOMO12位人格/果心男性Q版.png', imgF:'TOMO12位人格/果心女性Q版.png',
     motto:'「就这样。」',
     desc:'你是最纯粹的♥BLOOM型——不跨象限，不冒险。慕尼黑拉格的经典、英式Ale的传统——你追求的是"确定的好喝"。忠诚度极高，一旦认定就不走。',
     tags:['经典路线','慕尼黑拉格 / 英式Ale','18元/杯','忠诚型'],
@@ -355,6 +411,7 @@ const PERSONAS=[
     bars:[10,90,55,15]},
   { id:11, bio:'深渊', pro:'微醺客', suit:'♠♠', quad:'edge',
     cls:'rc-edge', emoji:'♠',
+    imgM:'TOMO12位人格/深渊男性Q版.png', imgF:'TOMO12位人格/深渊女性Q版.png',
     motto:'「………」',
     desc:'你是最纯粹的♠EDGE型——独饮、沉浸、微醺。大麦酒的缓慢灼烧、帝国世涛的厚重裹挟——你喝酒不为社交，是为了和自己独处的那个时刻。',
     tags:['沉浸路线','大麦酒 / 帝国世涛','40元/杯','体验沉浸型'],
@@ -363,6 +420,7 @@ const PERSONAS=[
     bars:[92,10,15,75]},
   { id:12, bio:'浅渡', pro:'探趣人', suit:'♦♣', quad:'easy',
     cls:'rc-easy', emoji:'♦',
+    imgM:'TOMO12位人格/浅渡男性Q版.png', imgF:'TOMO12位人格/浅渡女性Q版.png',
     motto:'「嘶——」',
     desc:'你刚踩进精酿的水里，水纹还在荡。什么都想试一口，味觉人格尚在形成。这不是弱点——好奇心是最强的进化引擎。3次消费后，你可能变成任何人格。',
     tags:['发现路线','什么都想试','18元/杯','新手好奇型'],
@@ -371,8 +429,11 @@ const PERSONAS=[
     bars:[20,30,60,55]}
 ];
 
+// helper: get portrait url for current gender
+function pImg(p){ return userGender==='f' ? p.imgF : p.imgM; }
+
 // ============================================================
-//  VOTE BEERS (demo data)
+//  VOTE BEERS (demo)
 // ============================================================
 const BEERS=[
   {name:'🍊 Jam·西风',style:'西海岸 IPA · ABV 7%',votes:1847,pct:0},
@@ -383,18 +444,11 @@ function calcPct(){const t=BEERS.reduce((a,b)=>a+b.votes,0);BEERS.forEach(b=>b.p
 calcPct();
 
 // ============================================================
-//  STATE
-// ============================================================
-// ans[i] = selected option index (number) or array of indices for multi-select
-let ans=new Array(8).fill(null);
-let votedI=-1;
-
-// ============================================================
 //  RENDER QUESTIONS
 // ============================================================
 Q.forEach((q,qi)=>{
   const el=document.getElementById('s'+(qi+1));
-  const barHTML=Array.from({length:8},(_, i)=>`<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
+  const barHTML=Array.from({length:8},(_,i)=>`<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
   const multiNote=q.multi?`<div class="multi-hint">可多选，最多 ${q.maxSel} 个</div>`:'';
   el.innerHTML=`<div class="pi">
     <div class="qbar">${barHTML}</div>
@@ -410,7 +464,6 @@ function pick(qi,oi,el){
   if(navigator.vibrate)navigator.vibrate(8);
 
   if(q.multi){
-    // Multi-select logic (Q2)
     let sel=ans[qi];
     if(!Array.isArray(sel))sel=[];
     const idx=sel.indexOf(oi);
@@ -419,7 +472,6 @@ function pick(qi,oi,el){
       el.classList.remove('sel');
     }else{
       if(sel.length>=q.maxSel){
-        // un-select oldest
         const oldest=sel.shift();
         document.querySelector(`#qo${qi} [data-oi="${oldest}"]`).classList.remove('sel');
       }
@@ -427,7 +479,6 @@ function pick(qi,oi,el){
       el.classList.add('sel');
     }
     ans[qi]=sel.length?[...sel]:null;
-    // If aroma_null selected, deselect others
     if(q.o[oi].code==='aroma_null'&&sel.includes(oi)){
       sel.forEach(s=>{if(s!==oi)document.querySelector(`#qo${qi} [data-oi="${s}"]`).classList.remove('sel');});
       ans[qi]=[oi];
@@ -436,12 +487,10 @@ function pick(qi,oi,el){
       if(ni>=0){sel.splice(ni,1);document.querySelector(`#qo${qi} [data-oi="${q.o.findIndex(o=>o.code==='aroma_null')}"]`).classList.remove('sel');}
       ans[qi]=[...sel];
     }
-    // Auto-advance after 600ms if maxSel reached or null selected
     if((ans[qi]&&ans[qi].length>=q.maxSel)||q.o[oi].code==='aroma_null'){
       setTimeout(()=>advance(qi),600);
     }
   }else{
-    // Single select
     ans[qi]=oi;
     el.closest('.qo').querySelectorAll('.qopt').forEach(o=>o.classList.remove('sel'));
     el.classList.add('sel');
@@ -450,12 +499,8 @@ function pick(qi,oi,el){
 }
 
 function advance(qi){
-  if(qi<7){
-    go('s'+(qi+2));
-  }else{
-    go('sLoad');
-    setTimeout(showResult,1800);
-  }
+  if(qi<7) go('s'+(qi+2));
+  else{ go('sLoad'); setTimeout(showResult,1800); }
 }
 
 // ============================================================
@@ -476,108 +521,88 @@ function q3val(){
 }
 
 function calcPersona(){
-  let sE=0,sB=0,sD=0; // EDGE, BLOOM, EASY (DROP=0)
+  let sE=0,sB=0,sD=0;
 
   // Q1 Visual
-  if(has(0,'visual_dark')){sE+=2;}
-  else if(has(0,'visual_light')){sD+=2;}
-  else if(has(0,'visual_medium')){sB+=1;}
+  if(has(0,'visual_dark'))sE+=2;
+  else if(has(0,'visual_light'))sD+=2;
+  else if(has(0,'visual_medium'))sB+=1;
 
-  // Q2 Aroma (multi-select, each contributes)
+  // Q2 Aroma
   const q2=getCode(1);
   q2.forEach(c=>{
     if(c==='aroma_herbal')sE+=3;
     else if(c==='aroma_fruit')sB+=3;
-    else if(c==='aroma_roast'){/* cross with Q3 below */}
+    else if(c==='aroma_roast'){/* cross with Q3 */}
     else if(c==='aroma_alcohol')sE+=1;
     else if(c==='aroma_null')sD+=2;
   });
-  // aroma_roast cross-check with Q3
   if(q2.includes('aroma_roast')){
     if(q3val()>=3)sE+=2;else sD+=1;
   }
 
   // Q3 Bitter intensity
   const bv=q3val();
-  if(bv===4){sE+=4;}
-  else if(bv===3){sE+=3;}
-  else if(bv===2){sB+=1;}
-  else if(bv===1){sD+=3;}
+  if(bv===4)sE+=4;
+  else if(bv===3)sE+=3;
+  else if(bv===2)sB+=1;
+  else if(bv===1)sD+=3;
   else if(bv===5){sD+=4;sE-=3;}
 
-  // Q4 Bitter position (no quadrant change, only sub-persona)
-  // handled in sub-persona step
-
   // Q5 Aftertaste
-  if(has(4,'aftertaste_clean')){sD+=2;}
+  if(has(4,'aftertaste_clean'))sD+=2;
   else if(has(4,'aftertaste_heavy')){
-    if(sE>sB&&sE>sD)sE+=2;else sB+=2; // heavy→EDGE if already high, else BLOOM
+    if(sE>sB&&sE>sD)sE+=2;else sB+=2;
   }
-  else if(has(4,'aftertaste_astringent')){sE+=1;}
-  else if(has(4,'aftertaste_null')){sD+=1;}
-  // Cross: Q5 heavy + Q2 roast → extra EDGE
+  else if(has(4,'aftertaste_astringent'))sE+=1;
+  else if(has(4,'aftertaste_null'))sD+=1;
   if(has(4,'aftertaste_heavy')&&q2.includes('aroma_roast'))sE+=1;
-
-  // Q6 Scene — only sub-persona, no quadrant (minor tiebreak)
-
-  // Q7 Accept — only sub-persona
 
   // Q8 Motive
   if(has(7,'motive_taste'))sE+=2;
-  // motive_feeling, motive_social, motive_null → sub-persona only
 
-  // ── Step 1: Primary quadrant ──
+  // Step 1: Primary quadrant
   const scores={edge:sE,bloom:sB,easy:sD};
   const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
   const primary=sorted[0][0];
-  const secondary=sorted[1][0];
 
-  // ── Step 2: Cross-quadrant specials (checked first) ──
-  // #10 果心: BLOOM highest + Q7=repeat + Q8≠social
+  // Step 2: Cross-quadrant specials
   if(primary==='bloom'&&has(6,'accept_repeat')&&!has(7,'motive_social'))return PERSONAS[9];
-  // #11 深渊: EDGE highest + Q8=feeling + Q6=solo
   if(primary==='edge'&&has(7,'motive_feeling')&&has(5,'scene_solo'))return PERSONAS[10];
-  // #12 浅渡: any quadrant + Q8=null + Q7=explore
   if(has(7,'motive_null')&&has(6,'accept_explore'))return PERSONAS[11];
 
-  // ── Step 3: Sub-persona within primary quadrant ──
+  // Step 3: Sub-persona
   if(primary==='edge'){
-    // 01 黑锋: Q3≥3 + Q4=throat
     if(q3val()>=3&&has(3,'bitter_pos_throat'))return PERSONAS[0];
-    // 02 铁饮: Q3≥3 + Q4=side
     if(q3val()>=3&&has(3,'bitter_pos_side'))return PERSONAS[1];
-    // 03 猎浪: Q2 herbal + Q4=tip
     if(q2.includes('aroma_herbal')&&has(3,'bitter_pos_tip'))return PERSONAS[2];
-    return PERSONAS[1]; // default: 铁饮
+    return PERSONAS[1];
   }
   if(primary==='bloom'){
-    // 04 蜜语: Q5=heavy or Q2 roast
     if(has(4,'aftertaste_heavy')||q2.includes('aroma_roast'))return PERSONAS[3];
-    // 05 甜刺: Q8=social or Q6=crowd
     if(has(7,'motive_social')||has(5,'scene_crowd'))return PERSONAS[4];
-    // 06 花信: Q5=clean + Q1=light
     if(has(4,'aftertaste_clean')&&has(0,'visual_light'))return PERSONAS[5];
-    return PERSONAS[3]; // default: 蜜语
+    return PERSONAS[3];
   }
   if(primary==='easy'){
-    // 07 清弦: Q2 fruit + Q7=explore
     if(q2.includes('aroma_fruit')&&has(6,'accept_explore'))return PERSONAS[6];
-    // 08 暗潮: Q2 roast + Q8=taste
     if(q2.includes('aroma_roast')&&has(7,'motive_taste'))return PERSONAS[7];
-    // 09 恒频: Q5=heavy + Q1≠light
     if(has(4,'aftertaste_heavy')&&!has(0,'visual_light'))return PERSONAS[8];
-    return PERSONAS[6]; // default: 清弦
+    return PERSONAS[6];
   }
-  return PERSONAS[6]; // fallback
+  return PERSONAS[6];
 }
 
 // ============================================================
-//  SHOW RESULT
+//  SHOW RESULT — with gendered portrait
 // ============================================================
 function showResult(){
   const p=calcPersona();
+  const img=pImg(p);
+  const gLabel=userGender==='f'?'女':'男';
+
   // Submit form data
-  const fd={result:p.bio+'('+p.pro+')'};
+  const fd={result:p.bio+'('+p.pro+') '+gLabel};
   Q.forEach((q,i)=>{
     const a=ans[i];
     if(a===null)fd['q'+(i+1)]='(跳过)';
@@ -590,7 +615,8 @@ function showResult(){
   el.innerHTML=`<div class="pi">
     <div style="text-align:center;font-size:11px;color:var(--t3);letter-spacing:4px;margin-bottom:6px">你的味觉 DNA</div>
     <div class="rc ${p.cls}">
-      <div class="rs">${p.emoji}</div>
+      <img class="portrait" src="${img}" alt="${p.bio}" onerror="this.style.display='none';this.nextElementSibling.style.display='block'">
+      <div class="emoji-fb" style="display:none">${p.emoji}</div>
       <div class="rn serif">${p.bio}</div>
       <div class="re">${p.suit} · ${p.pro}</div>
       <div class="rl">${p.motto}</div>
@@ -686,14 +712,15 @@ function renderDeliv(){
 }
 
 // ============================================================
-//  PROFILE
+//  PROFILE — with gendered portrait
 // ============================================================
 function renderProf(){
   const p=calcPersona();
+  const img=pImg(p);
   const barLabels=['苦度','甜度','清爽','复杂'];
   document.getElementById('sProf').innerHTML=`<div class="pi">
     <div class="ph">
-      <div class="pa">${p.emoji}</div>
+      <img class="portrait-sm" src="${img}" alt="${p.bio}" onerror="this.outerHTML='<div style=\\'width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#5a3d0a);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid var(--gold)\\'>${p.emoji}</div>'">
       <div>
         <div style="font-size:18px;font-weight:700">我的 TOMO</div>
         <div class="pb">♠7 共醸師 · ${p.bio}（${p.pro}）</div>
@@ -706,7 +733,7 @@ function renderProf(){
     </div>
     <div class="dn">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px">
-        <div style="font-size:30px">${p.emoji}</div>
+        <img class="portrait-xs" src="${img}" alt="${p.bio}" onerror="this.outerHTML='<div style=font-size:30px>${p.emoji}</div>'">
         <div style="font-size:14px;color:var(--gold);font-weight:700">${p.suit} · ${p.bio}</div>
       </div>
       ${barLabels.map((l,i)=>`<div class="dr"><span class="dl">${l}</span><div class="dt"><div class="df" id="db${i}" style="width:0%"></div></div><span class="dv">${p.bars[i]}</span></div>`).join('')}
@@ -725,7 +752,7 @@ function renderProf(){
       <button class="btn btn-s" onclick="restart()">↺ 重来</button>
       <button class="btn btn-s btn-g" onclick="share()">分享结果</button>
     </div>
-    <div class="foot">共醸 GÒNNIANG · JAM即兴精酿<br>taste.gongniang.com</div>
+    <div class="foot">共醸 GÒNNIANG · JAM即兴精酿<br>joychan777777.github.io/tomo-taste</div>
   </div>`;
   setTimeout(()=>{p.bars.forEach((v,i)=>{const e=document.getElementById('db'+i);if(e)e.style.width=v+'%';});},300);
 }
@@ -735,9 +762,10 @@ function renderProf(){
 // ============================================================
 function share(){
   const p=calcPersona();
-  const txt=`我的味觉DNA是 ${p.suit} ${p.bio}（${p.pro}）！${p.motto}\n来测测你是什么味觉人格 → taste.gongniang.com\n#共醸 #JAM即兴精酿 #TOMO`;
+  const gLabel=userGender==='f'?'她':'他';
+  const txt=`我的味觉DNA是 ${p.suit} ${p.bio}（${p.pro}）！${p.motto}\n${gLabel}的味觉人格已觉醒\nhttps://joychan777777.github.io/tomo-taste/\n#共醸 #JAM即兴精酿 #TOMO`;
   if(navigator.share){
-    navigator.share({title:'我的味觉DNA',text:txt,url:location.href}).catch(()=>{});
+    navigator.share({title:'我的味觉DNA',text:txt,url:'https://joychan777777.github.io/tomo-taste/'}).catch(()=>{});
   }else{
     navigator.clipboard.writeText(txt).then(()=>alert('已复制到剪贴板，去朋友圈粘贴吧！')).catch(()=>alert(txt));
   }
@@ -747,8 +775,7 @@ function share(){
 //  NAVIGATION
 // ============================================================
 function go(id){
-  const pages=document.querySelectorAll('.p');
-  pages.forEach(p=>{
+  document.querySelectorAll('.p').forEach(p=>{
     if(p.id===curPage){p.classList.remove('on');p.classList.add('out');setTimeout(()=>p.classList.remove('out'),450);}
   });
   const target=document.getElementById(id);
@@ -756,11 +783,11 @@ function go(id){
   curPage=id;
 }
 function restart(){
-  votedI=-1;ans.fill(null);
-  // Re-render questions to clear selections
+  votedI=-1;ans.fill(null);userGender='m';
   Q.forEach((q,qi)=>{
     document.querySelectorAll(`#qo${qi} .qopt`).forEach(o=>o.classList.remove('sel'));
   });
+  document.querySelectorAll('.gc').forEach(c=>c.classList.remove('sel'));
   document.querySelectorAll('.p').forEach(p=>{p.classList.remove('on','out');});
   document.getElementById('s0').classList.add('on');curPage='s0';
 }
