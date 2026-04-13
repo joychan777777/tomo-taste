@@ -1,0 +1,811 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<title>TOMO · 共醸小程序模拟</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+:root{
+  --gold:#c9a84c;--gold-l:#e8d48b;--gold-d:#8b6914;
+  --bg:#0a0a12;--bg2:#111119;--bg3:#161622;
+  --card:rgba(255,255,255,0.04);--card-b:rgba(255,255,255,0.08);
+  --t1:#fff;--t2:#aaa;--t3:#666;--t4:#444;
+  --edge:#2C2C34;--bloom:#7B68EE;--easy:#E8E8E8;--drop:#3D1C6E;
+  --green:#4caf50;--red:#e53935;
+}
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:'Noto Sans SC',sans-serif;touch-action:manipulation}
+#app{width:100%;height:100%;display:flex;flex-direction:column;position:relative}
+.serif{font-family:'Noto Serif SC',serif}
+
+/* === TAB BAR === */
+.tabs{display:flex;background:var(--bg2);border-top:1px solid rgba(255,255,255,.06);padding:6px 0 env(safe-area-inset-bottom);flex-shrink:0;position:relative;z-index:10}
+.tab{flex:1;display:flex;flex-direction:column;align-items:center;gap:3px;padding:6px 0;cursor:pointer;transition:color .2s;color:var(--t3)}
+.tab.on{color:var(--gold)}
+.tab .ico{font-size:22px}
+.tab .tl{font-size:10px;letter-spacing:1px}
+
+/* === PAGES === */
+.page{position:absolute;top:0;left:0;right:0;bottom:52px;overflow-y:auto;-webkit-overflow-scrolling:touch;display:none;padding:0 0 20px}
+.page.on{display:block}
+.ph{padding:16px 20px}
+.section{padding:0 20px 16px}
+
+/* === HEADER === */
+.hdr{background:linear-gradient(180deg,rgba(201,168,76,.08),transparent);padding:50px 20px 16px;text-align:center}
+.hdr h1{font-size:20px;color:var(--gold);font-weight:700;letter-spacing:2px}
+.hdr .sub{font-size:11px;color:var(--t3);margin-top:4px}
+
+/* === CARDS === */
+.card{background:var(--card);border:1px solid var(--card-b);border-radius:16px;padding:16px;margin-bottom:12px}
+.card-gold{background:rgba(201,168,76,.06);border-color:rgba(201,168,76,.15)}
+.card-title{font-size:12px;color:var(--t3);letter-spacing:2px;margin-bottom:10px}
+.card-val{font-size:28px;color:var(--gold);font-weight:700}
+
+/* === BUTTONS === */
+.btn{display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,var(--gold),var(--gold-d));border:none;border-radius:14px;padding:14px;font-size:15px;color:#000;font-weight:700;letter-spacing:2px;cursor:pointer;width:100%;font-family:inherit;transition:transform .12s}
+.btn:active{transform:scale(.97)}
+.btn-g{background:transparent;border:1px solid rgba(201,168,76,.3);color:var(--gold);font-weight:500}
+.btn-sm{padding:10px 16px;font-size:13px;border-radius:12px;width:auto}
+.btn-dis{opacity:.4;pointer-events:none}
+
+/* === CHECKIN === */
+.checkin-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin:12px 0}
+.ck-day{aspect-ratio:1;border-radius:10px;display:flex;flex-direction:column;align-items:center;justify-content:center;font-size:10px;color:var(--t3);background:var(--card);border:1px solid transparent;transition:all .2s}
+.ck-day.done{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.2);color:var(--gold)}
+.ck-day.today{border-color:var(--gold);color:var(--t1)}
+.ck-day .ck-n{font-size:14px;font-weight:700}
+
+/* === HOPS === */
+.hops-badge{display:inline-flex;align-items:center;gap:5px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:20px;padding:4px 12px;font-size:13px;color:var(--gold)}
+.hops-log{display:flex;justify-content:space-between;align-items:center;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.hops-log:last-child{border:none}
+
+/* === REPUTATION === */
+.rep-bar{height:6px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden;margin:6px 0 2px}
+.rep-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:3px;transition:width .8s ease}
+
+/* === VOTE === */
+.vote-card{background:var(--card);border:1px solid var(--card-b);border-radius:16px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .2s}
+.vote-card.sel{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.vote-bar{height:5px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden;margin-top:8px}
+.vote-fill{height:100%;border-radius:3px;transition:width .6s ease}
+
+/* === SLIDER === */
+.slider-wrap{margin:16px 0}
+.slider-label{display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-bottom:6px}
+input[type=range]{-webkit-appearance:none;width:100%;height:6px;border-radius:3px;background:rgba(255,255,255,.06);outline:none}
+input[type=range]::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 0 10px rgba(201,168,76,.3)}
+
+/* === BLIND === */
+.blind-cup{flex:1;background:var(--card);border:1px solid var(--card-b);border-radius:18px;padding:24px 16px;text-align:center;cursor:pointer;transition:all .2s}
+.blind-cup.sel{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.blind-cup:active{transform:scale(.97)}
+.blind-vs{display:flex;gap:12px;margin:16px 0}
+
+/* === PROFILE === */
+.avatar{width:64px;height:64px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#5a3d0a);display:flex;align-items:center;justify-content:center;font-size:30px;border:2px solid var(--gold);flex-shrink:0}
+.level-badge{display:inline-flex;align-items:center;gap:4px;background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:18px;padding:3px 10px;font-size:11px;color:var(--gold)}
+.stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin:16px 0}
+.stat{background:var(--card);border-radius:12px;padding:12px 6px;text-align:center}
+.stat-n{font-size:22px;color:var(--gold);font-weight:700}
+.stat-l{font-size:9px;color:var(--t3);margin-top:2px}
+
+/* === RADAR === */
+.radar-wrap{display:flex;justify-content:center;margin:12px 0}
+
+/* === TIMELINE === */
+.timeline{position:relative;padding-left:20px}
+.timeline::before{content:'';position:absolute;left:4px;top:0;bottom:0;width:2px;background:linear-gradient(180deg,var(--gold),rgba(201,168,76,.06))}
+.tl-item{position:relative;margin-bottom:14px;padding-left:14px}
+.tl-item::before{content:'';position:absolute;left:-20px;top:4px;width:9px;height:9px;border-radius:50%;background:var(--gold);border:2px solid var(--bg)}
+.tl-date{font-size:10px;color:var(--t3)}
+.tl-text{font-size:12px;color:var(--t2);margin-top:1px;line-height:1.5}
+
+/* === MOOD === */
+.mood-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;margin:12px 0}
+.mood-opt{background:var(--card);border:1px solid var(--card-b);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
+.mood-opt:active{transform:scale(.97)}
+.mood-opt.sel{border-color:var(--gold);background:rgba(201,168,76,.06)}
+.mood-em{font-size:32px;margin-bottom:6px}
+.mood-t{font-size:12px;color:var(--t2)}
+
+/* === TOAST === */
+.toast{position:fixed;top:50%;left:50%;transform:translate(-50%,-50%) scale(.8);background:rgba(0,0,0,.85);border:1px solid rgba(201,168,76,.3);border-radius:16px;padding:24px 32px;text-align:center;z-index:100;opacity:0;pointer-events:none;transition:all .3s}
+.toast.show{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.toast-em{font-size:40px;margin-bottom:8px}
+.toast-t{font-size:15px;color:var(--gold);font-weight:700}
+.toast-s{font-size:12px;color:var(--t2);margin-top:4px}
+
+/* === SCORE === */
+.score-card{display:flex;align-items:center;gap:14px;background:var(--card-gold);border-radius:16px;padding:14px 16px;margin-bottom:12px}
+
+/* === SKU LIST === */
+.sku{display:flex;align-items:center;gap:12px;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.sku:last-child{border:none}
+.sku-bottle{width:36px;height:52px;background:linear-gradient(180deg,var(--gold),var(--gold-d));border-radius:5px 5px 3px 3px;position:relative;flex-shrink:0}
+.sku-bottle::before{content:'';position:absolute;top:-5px;left:50%;transform:translateX(-50%);width:12px;height:7px;background:var(--gold);border-radius:3px 3px 0 0}
+.sku-info{flex:1}
+.sku-name{font-size:14px;font-weight:500}
+.sku-desc{font-size:11px;color:var(--t3);margin-top:2px}
+.sku-price{font-size:18px;color:var(--gold);font-weight:700}
+
+/* notify dot */
+.dot{width:8px;height:8px;background:var(--red);border-radius:50%;position:absolute;top:4px;right:calc(50% - 16px)}
+</style>
+</head>
+<body>
+<div id="app">
+
+<!-- Pages -->
+<div class="page on" id="pgHome"></div>
+<div class="page" id="pgVote"></div>
+<div class="page" id="pgScan"></div>
+<div class="page" id="pgShop"></div>
+<div class="page" id="pgMe"></div>
+
+<!-- Tab Bar -->
+<div class="tabs">
+  <div class="tab on" onclick="switchTab('pgHome')"><span class="ico">🏠</span><span class="tl">首页</span></div>
+  <div class="tab" onclick="switchTab('pgVote')" style="position:relative"><span class="ico">🗳️</span><span class="tl">投票</span><span class="dot"></span></div>
+  <div class="tab" onclick="switchTab('pgScan')"><span class="ico">📷</span><span class="tl">扫码</span></div>
+  <div class="tab" onclick="switchTab('pgShop')"><span class="ico">🍺</span><span class="tl">酒单</span></div>
+  <div class="tab" onclick="switchTab('pgMe')"><span class="ico">👤</span><span class="tl">我的</span></div>
+</div>
+
+<!-- Toast -->
+<div class="toast" id="toast"><div class="toast-em" id="toastEm"></div><div class="toast-t" id="toastT"></div><div class="toast-s" id="toastS"></div></div>
+
+</div>
+<script>
+// ============================================================
+//  USER STATE (simulated)
+// ============================================================
+const U = {
+  name: '味觉探索者',
+  persona: { id:2, bio:'铁饮', pro:'鉴味师', suit:'♠♦', quad:'edge', emoji:'♠' },
+  level: '♠10·知',
+  levelNum: 10,
+  tasteLv: '品',
+  tastePts: 74,
+  hops: 680,
+  hopsTotal: 1280,
+  votes: 15,
+  brews: 6,
+  days: 92,
+  checkins: 28,
+  streak: 5,
+  // 7-day checkin (0=not,1=done)
+  weekCheckin: [1,1,1,1,1,0,0],
+  todayCheckedIn: false,
+  moodSet: false,
+  // reputation per SKU
+  rep: {
+    '烈奏': { count:8, level:'挚友', pct:80 },
+    '西风': { count:14, level:'酿魂', pct:70 },
+    '白噪': { count:5, level:'常客', pct:100 },
+    '蜜浪': { count:2, level:'初识', pct:100 },
+    '暗流': { count:1, level:'初识', pct:50 },
+  },
+  // hops log
+  hopsLog: [
+    { t:'今天', desc:'每日签到', val:'+10' },
+    { t:'昨天', desc:'投票 · 八月共饮', val:'+50' },
+    { t:'4.11', desc:'消费 Jam·西风 ×2', val:'+20' },
+    { t:'4.10', desc:'品鉴笔记「西风的松脂回味」', val:'+20' },
+    { t:'4.9', desc:'带朋友完成TOMO测试', val:'+30' },
+    { t:'4.8', desc:'盲品对决参与', val:'+30' },
+    { t:'4.7', desc:'消费 Jam·烈奏', val:'+10' },
+  ],
+  // participation history
+  history: [
+    { d:'Day 92', t:'盲品对决 · A vs B · 你选了A（正确！）', dt:'2026.09.15' },
+    { d:'Day 88', t:'风味滑块 · 苦度建议65→70 被采纳', dt:'2026.09.11' },
+    { d:'Day 75', t:'品鉴笔记「西风的松脂回味」上墙', dt:'2026.09.01' },
+    { d:'Day 60', t:'晋升 ♠10·知 · 品鉴段位「品」', dt:'2026.08.15' },
+    { d:'Day 45', t:'新酒命名「深海回响」入围TOP5', dt:'2026.07.30' },
+    { d:'Day 30', t:'共酿者 #0892 · Jam·西风上市', dt:'2026.07.15' },
+    { d:'Day 14', t:'首次盲品对决 · 品鉴力 +15', dt:'2026.06.29' },
+    { d:'Day 7', t:'首次投票 · 七月共饮系列', dt:'2026.06.22' },
+    { d:'Day 1', t:'梭鱼湾扫码 · ♠♦ 铁饮 · 开始旅程', dt:'2026.06.15' },
+  ]
+};
+
+const SKUS = [
+  { name:'Jam·烈奏', desc:'双倍浑浊IPA · ABV 9%', price:'¥40', quad:'♠EDGE' },
+  { name:'Jam·西风', desc:'西海岸IPA · ABV 7%', price:'¥35', quad:'♠EDGE' },
+  { name:'Jam·铁幕', desc:'英式苦啤ESB · ABV 5.5%', price:'¥35', quad:'♠EDGE' },
+  { name:'Jam·蜜浪', desc:'芒果凤梨西打 · ABV 4%', price:'¥35', quad:'♥BLOOM' },
+  { name:'Jam·绯语', desc:'草莓杨梅石榴 · ABV 4%', price:'¥35', quad:'♥BLOOM' },
+  { name:'Jam·青果', desc:'原榨苹果西打 · ABV 4.5%', price:'¥25', quad:'♥BLOOM' },
+  { name:'Jam·晨雾', desc:'比利时小麦白啤 · ABV 4.5%', price:'¥18', quad:'♦EASY' },
+  { name:'Jam·白噪', desc:'日式零糖皮尔森 · ABV 4.5%', price:'¥18', quad:'♦EASY' },
+  { name:'Jam·暗流', desc:'零糖黑生 · ABV 4.5%', price:'¥18', quad:'♦EASY' },
+  { name:'Jam·黑潮', desc:'燕麦世涛 · ABV 5.2%', price:'¥30', quad:'♠EDGE' },
+];
+
+const VOTES = [
+  { name:'🧪 Jam·星潮', desc:'蝶豆花变色IPA · ABV 6.5%', votes:892, pct:0 },
+  { name:'🍋 Jam·盐风', desc:'海盐柠檬古斯 · ABV 4.2%', votes:1103, pct:0 },
+  { name:'🌶️ Jam·暗火', desc:'花椒烟熏波特 · ABV 5.8%', votes:647, pct:0 },
+];
+let votedI = -1;
+
+// ============================================================
+//  TAB NAVIGATION
+// ============================================================
+let curTab = 'pgHome';
+function switchTab(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('on'));
+  document.getElementById(id).classList.add('on');
+  document.querySelectorAll('.tab').forEach((t, i) => {
+    t.classList.toggle('on', ['pgHome','pgVote','pgScan','pgShop','pgMe'][i] === id);
+  });
+  curTab = id;
+  if (id === 'pgHome') renderHome();
+  if (id === 'pgVote') renderVote();
+  if (id === 'pgScan') renderScan();
+  if (id === 'pgShop') renderShop();
+  if (id === 'pgMe') renderMe();
+}
+
+function showToast(em, t, s) {
+  const el = document.getElementById('toast');
+  document.getElementById('toastEm').textContent = em;
+  document.getElementById('toastT').textContent = t;
+  document.getElementById('toastS').textContent = s || '';
+  el.classList.add('show');
+  setTimeout(() => el.classList.remove('show'), 1800);
+}
+
+// ============================================================
+//  HOME PAGE
+// ============================================================
+function renderHome() {
+  const days = ['日','一','二','三','四','五','六'];
+  const today = new Date().getDay();
+
+  let checkinHTML = U.weekCheckin.map((v, i) => {
+    const isToday = i === 5; // simulate today = Saturday
+    const cls = v ? 'done' : isToday ? 'today' : '';
+    return `<div class="ck-day ${cls}"><div class="ck-n">${v ? '✓' : (i+8)}</div><div>周${days[(today-6+i+7)%7]}</div></div>`;
+  }).join('');
+
+  document.getElementById('pgHome').innerHTML = `
+    <div class="hdr">
+      <h1>共醸 TOMO</h1>
+      <div class="sub">JAM · 即兴精酿 · 梭鱼湾</div>
+    </div>
+
+    <!-- Mood Selection -->
+    <div class="section" id="moodSection">
+      <div class="card card-gold">
+        <div class="card-title">🍺 今日心情 · ${U.moodSet ? '已选择' : '选一个吧'}</div>
+        ${U.moodSet ? '<div style="text-align:center;padding:8px;color:var(--gold)">⚡ 来一口狠的 → 已推荐♠EDGE系列</div>' : `
+        <div class="mood-opts">
+          <div class="mood-opt" onclick="setMood('edge',this)"><div class="mood-em">⚡</div><div class="mood-t">来一口狠的</div></div>
+          <div class="mood-opt" onclick="setMood('bloom',this)"><div class="mood-em">🍬</div><div class="mood-t">甜甜的就好</div></div>
+          <div class="mood-opt" onclick="setMood('easy',this)"><div class="mood-em">💧</div><div class="mood-t">清爽就行</div></div>
+          <div class="mood-opt" onclick="setMood('drop',this)"><div class="mood-em">🎲</div><div class="mood-t">给我惊喜</div></div>
+        </div>`}
+      </div>
+    </div>
+
+    <!-- Checkin -->
+    <div class="section">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div class="card-title">📅 连续签到</div>
+            <div style="font-size:20px;color:var(--gold);font-weight:700">${U.streak} 天 🔥</div>
+          </div>
+          <button class="btn btn-sm ${U.todayCheckedIn ? 'btn-dis' : ''}" onclick="doCheckin()">${U.todayCheckedIn ? '已签到 ✓' : '开喝签到'}</button>
+        </div>
+        <div class="checkin-grid">${checkinHTML}</div>
+        <div style="font-size:11px;color:var(--t3);text-align:center">签到 +10酒花 · 连续7天额外 +50酒花</div>
+      </div>
+    </div>
+
+    <!-- Hops Balance -->
+    <div class="section">
+      <div class="card" style="display:flex;align-items:center;justify-content:space-between">
+        <div>
+          <div class="card-title">🌿 酒花余额</div>
+          <div class="card-val">${U.hops}</div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:11px;color:var(--t3)">累计获得 ${U.hopsTotal}</div>
+          <div style="font-size:11px;color:var(--t3);margin-top:4px">♠10·知 获取加速 ×1.0</div>
+          <button class="btn btn-sm btn-g" style="margin-top:8px" onclick="switchTab('pgMe')">兑换</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Quick Actions -->
+    <div class="section">
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px">
+        <div class="card" style="text-align:center;padding:14px 8px;cursor:pointer" onclick="switchTab('pgVote')">
+          <div style="font-size:24px">🗳️</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:4px">投票</div>
+        </div>
+        <div class="card" style="text-align:center;padding:14px 8px;cursor:pointer" onclick="showBlind()">
+          <div style="font-size:24px">🥊</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:4px">盲品</div>
+        </div>
+        <div class="card" style="text-align:center;padding:14px 8px;cursor:pointer" onclick="showSlider()">
+          <div style="font-size:24px">🎚️</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:4px">风味滑块</div>
+        </div>
+        <div class="card" style="text-align:center;padding:14px 8px;cursor:pointer" onclick="showScore()">
+          <div style="font-size:24px">⭐</div>
+          <div style="font-size:10px;color:var(--t3);margin-top:4px">打分</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Active Events -->
+    <div class="section">
+      <div class="card-title" style="margin-bottom:8px">🔥 正在进行</div>
+      <div class="card card-gold" style="cursor:pointer" onclick="switchTab('pgVote')">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px;font-weight:500">八月共饮系列 · 投票中</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:4px">3款候选 · 截止7月31日</div>
+          </div>
+          <div style="font-size:12px;color:var(--gold)">→</div>
+        </div>
+      </div>
+      <div class="card" style="cursor:pointer" onclick="showBlind()">
+        <div style="display:flex;justify-content:space-between;align-items:center">
+          <div>
+            <div style="font-size:14px;font-weight:500">本周盲品对决 · A vs B</div>
+            <div style="font-size:11px;color:var(--t3);margin-top:4px">周六开战 · 胜者上吧台推荐</div>
+          </div>
+          <div style="font-size:12px;color:var(--gold)">→</div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function setMood(quad, el) {
+  U.moodSet = true;
+  const labels = { edge:'⚡ 来一口狠的 → ♠EDGE', bloom:'🍬 甜甜的 → ♥BLOOM', easy:'💧 清爽 → ♦EASY', drop:'🎲 惊喜 → ♣DROP' };
+  showToast('🍺', labels[quad], '已为你推荐对应酒款');
+  setTimeout(() => renderHome(), 500);
+}
+
+function doCheckin() {
+  if (U.todayCheckedIn) return;
+  U.todayCheckedIn = true;
+  U.weekCheckin[5] = 1;
+  U.streak++;
+  U.hops += 10;
+  U.checkins++;
+  showToast('✅', '签到成功！', '+10 酒花 · 连续' + U.streak + '天');
+  setTimeout(() => renderHome(), 500);
+}
+
+// ============================================================
+//  VOTE PAGE
+// ============================================================
+function renderVote() {
+  const total = VOTES.reduce((a, b) => a + b.votes, 0);
+  VOTES.forEach(v => v.pct = Math.round(v.votes / total * 100));
+
+  document.getElementById('pgVote').innerHTML = `
+    <div class="hdr">
+      <h1>🗳️ 八月共饮系列</h1>
+      <div class="sub">投票截止 · 7月31日 23:59</div>
+    </div>
+    <div class="section">
+      <div style="text-align:center;margin-bottom:16px">
+        <div style="font-size:12px;color:var(--t3)">已有 <b style="color:var(--gold);font-size:18px">${total.toLocaleString()}</b> 人投票</div>
+      </div>
+      ${VOTES.map((v, i) => `
+        <div class="vote-card ${votedI === i ? 'sel' : ''}" onclick="doVote(${i})">
+          <div style="display:flex;justify-content:space-between;align-items:center">
+            <div>
+              <div style="font-size:15px;font-weight:500">${v.name}</div>
+              <div style="font-size:11px;color:var(--t3);margin-top:2px">${v.desc}</div>
+            </div>
+            <div style="width:24px;height:24px;border:2px solid ${votedI === i ? 'var(--gold)' : '#333'};border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;${votedI === i ? 'background:var(--gold);color:#000' : ''}">${votedI === i ? '✓' : ''}</div>
+          </div>
+          <div class="vote-bar"><div class="vote-fill" style="width:${v.pct}%;background:${votedI === i ? 'linear-gradient(90deg,var(--gold),var(--gold-l))' : 'rgba(201,168,76,.2)'}"></div></div>
+          <div style="display:flex;justify-content:space-between;font-size:11px;color:var(--t3);margin-top:4px"><span>${v.votes.toLocaleString()} 票</span><span style="color:var(--gold)">${v.pct}%</span></div>
+        </div>
+      `).join('')}
+      <div style="margin-top:16px">
+        ${votedI >= 0 ? '<button class="btn" onclick="confirmVote()">确认投票 · +50酒花</button>' : '<div style="text-align:center;font-size:12px;color:var(--t3);padding:12px">选择你想喝的口味</div>'}
+      </div>
+      <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:12px">每月投票 1 次 · 结果决定下月酒单 · 酒标印共酿者编号</div>
+    </div>
+  `;
+}
+
+function doVote(i) {
+  if (votedI === i) return;
+  if (votedI >= 0) VOTES[votedI].votes--;
+  votedI = i;
+  VOTES[i].votes++;
+  if (navigator.vibrate) navigator.vibrate(10);
+  renderVote();
+}
+
+function confirmVote() {
+  U.hops += 50;
+  U.votes++;
+  showToast('🗳️', '投票成功！', '+50 酒花 · 酒标将印你的编号');
+  // remove dot
+  document.querySelector('.dot').style.display = 'none';
+}
+
+// ============================================================
+//  SCAN PAGE (Checkin + Score + Blind + Slider)
+// ============================================================
+function renderScan() {
+  document.getElementById('pgScan').innerHTML = `
+    <div class="hdr">
+      <h1>📷 扫码互动</h1>
+      <div class="sub">扫瓶身码签到 · 参与活动</div>
+    </div>
+    <div class="section">
+      <div style="text-align:center;padding:40px 0">
+        <div style="width:120px;height:120px;border:2px solid rgba(201,168,76,.3);border-radius:20px;margin:0 auto;display:flex;align-items:center;justify-content:center;font-size:48px">📷</div>
+        <div style="margin-top:16px;font-size:14px;color:var(--t2)">扫描瓶身码或吧台码</div>
+        <div style="font-size:11px;color:var(--t3);margin-top:6px">签到 = 宣告「我此刻正在喝」</div>
+      </div>
+      <button class="btn" onclick="simulateScan()" style="margin-bottom:12px">模拟扫码 · 开喝签到</button>
+    </div>
+
+    <div class="section">
+      <div class="card-title" style="margin-bottom:10px">📋 扫码后可参与</div>
+      <div class="card" onclick="showScore()" style="cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">⭐</div>
+          <div><div style="font-size:14px">即时打分</div><div style="font-size:11px;color:var(--t3)">3秒给这杯酒打分 · +10酒花</div></div>
+        </div>
+      </div>
+      <div class="card" onclick="showBlind()" style="cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">🥊</div>
+          <div><div style="font-size:14px">盲品对决</div><div style="font-size:11px;color:var(--t3)">A vs B · 你的舌头说了算 · +30酒花</div></div>
+        </div>
+      </div>
+      <div class="card" onclick="showSlider()" style="cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">🎚️</div>
+          <div><div style="font-size:14px">风味滑块</div><div style="font-size:11px;color:var(--t3)">下一批次的苦度甜度由你定 · +20酒花</div></div>
+        </div>
+      </div>
+      <div class="card" onclick="showNaming()" style="cursor:pointer">
+        <div style="display:flex;align-items:center;gap:12px">
+          <div style="font-size:24px">✏️</div>
+          <div><div style="font-size:14px">新酒命名</div><div style="font-size:11px;color:var(--t3)">给下一款酒起名 · 入选+100酒花</div></div>
+        </div>
+      </div>
+    </div>
+  `;
+}
+
+function simulateScan() {
+  if (!U.todayCheckedIn) {
+    U.todayCheckedIn = true;
+    U.weekCheckin[5] = 1;
+    U.streak++;
+    U.hops += 10;
+    U.checkins++;
+  }
+  showToast('📷', '扫码成功！', 'Jam·西风 已签到 · +10酒花');
+}
+
+// ============================================================
+//  INTERACTIVE PANELS (shown as overlays on home)
+// ============================================================
+function showBlind() {
+  const pg = document.getElementById(curTab);
+  const overlay = document.createElement('div');
+  overlay.className = 'section';
+  overlay.id = 'blindOverlay';
+  overlay.innerHTML = `
+    <div style="position:fixed;top:0;left:0;right:0;bottom:52px;background:var(--bg);z-index:50;overflow-y:auto;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:30px 0 20px">
+        <div style="font-size:20px;font-weight:700;color:var(--gold)" class="serif">🥊 盲品对决</div>
+        <div style="font-size:24px;cursor:pointer;color:var(--t3)" onclick="this.parentElement.parentElement.remove()">✕</div>
+      </div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:16px;line-height:1.8">不知道名字、不知道价格。<br>只用你的舌头，选出更好的那杯。</div>
+      <div class="blind-vs">
+        <div class="blind-cup" id="cupA" onclick="pickCup('A')"><div style="font-size:40px;margin-bottom:8px">🍺</div><div style="font-size:24px;color:var(--gold);font-weight:900">A</div><div style="font-size:11px;color:var(--t3);margin-top:4px">50ml 试饮</div></div>
+        <div style="display:flex;align-items:center;font-size:18px;color:var(--t3);font-weight:700">VS</div>
+        <div class="blind-cup" id="cupB" onclick="pickCup('B')"><div style="font-size:40px;margin-bottom:8px">🍺</div><div style="font-size:24px;color:var(--gold);font-weight:900">B</div><div style="font-size:11px;color:var(--t3);margin-top:4px">50ml 试饮</div></div>
+      </div>
+      <div id="blindResult" style="text-align:center;margin-top:20px"></div>
+    </div>
+  `;
+  document.getElementById('app').appendChild(overlay);
+}
+
+function pickCup(c) {
+  document.getElementById('cupA').classList.toggle('sel', c === 'A');
+  document.getElementById('cupB').classList.toggle('sel', c === 'B');
+  document.getElementById('blindResult').innerHTML = `
+    <button class="btn" onclick="blindReveal('${c}')">确认选择 · 揭晓真相</button>
+  `;
+}
+
+function blindReveal(c) {
+  U.hops += 30;
+  document.getElementById('blindResult').innerHTML = `
+    <div class="card card-gold" style="margin-top:16px;text-align:center">
+      <div style="font-size:14px;color:var(--gold);margin-bottom:8px">🎉 揭晓！</div>
+      <div style="display:flex;gap:20px;justify-content:center;margin:12px 0">
+        <div><div style="font-size:12px;color:var(--t3)">A杯</div><div style="font-size:15px;font-weight:700;color:${c==='A'?'var(--gold)':'var(--t2)'}">Jam·西风</div><div style="font-size:11px;color:var(--t3)">西海岸IPA · ¥35</div></div>
+        <div><div style="font-size:12px;color:var(--t3)">B杯</div><div style="font-size:15px;font-weight:700;color:${c==='B'?'var(--gold)':'var(--t2)'}">Jam·铁幕</div><div style="font-size:11px;color:var(--t3)">英式苦啤 · ¥35</div></div>
+      </div>
+      <div style="font-size:13px;color:var(--t2)">你选了 <b style="color:var(--gold)">${c}杯</b> · 品鉴力 +15</div>
+      <div style="font-size:12px;color:var(--gold);margin-top:8px">+30 酒花 🌿</div>
+    </div>
+  `;
+  showToast('🥊', '盲品完成！', '+30 酒花 · 品鉴力 +15');
+}
+
+function showSlider() {
+  const overlay = document.createElement('div');
+  overlay.innerHTML = `
+    <div style="position:fixed;top:0;left:0;right:0;bottom:52px;background:var(--bg);z-index:50;overflow-y:auto;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:30px 0 20px">
+        <div style="font-size:20px;font-weight:700;color:var(--gold)" class="serif">🎚️ 风味滑块</div>
+        <div style="font-size:24px;cursor:pointer;color:var(--t3)" onclick="this.parentElement.parentElement.remove()">✕</div>
+      </div>
+      <div style="font-size:13px;color:var(--t2);margin-bottom:6px;line-height:1.8">下一批次 <b style="color:var(--gold)">Jam·西风</b> 的风味由你来定。<br>拖动滑块告诉酿酒师你想要的方向。</div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:20px">你的建议 + 所有人的数据 → 酿酒师决策参考</div>
+
+      <div class="slider-wrap"><div class="slider-label"><span>清淡</span><span>苦度</span><span>浓烈</span></div><input type="range" min="0" max="100" value="65" id="sl1"></div>
+      <div class="slider-wrap"><div class="slider-label"><span>干爽</span><span>甜度</span><span>甜润</span></div><input type="range" min="0" max="100" value="30" id="sl2"></div>
+      <div class="slider-wrap"><div class="slider-label"><span>低</span><span>果香</span><span>高</span></div><input type="range" min="0" max="100" value="50" id="sl3"></div>
+      <div class="slider-wrap"><div class="slider-label"><span>轻薄</span><span>酒体</span><span>厚重</span></div><input type="range" min="0" max="100" value="55" id="sl4"></div>
+
+      <button class="btn" style="margin-top:20px" onclick="submitSlider()">提交风味建议 · +20酒花</button>
+      <div style="font-size:11px;color:var(--t3);text-align:center;margin-top:10px">本季度已有 847 人提交建议 · 当前均值：苦度68 / 甜度25</div>
+    </div>
+  `;
+  document.getElementById('app').appendChild(overlay);
+}
+
+function submitSlider() {
+  U.hops += 20;
+  showToast('🎚️', '风味建议已提交！', '+20 酒花 · 酿酒师会看到你的数据');
+  setTimeout(() => { document.querySelector('[style*="z-index:50"]')?.remove(); }, 1000);
+}
+
+function showScore() {
+  const overlay = document.createElement('div');
+  overlay.innerHTML = `
+    <div style="position:fixed;top:0;left:0;right:0;bottom:52px;background:var(--bg);z-index:50;overflow-y:auto;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:30px 0 20px">
+        <div style="font-size:20px;font-weight:700;color:var(--gold)" class="serif">⭐ 即时打分</div>
+        <div style="font-size:24px;cursor:pointer;color:var(--t3)" onclick="this.parentElement.parentElement.remove()">✕</div>
+      </div>
+      <div style="text-align:center;margin:20px 0">
+        <div style="font-size:14px;color:var(--t2)">你刚喝的</div>
+        <div style="font-size:22px;color:var(--gold);font-weight:700;margin:8px 0" class="serif">Jam·西风</div>
+        <div style="font-size:12px;color:var(--t3)">西海岸IPA · ABV 7%</div>
+      </div>
+      <div style="display:flex;justify-content:center;gap:8px;margin:24px 0" id="stars">
+        ${[1,2,3,4,5].map(i => `<span style="font-size:36px;cursor:pointer;opacity:.3" onclick="rateStar(${i})" id="star${i}">★</span>`).join('')}
+      </div>
+      <div style="text-align:center;font-size:13px;color:var(--t3);margin-bottom:20px" id="rateLabel">点击打分</div>
+      <div style="display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:24px">
+        ${['苦','香','烈','顺','怪','惊喜','一般'].map(w => `<span style="background:var(--card);border:1px solid var(--card-b);border-radius:18px;padding:6px 14px;font-size:12px;color:var(--t2);cursor:pointer" onclick="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'">${w}</span>`).join('')}
+      </div>
+      <button class="btn" onclick="submitScore()">提交评分 · +10酒花</button>
+    </div>
+  `;
+  document.getElementById('app').appendChild(overlay);
+}
+
+function rateStar(n) {
+  for (let i = 1; i <= 5; i++) {
+    document.getElementById('star' + i).style.opacity = i <= n ? '1' : '.3';
+    document.getElementById('star' + i).style.color = i <= n ? '#c9a84c' : '#fff';
+  }
+  const labels = ['','还行吧','不错','好喝','很好喝！','绝了！'];
+  document.getElementById('rateLabel').textContent = labels[n];
+  document.getElementById('rateLabel').style.color = '#c9a84c';
+}
+
+function submitScore() {
+  U.hops += 10;
+  showToast('⭐', '评分已提交！', '+10 酒花 · 声望已更新');
+  setTimeout(() => { document.querySelector('[style*="z-index:50"]')?.remove(); }, 1000);
+}
+
+function showNaming() {
+  const overlay = document.createElement('div');
+  overlay.innerHTML = `
+    <div style="position:fixed;top:0;left:0;right:0;bottom:52px;background:var(--bg);z-index:50;overflow-y:auto;padding:20px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin:30px 0 20px">
+        <div style="font-size:20px;font-weight:700;color:var(--gold)" class="serif">✏️ 新酒命名</div>
+        <div style="font-size:24px;cursor:pointer;color:var(--t3)" onclick="this.parentElement.parentElement.remove()">✕</div>
+      </div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.8;margin-bottom:16px">下一款♠EDGE限定IPA需要一个名字。<br>风味关键词：<span style="color:var(--gold)">松脂 · 柚皮 · 深焙 · 回甘</span></div>
+      <div style="font-size:12px;color:var(--t3);margin-bottom:12px">格式：Jam·____（2-4个汉字）</div>
+      <div style="display:flex;gap:8px;align-items:center;margin-bottom:20px">
+        <div style="font-size:14px;color:var(--gold);flex-shrink:0">Jam·</div>
+        <input type="text" placeholder="起个名字" maxlength="4" style="flex:1;background:var(--card);border:1px solid var(--card-b);border-radius:12px;padding:12px 16px;color:var(--t1);font-size:16px;outline:none;font-family:inherit" id="nameInput">
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-bottom:16px">入围TOP5 = +100酒花 · 最终采纳 = 酒标署名</div>
+      <button class="btn" onclick="submitNaming()">提交命名</button>
+    </div>
+  `;
+  document.getElementById('app').appendChild(overlay);
+}
+
+function submitNaming() {
+  const name = document.getElementById('nameInput')?.value;
+  if (!name) { showToast('❌', '请输入名字', ''); return; }
+  showToast('✏️', 'Jam·' + name, '命名已提交！等待投票');
+  setTimeout(() => { document.querySelector('[style*="z-index:50"]')?.remove(); }, 1000);
+}
+
+// ============================================================
+//  SHOP PAGE
+// ============================================================
+function renderShop() {
+  document.getElementById('pgShop').innerHTML = `
+    <div class="hdr">
+      <h1>🍺 JAM 酒单</h1>
+      <div class="sub">你的人格 ♠♦ 铁饮 · 推荐标记 ★</div>
+    </div>
+    <div class="section">
+      ${SKUS.map(s => {
+        const isRec = (s.name === 'Jam·西风');
+        const rep = U.rep[s.name.replace('Jam·','')];
+        return `<div class="sku">
+          <div class="sku-bottle"></div>
+          <div class="sku-info">
+            <div class="sku-name">${isRec ? '★ ' : ''}${s.name}</div>
+            <div class="sku-desc">${s.desc} · ${s.quad}</div>
+            ${rep ? `<div style="font-size:10px;color:var(--gold);margin-top:2px">声望：${rep.level}（${rep.count}次）</div>` : ''}
+          </div>
+          <div class="sku-price">${s.price}</div>
+        </div>`;
+      }).join('')}
+    </div>
+    <div class="section">
+      <div class="card-title">🏆 声望进度</div>
+      ${Object.entries(U.rep).map(([name, r]) => `
+        <div style="margin:10px 0">
+          <div style="display:flex;justify-content:space-between;font-size:13px"><span>Jam·${name}</span><span style="color:var(--gold)">${r.level}</span></div>
+          <div class="rep-bar"><div class="rep-fill" style="width:${r.pct}%"></div></div>
+          <div style="font-size:10px;color:var(--t3)">${r.count} 次购买 · ${r.level === '传说' ? '最高等级' : '下一级还需 ' + (r.level === '初识' ? (3 - r.count) : r.level === '常客' ? (6 - r.count) : r.level === '挚友' ? (11 - r.count) : (21 - r.count)) + ' 次'}</div>
+        </div>
+      `).join('')}
+    </div>
+  `;
+}
+
+// ============================================================
+//  ME PAGE
+// ============================================================
+function renderMe() {
+  document.getElementById('pgMe').innerHTML = `
+    <div class="hdr" style="padding-bottom:0">
+      <div style="display:flex;align-items:center;gap:14px;text-align:left">
+        <div class="avatar">${U.persona.emoji}</div>
+        <div>
+          <div style="font-size:18px;font-weight:700">${U.persona.suit} ${U.persona.bio}</div>
+          <div style="font-size:12px;color:var(--t3)">${U.persona.pro} · 鉴味师</div>
+          <div style="display:flex;gap:8px;margin-top:6px">
+            <div class="level-badge">${U.level}</div>
+            <div class="level-badge">品鉴「${U.tasteLv}」</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section" style="margin-top:12px">
+      <div class="stats-grid">
+        <div class="stat"><div class="stat-n">${U.hops}</div><div class="stat-l">酒花</div></div>
+        <div class="stat"><div class="stat-n">${U.votes}</div><div class="stat-l">投票</div></div>
+        <div class="stat"><div class="stat-n">${U.brews}</div><div class="stat-l">共酿</div></div>
+        <div class="stat"><div class="stat-n">${U.days}</div><div class="stat-l">天数</div></div>
+      </div>
+    </div>
+
+    <!-- Taste Radar -->
+    <div class="section">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+          <div style="font-size:30px">${U.persona.emoji}</div>
+          <div style="text-align:right"><div style="font-size:14px;color:var(--gold)">${U.persona.suit} · ${U.persona.bio}</div><div style="font-size:11px;color:var(--t3)">品鉴力 ${U.tastePts} · 段位「${U.tasteLv}」</div></div>
+        </div>
+        ${['苦度','甜度','清爽','复杂'].map((l, i) => {
+          const vals = [85, 20, 25, 70];
+          return `<div style="display:flex;align-items:center;gap:8px;margin:7px 0"><span style="font-size:11px;color:var(--t3);width:30px">${l}</span><div style="flex:1;height:5px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden"><div style="height:100%;width:${vals[i]}%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:3px"></div></div><span style="font-size:11px;color:var(--gold);width:24px;text-align:right">${vals[i]}</span></div>`;
+        }).join('')}
+      </div>
+    </div>
+
+    <!-- Dealer Progress -->
+    <div class="section">
+      <div class="card card-gold">
+        <div class="card-title">♠ Dealer 成长轨迹</div>
+        <div style="display:flex;align-items:center;gap:6px;margin:10px 0">
+          ${['♠7·尝','♠10·知','♠J·品','♠Q·鉴','♠K·醸'].map((lv, i) => {
+            const active = i <= 1;
+            return `<div style="flex:1;text-align:center"><div style="height:4px;border-radius:2px;background:${active ? 'var(--gold)' : 'rgba(255,255,255,.06)'};margin-bottom:4px"></div><div style="font-size:${i <= 1 ? 10 : 9}px;color:${active ? 'var(--gold)' : 'var(--t4)'}">${lv}</div></div>`;
+          }).join('')}
+        </div>
+        <div style="font-size:11px;color:var(--t3);margin-top:6px">当前 ♠10·知 · 距离 ♠J·品 还需消费 ¥800</div>
+      </div>
+    </div>
+
+    <!-- Hops Log -->
+    <div class="section">
+      <div class="card">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+          <div class="card-title" style="margin:0">🌿 酒花明细</div>
+          <div class="hops-badge">🌿 ${U.hops}</div>
+        </div>
+        ${U.hopsLog.map(l => `
+          <div class="hops-log">
+            <div><div style="font-size:13px;color:var(--t2)">${l.desc}</div><div style="font-size:10px;color:var(--t3)">${l.t}</div></div>
+            <div style="font-size:14px;color:var(--gold);font-weight:600">${l.val}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- Hops Redeem -->
+    <div class="section">
+      <div class="card">
+        <div class="card-title" style="margin-bottom:10px">🎁 酒花兑换</div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+          <div><div style="font-size:13px">1杯♦EASY任选</div><div style="font-size:10px;color:var(--t3)">价值18元 · 体验兑换</div></div>
+          <button class="btn btn-sm ${U.hops >= 500 ? '' : 'btn-dis'}" onclick="redeemHops(500)">500 🌿</button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+          <div><div style="font-size:13px">1杯任意象限</div><div style="font-size:10px;color:var(--t3)">任选一杯 · 体验兑换</div></div>
+          <button class="btn btn-sm btn-dis">1000 🌿</button>
+        </div>
+        <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0">
+          <div><div style="font-size:13px">DROP限定优先购资格</div><div style="font-size:10px;color:var(--t3)">有资格买 · 不是免费拿</div></div>
+          <button class="btn btn-sm btn-dis">2000 🌿</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Participation History -->
+    <div class="section">
+      <div class="card-title" style="margin-bottom:10px">📜 参与历史 · 不可迁移</div>
+      <div class="timeline">
+        ${U.history.map(h => `<div class="tl-item"><div class="tl-date">${h.d} · ${h.dt}</div><div class="tl-text">${h.t}</div></div>`).join('')}
+      </div>
+    </div>
+
+    <div style="text-align:center;padding:20px">
+      <div class="serif" style="font-size:16px;color:var(--gold);line-height:1.9;opacity:.7">「我们不锁定你的钱包。<br>我们锁定的是你和这个品牌<br>共同走过的时间。」</div>
+    </div>
+
+    <div style="text-align:center;padding:10px;font-size:10px;color:#333">共醸 GÒNNIANG · JAM即兴精酿<br>TOMO 小程序模拟 v1.0</div>
+  `;
+}
+
+function redeemHops(cost) {
+  if (U.hops < cost) return;
+  U.hops -= cost;
+  showToast('🎁', '兑换成功！', '凭此页面到吧台领取');
+  setTimeout(() => renderMe(), 800);
+}
+
+// ============================================================
+//  INIT
+// ============================================================
+renderHome();
+</script>
+</body>
+</html>
