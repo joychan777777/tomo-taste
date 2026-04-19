@@ -146,7 +146,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .share-row .btn{flex:1}
 .foot{text-align:center;padding:20px;font-size:10px;color:#333}
 </style>
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="https://unpkg.com/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
 </head>
 <body>
 <div id="app">
@@ -226,14 +226,16 @@ function submitToGForm(data){
 }
 
 // ============================================================
-//  CONFIG — Supabase
+//  CONFIG — Supabase (安全初始化，SDK加载失败不影响测试)
 // ============================================================
 const SUPABASE_URL = 'https://wejzgwtcpxfypdsmwmkb.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Indlanpnd3RjcHhmeXBkc213bWtiIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzY1NDU2MzcsImV4cCI6MjA5MjEyMTYzN30.9kuFH7vIcTdenUPv3asRd7pnHvIhKZduD0ugA3i4yKM';
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-let lastTestResultId = null; // 用于关联投票记录
+let _sb = null;
+let lastTestResultId = null;
+try { _sb = window.supabase && window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY); } catch(e) { console.warn('Supabase SDK未加载，数据将不会保存'); }
 
 async function submitToSupabase(persona) {
+  if (!_sb) return; // SDK未加载则跳过
   const codes = [];
   for (let i = 0; i < 8; i++) {
     const a = ans[i];
@@ -272,7 +274,7 @@ async function submitToSupabase(persona) {
   };
 
   try {
-    const { data, error } = await supabase.from('test_results').insert([row]).select('id');
+    const { data, error } = await _sb.from('test_results').insert([row]).select('id');
     if (error) console.error('Supabase insert error:', error);
     else if (data && data[0]) lastTestResultId = data[0].id;
   } catch (e) {
@@ -281,8 +283,9 @@ async function submitToSupabase(persona) {
 }
 
 async function submitVoteToSupabase(beerIndex, beerName) {
+  if (!_sb) return;
   try {
-    await supabase.from('votes').insert([{
+    await _sb.from('votes').insert([{
       test_result_id: lastTestResultId,
       beer_name: beerName,
       beer_index: beerIndex
