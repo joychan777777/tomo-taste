@@ -321,9 +321,9 @@ async function submitToSupabase(persona) {
     persona_pro: persona.pro, persona_quad: persona.quad,
     persona_suit: persona.suit,
     score_edge: sE, score_bloom: sB, score_easy: sD,
-    user_agent: navigator.userAgent, referrer: document.referrer||null
+    user_agent: navigator.userAgent, referrer: window._referrer||document.referrer||null
   });
-  if (res && res[0]) lastTestResultId = res[0].id;
+  if (res && res[0]) { lastTestResultId = res[0].id; loadMyRefCount(); }
 }
 
 async function submitVoteToSupabase(beerIndex, beerName) {
@@ -433,7 +433,7 @@ const PERSONAS=[
     tags:['重口路线','双倍IPA / 帝国世涛','40元/杯','深度品鉴'],
     reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40',
     explore:'Jam·蜜浪', exploreS:'芒果凤梨西打 · 35元',
-    bars:[95,15,10,80]},
+    bars:[95,15,10,80],funLine:'别人觉得苦的东西，你觉得是生活本来的味道。'},
   { id:2, bio:'铁饮', pro:'鉴味师', suit:'♠♦', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/铁饮男性Q版.png', imgF:'TOMO12位人格/铁饮女性Q版.png',
@@ -442,7 +442,7 @@ const PERSONAS=[
     tags:['层次路线','West Coast IPA / 波特','35元/杯','理性品鉴'],
     reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35',
     explore:'Jam·白噪', exploreS:'零糖皮尔森 · 18元',
-    bars:[85,20,25,70]},
+    bars:[85,20,25,70],funLine:'你不是在喝酒，你是在做风味的CT扫描。'},
   { id:3, bio:'猎浪', pro:'酒花徒', suit:'♠♣', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/猎浪男性Q版.jpg', imgF:'TOMO12位人格/猎浪女性Q版.png',
@@ -451,7 +451,7 @@ const PERSONAS=[
     tags:['芬芳路线','新英格兰IPA / 鲜花IPA','35元/杯','香气猎手'],
     reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35',
     explore:'当季DROP限定款', exploreS:'季节限定 · 价格待定',
-    bars:[75,30,20,90]},
+    bars:[75,30,20,90],funLine:'你的鼻子比大多数人的嘴还忙。'},
   { id:4, bio:'蜜语', pro:'蜜语者', suit:'♥♦', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/蜜语男性Q版.png', imgF:'TOMO12位人格/蜜语女性Q版.png',
@@ -460,7 +460,7 @@ const PERSONAS=[
     tags:['温柔路线','小麦白啤 / 蜂蜜艾尔','35元/杯','感性品鉴'],
     reco:'Jam·蜜浪', recoS:'芒果凤梨西打 · ABV 4%', recoP:'¥35',
     explore:'Jam·白噪', exploreS:'零糖皮尔森 · 18元',
-    bars:[15,88,50,35]},
+    bars:[15,88,50,35],funLine:'世界对你来说是甜的，连苦味都像在撒娇。'},
   { id:5, bio:'甜刺', pro:'畅言家', suit:'♥♠', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/甜刺男性Q版.png', imgF:'TOMO12位人格/甜刺女性Q版.png',
@@ -469,7 +469,7 @@ const PERSONAS=[
     tags:['社交路线','拉格 / 果味啤','35元/杯','社交达人'],
     reco:'Jam·绯语', recoS:'草莓杨梅石榴 · ABV 4%', recoP:'¥35',
     explore:'Jam·黑潮', exploreS:'燕麦世涛 · 30元',
-    bars:[20,82,45,40]},
+    bars:[20,82,45,40],funLine:'你的酒杯是社交货币，碰杯声是你的主题曲。'},
   { id:6, bio:'花信', pro:'清风使', suit:'♥♣', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/花信男性Q版.png', imgF:'TOMO12位人格/花信女性Q版.jpg',
@@ -478,7 +478,7 @@ const PERSONAS=[
     tags:['极简路线','柑橘小麦 / 气泡酒','25元/杯','视觉系'],
     reco:'Jam·青果', recoS:'原榨苹果西打 · ABV 4.5%', recoP:'¥25',
     explore:'当季DROP限定款', exploreS:'季节限定 · 社交货币',
-    bars:[10,75,60,50]},
+    bars:[10,75,60,50],funLine:'你拍照的速度比喝酒快，这不是缺点。'},
   { id:7, bio:'清弦', pro:'寻芳客', suit:'♦♥', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/清弦男性Q版.png', imgF:'TOMO12位人格/清弦女性Q版.png',
@@ -487,7 +487,7 @@ const PERSONAS=[
     tags:['探索路线','果味IPA / 西打','18元/杯','日饮探索型'],
     reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·蜜浪', exploreS:'芒果凤梨西打 · 35元',
-    bars:[18,40,88,25]},
+    bars:[18,40,88,25],funLine:'简单好喝就行，你的快乐不需要复杂公式。'},
   { id:8, bio:'暗潮', pro:'精算师', suit:'♦♠', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/暗潮男性Q版.png', imgF:'TOMO12位人格/暗潮女性Q版.png',
@@ -496,7 +496,7 @@ const PERSONAS=[
     tags:['研究路线','比利时三料 / 酸啤','18元/杯','工艺研究型'],
     reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·铁幕', exploreS:'英式苦啤ESB · 35元',
-    bars:[30,25,80,45]},
+    bars:[30,25,80,45],funLine:'表面佛系，暗地里在算这杯酒的酵母菌种。'},
   { id:9, bio:'恒频', pro:'重墨客', suit:'♦♦', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/恒频男性Q版.png', imgF:'TOMO12位人格/恒频女性Q版.png',
@@ -505,7 +505,7 @@ const PERSONAS=[
     tags:['深邃路线','Porter / Stout','18元/杯','日饮忠诚型'],
     reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·黑潮', exploreS:'燕麦世涛 · 30元',
-    bars:[35,20,85,30]},
+    bars:[35,20,85,30],funLine:'你的忠诚度比大多数人的爱情还稳定。'},
   { id:10, bio:'果心', pro:'守艺人', suit:'♥♥', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/果心男性Q版.png', imgF:'TOMO12位人格/果心女性Q版.png',
@@ -514,7 +514,7 @@ const PERSONAS=[
     tags:['经典路线','慕尼黑拉格 / 英式Ale','18元/杯','忠诚型'],
     reco:'Jam·晨雾', recoS:'比利时小麦白啤 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·绯语', exploreS:'草莓杨梅石榴 · 35元',
-    bars:[10,90,55,15]},
+    bars:[10,90,55,15],funLine:'认定了就不换，你的味蕾有自己的信仰。'},
   { id:11, bio:'深渊', pro:'微醺客', suit:'♠♠', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/深渊男性Q版.png', imgF:'TOMO12位人格/深渊女性Q版.png',
@@ -523,7 +523,7 @@ const PERSONAS=[
     tags:['沉浸路线','大麦酒 / 帝国世涛','40元/杯','体验沉浸型'],
     reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40',
     explore:'Jam·铁幕', exploreS:'英式苦啤ESB · 35元',
-    bars:[92,10,15,75]},
+    bars:[92,10,15,75],funLine:'你的独处时光，值一杯慢慢烧的好酒。'},
   { id:12, bio:'浅渡', pro:'探趣人', suit:'♦♣', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/浅渡男性Q版.png', imgF:'TOMO12位人格/浅渡女性Q版.png',
@@ -532,7 +532,7 @@ const PERSONAS=[
     tags:['发现路线','什么都想试','18元/杯','新手好奇型'],
     reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18',
     explore:'当季DROP限定款', exploreS:'季节限定 · 好奇驱动',
-    bars:[20,30,60,55]}
+    bars:[20,30,60,55],funLine:'你是精酿世界的白纸，而白纸最值钱。'}
 ];
 
 // helper: get portrait url for current gender
@@ -1116,60 +1116,188 @@ async function loadTestCount(){
 }
 
 // ============================================================
-//  SHARE CARD — 生成分享海报
+//  SHARE CARD — 生成分享海报（含头像+玩味描述+二维码+裂变码）
 // ============================================================
 function shareCard(){
   const p=calcPersona();
+  const img=new Image();
+  img.crossOrigin='anonymous';
+  img.onload=()=>drawShareCard(p,img);
+  img.onerror=()=>drawShareCard(p,null);
+  img.src=pImg(p);
+}
+
+function drawShareCard(p,portrait){
   const cv=document.createElement('canvas');
   cv.width=750;cv.height=1334;
   const ctx=cv.getContext('2d');
+  const W=750,H=1334;
 
-  // 背景
-  ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,750,1334);
-  const grd=ctx.createRadialGradient(375,400,0,375,400,500);
+  // 背景渐变
+  ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
+  const grd=ctx.createRadialGradient(375,350,0,375,350,500);
   grd.addColorStop(0,'#1a1520');grd.addColorStop(1,'#0a0a12');
-  ctx.fillStyle=grd;ctx.fillRect(0,0,750,1334);
+  ctx.fillStyle=grd;ctx.fillRect(0,0,W,H);
 
-  // 文字
+  // 顶部品牌
   ctx.textAlign='center';
-  ctx.fillStyle='#c9a84c';ctx.font='900 72px serif';ctx.fillText('共醸',375,200);
-  ctx.fillStyle='#666';ctx.font='13px sans-serif';ctx.fillText('GÒNNIANG とも · JAM即兴精酿',375,240);
+  ctx.fillStyle='#c9a84c';ctx.font='900 52px serif';ctx.fillText('共醸',375,90);
+  ctx.fillStyle='#555';ctx.font='12px sans-serif';ctx.fillText('GÒNNIANG · JAM即兴精酿',375,120);
 
-  ctx.fillStyle='#c9a84c';ctx.font='900 48px serif';ctx.fillText(p.bio,375,400);
-  ctx.fillStyle='#888';ctx.font='14px sans-serif';ctx.fillText(p.suit+' · '+p.pro,375,440);
-  ctx.fillStyle='#c9a84c';ctx.font='12px sans-serif';ctx.fillText(p.motto,375,480);
+  // 分割线
+  ctx.beginPath();ctx.moveTo(200,145);ctx.lineTo(550,145);
+  ctx.strokeStyle='rgba(201,168,76,0.15)';ctx.lineWidth=1;ctx.stroke();
 
-  // 雷达图小版
-  const rcx=375,rcy=650,rr=120;
-  const labels=['苦度','甜度','清爽','复杂'];
-  for(let lv=1;lv<=4;lv++){
-    ctx.beginPath();
-    const lr=rr*lv/4;
-    for(let i=0;i<=4;i++){const a=-Math.PI/2+i*Math.PI/2;i===0?ctx.moveTo(rcx+lr*Math.cos(a),rcy+lr*Math.sin(a)):ctx.lineTo(rcx+lr*Math.cos(a),rcy+lr*Math.sin(a));}
-    ctx.closePath();ctx.strokeStyle='rgba(201,168,76,0.12)';ctx.stroke();
+  // 头像（圆形裁剪）
+  const avatarY=260,avatarR=85;
+  if(portrait){
+    ctx.save();
+    ctx.beginPath();ctx.arc(375,avatarY,avatarR,0,Math.PI*2);ctx.closePath();ctx.clip();
+    ctx.drawImage(portrait,375-avatarR,avatarY-avatarR,avatarR*2,avatarR*2);
+    ctx.restore();
   }
-  ctx.beginPath();
-  p.bars.forEach((v,i)=>{const a=-Math.PI/2+i*Math.PI/2;const x=rcx+rr*v/100*Math.cos(a),y=rcy+rr*v/100*Math.sin(a);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
-  ctx.closePath();ctx.fillStyle='rgba(201,168,76,0.2)';ctx.fill();ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=2;ctx.stroke();
-  labels.forEach((l,i)=>{const a=-Math.PI/2+i*Math.PI/2;ctx.fillStyle='#666';ctx.font='14px sans-serif';ctx.fillText(l,rcx+(rr+24)*Math.cos(a),rcy+(rr+24)*Math.sin(a)+5);});
+  // 头像边框
+  ctx.beginPath();ctx.arc(375,avatarY,avatarR+2,0,Math.PI*2);
+  ctx.strokeStyle='rgba(201,168,76,0.35)';ctx.lineWidth=3;ctx.stroke();
+  // 光晕
+  ctx.beginPath();ctx.arc(375,avatarY,avatarR+12,0,Math.PI*2);
+  ctx.strokeStyle='rgba(201,168,76,0.06)';ctx.lineWidth=8;ctx.stroke();
 
-  // 描述
-  ctx.fillStyle='#aaa';ctx.font='15px sans-serif';ctx.textAlign='left';
-  const lines=p.desc.match(/.{1,28}/g)||[];
-  lines.forEach((l,i)=>{if(i<6)ctx.fillText(l,80,850+i*28);});
+  // 如果没头像显示 emoji
+  if(!portrait){
+    ctx.fillStyle='#c9a84c';ctx.font='72px serif';ctx.fillText(p.emoji,375,avatarY+24);
+  }
 
-  // 底部
+  // 人格名
+  ctx.fillStyle='#c9a84c';ctx.font='900 44px serif';ctx.fillText(p.bio,375,395);
+  ctx.fillStyle='#888';ctx.font='500 15px sans-serif';ctx.fillText(p.suit+' · '+p.pro,375,425);
+
+  // motto
+  ctx.fillStyle='rgba(201,168,76,0.7)';ctx.font='italic 16px serif';ctx.fillText(p.motto,375,465);
+
+  // 玩味描述（大字居中）
+  ctx.fillStyle='#ddd';ctx.font='500 20px sans-serif';
+  const funLines=(p.funLine||'').match(/.{1,18}/g)||[p.funLine];
+  funLines.forEach((l,i)=>ctx.fillText(l,375,520+i*32));
+
+  // 分割线
+  const divY=520+funLines.length*32+25;
+  ctx.beginPath();ctx.moveTo(250,divY);ctx.lineTo(500,divY);
+  ctx.strokeStyle='rgba(201,168,76,0.1)';ctx.stroke();
+
+  // 描述文字
+  ctx.fillStyle='#999';ctx.font='14px sans-serif';ctx.textAlign='center';
+  const descLines=p.desc.match(/.{1,26}/g)||[];
+  descLines.forEach((l,i)=>{if(i<5)ctx.fillText(l,375,divY+35+i*24);});
+
+  // 推荐酒款
+  const recoY=divY+35+Math.min(descLines.length,5)*24+30;
+  ctx.fillStyle='rgba(201,168,76,0.08)';
+  roundRect(ctx,100,recoY,550,60,12);ctx.fill();
+  ctx.strokeStyle='rgba(201,168,76,0.15)';roundRect(ctx,100,recoY,550,60,12);ctx.stroke();
+  ctx.fillStyle='#c9a84c';ctx.font='600 15px sans-serif';ctx.textAlign='left';
+  ctx.fillText('推荐 · '+p.reco,130,recoY+26);
+  ctx.fillStyle='#666';ctx.font='12px sans-serif';ctx.fillText(p.recoS,130,recoY+46);
+  ctx.fillStyle='#c9a84c';ctx.font='700 22px sans-serif';ctx.textAlign='right';
+  ctx.fillText(p.recoP,620,recoY+38);
+
+  // 二维码区域
+  const qrY=recoY+90;
   ctx.textAlign='center';
-  ctx.fillStyle='#c9a84c';ctx.font='14px sans-serif';ctx.fillText('扫码发现你的味觉DNA',375,1200);
-  ctx.fillStyle='#333';ctx.font='11px sans-serif';ctx.fillText('joychan777777.github.io/tomo-taste',375,1280);
+  // 绘制简约二维码占位框 + 文字
+  ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=2;
+  roundRect(ctx,285,qrY,180,180,16);ctx.stroke();
+  // QR code：用API生成
+  const qrImg=new Image();
+  qrImg.crossOrigin='anonymous';
+  qrImg.onload=()=>{
+    ctx.drawImage(qrImg,295,qrY+10,160,160);
+    finishCard(ctx,cv,p,qrY);
+  };
+  qrImg.onerror=()=>{
+    ctx.fillStyle='#333';ctx.font='13px sans-serif';ctx.fillText('扫码测试',375,qrY+95);
+    finishCard(ctx,cv,p,qrY);
+  };
+  const refCode=getMyRefCode();
+  qrImg.src='https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=c9a84c&bgcolor=0a0a12&data='+encodeURIComponent('https://joychan777777.github.io/tomo-taste/?ref='+refCode);
+}
+
+function finishCard(ctx,cv,p,qrY){
+  ctx.textAlign='center';
+  ctx.fillStyle='#c9a84c';ctx.font='500 14px sans-serif';
+  ctx.fillText('扫码发现你的味觉DNA',375,qrY+205);
+  ctx.fillStyle='#444';ctx.font='11px sans-serif';
+  ctx.fillText('共醸 GÒNNIANG · 用味觉投票你想喝的下一杯',375,qrY+235);
+
+  // 裂变统计
+  const refCount=window._myRefCount||0;
+  if(refCount>0){
+    ctx.fillStyle='rgba(201,168,76,0.6)';ctx.font='12px sans-serif';
+    ctx.fillText('已有 '+refCount+' 人通过我的链接发现味觉DNA',375,qrY+265);
+  }
 
   // 下载
   cv.toBlob(blob=>{
+    if(!blob)return;
     const url=URL.createObjectURL(blob);
-    const a=document.createElement('a');a.href=url;a.download='TOMO_'+p.bio+'_味觉DNA.png';a.click();
-    URL.revokeObjectURL(url);
+    // 移动端尝试分享，桌面端下载
+    if(navigator.share&&navigator.canShare){
+      const file=new File([blob],'TOMO_'+p.bio+'_味觉DNA.png',{type:'image/png'});
+      if(navigator.canShare({files:[file]})){
+        navigator.share({files:[file],title:'我的味觉DNA · '+p.bio}).catch(()=>downloadBlob(url,p));
+        return;
+      }
+    }
+    downloadBlob(url,p);
   });
 }
+
+function downloadBlob(url,p){
+  const a=document.createElement('a');a.href=url;a.download='TOMO_'+p.bio+'_味觉DNA.png';a.click();
+  setTimeout(()=>URL.revokeObjectURL(url),1000);
+}
+
+function roundRect(ctx,x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+  ctx.lineTo(x+w,y+h-r);ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);ctx.lineTo(x+r,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-r);ctx.lineTo(x,y+r);ctx.quadraticCurveTo(x,y,x+r,y);ctx.closePath();
+}
+
+// ============================================================
+//  REFERRAL TRACKING — 裂变追踪
+// ============================================================
+function getMyRefCode(){
+  // 用 lastTestResultId 或随机生成
+  if(lastTestResultId)return lastTestResultId.substring(0,8);
+  if(!window._myRef)window._myRef=Math.random().toString(36).substring(2,10);
+  return window._myRef;
+}
+
+function trackReferral(){
+  const params=new URLSearchParams(window.location.search);
+  const ref=params.get('ref');
+  if(ref){
+    // 记录来源
+    window._referrer=ref;
+    // 清理 URL（不影响用户体验）
+    if(window.history.replaceState){
+      window.history.replaceState({},'',window.location.pathname);
+    }
+  }
+}
+
+async function loadMyRefCount(){
+  if(!lastTestResultId)return;
+  const refCode=lastTestResultId.substring(0,8);
+  try{
+    const r=await fetch(SB_URL+'/test_results?referrer=like.*'+refCode+'*&select=id',
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+    const d=await r.json();
+    if(d&&d.length)window._myRefCount=d.length;
+  }catch(e){}
+}
+
+trackReferral();
 
 // ============================================================
 //  INIT
