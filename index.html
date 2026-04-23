@@ -313,6 +313,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .qopt-pct{font-size:10px;color:var(--t3);margin-left:auto;font-family:var(--f-display);opacity:0;transition:opacity .5s .3s}
 .qopt.sel~.qopt .qopt-pct,.qopt.sel .qopt-pct{opacity:1}
 
+/* ═══ 罗盘进化 Compass Evolution ═══ */
+.evo-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:14px;padding:16px;margin-bottom:12px}
+.evo-title{font-size:13px;font-weight:700;color:var(--gold);margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.evo-locked{opacity:.35;position:relative}
+.evo-locked::after{content:'🔒 品鉴力不足';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:12px;color:var(--t3);background:rgba(0,0,0,.85);padding:6px 14px;border-radius:8px;white-space:nowrap}
+.sub-dim{display:flex;align-items:center;gap:8px;margin-bottom:8px}
+.sub-dim-bar{flex:1;height:6px;background:rgba(255,255,255,.06);border-radius:3px;overflow:hidden}
+.sub-dim-fill{height:100%;border-radius:3px;transition:width .8s ease}
+.sub-dim-lbl{font-size:11px;color:var(--t2);min-width:56px}
+.sub-dim-val{font-size:11px;color:var(--gold);min-width:28px;text-align:right}
+.drift-dot{width:8px;height:8px;border-radius:50%;position:absolute}
+.compare-overlay{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.tribe-avg-tag{display:inline-block;font-size:10px;padding:2px 8px;border-radius:99px;margin-right:4px}
+
 /* ═══ 风味罗盘 Flavor Compass — 互动调酒 ═══ */
 .compass-canvas-wrap{position:relative;width:min(320px,88vw);height:min(320px,88vw);margin:0 auto;touch-action:none}
 .compass-canvas-wrap canvas{width:100%;height:100%;cursor:pointer}
@@ -1639,6 +1653,7 @@ function showResult(){
   preCacheQR();
   setTimeout(()=>{
     drawRadar('radarResult',p.bars);
+    saveDriftSnapshot(p.bars);         // 罗盘进化: 记录漂移
     renderCoupon('couponSlot');        // Hook: 可变优惠券
     renderCheckin(p,'checkinSlot');     // Hook: 品鉴评分
     renderBadgeGrid(p,'badgeSlot');    // Hook: 徽章解锁
@@ -1989,11 +2004,234 @@ function renderTribeCard(p,containerId){
     </div>`;
 }
 
+// ── 罗盘进化 1: 子维度解锁 ──
+const SUB_DIMS={
+  bitter:[{name:'花苦',key:'hopBitter'},{name:'焦苦',key:'roastBitter'},{name:'药草苦',key:'herbBitter'}],
+  sweet:[{name:'蜜甜',key:'honey'},{name:'焦糖甜',key:'caramel'},{name:'果甜',key:'fruitSweet'}],
+  crisp:[{name:'碳酸感',key:'carbonation'},{name:'干净度',key:'clean'},{name:'收口',key:'finish'}],
+  complex:[{name:'酯香',key:'ester'},{name:'酚香',key:'phenol'},{name:'陈年感',key:'aged'}]
+};
+const DIM_KEYS=['bitter','sweet','crisp','complex'];
+
+function calcSubDims(bars){
+  // 从主维度值推演子维度（带伪随机偏移让每人不同）
+  const uid=parseInt((localStorage.getItem('tomo_uid')||'0').replace(/\D/g,'').slice(-4)||'1234');
+  const sub={};
+  DIM_KEYS.forEach((dk,di)=>{
+    const base=bars[di];
+    sub[dk]=SUB_DIMS[dk].map((s,si)=>{
+      const seed=(uid*7+di*13+si*31)%100;
+      const offset=Math.round((seed-50)*0.3);
+      return {name:s.name, val:Math.max(5,Math.min(100,base+offset))};
+    });
+  });
+  return sub;
+}
+
+function renderSubDimCard(bars,pjScore,containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  const unlocked=pjScore>=100;
+  const sub=calcSubDims(bars);
+  const colors=['#6a6aff','#ff7eb3','#87ceeb','#c9a84c'];
+  const dimNames=['苦度','甜度','清爽','复杂'];
+  el.innerHTML=`
+    <div class="evo-card ${unlocked?'':'evo-locked'}">
+      <div class="evo-title">🔬 味觉细分维度 ${unlocked?'· 已解锁':'· 品鉴力 100 解锁'}</div>
+      ${unlocked?DIM_KEYS.map((dk,di)=>`
+        <div style="font-size:11px;color:${colors[di]};font-weight:600;margin:8px 0 4px">${dimNames[di]}</div>
+        ${sub[dk].map(s=>`<div class="sub-dim">
+          <div class="sub-dim-lbl">${s.name}</div>
+          <div class="sub-dim-bar"><div class="sub-dim-fill" style="width:${s.val}%;background:${colors[di]}"></div></div>
+          <div class="sub-dim-val">${s.val}</div>
+        </div>`).join('')}
+      `).join(''):`
+        <div style="text-align:center;padding:20px 0;font-size:12px;color:var(--t3)">
+          品鉴力达到 100 后，你的 4 维雷达将裂变为 12 个细分维度<br>
+          <span style="color:var(--gold);font-size:11px">苦度 → 花苦 / 焦苦 / 药草苦 ...</span>
+        </div>
+      `}
+    </div>`;
+}
+
+// ── 罗盘进化 2: 好友罗盘对比 ──
+function renderCompareCard(bars,containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  // 生成模拟好友数据（Phase 0 没有真好友数据，用推荐链数据模拟）
+  const refCount=parseInt(localStorage.getItem('tomo_ref_count')||'0');
+  const hasFriend=refCount>0;
+  const friendBars=hasFriend?bars.map((v,i)=>{
+    const shift=Math.round((Math.sin(i*2.7+refCount)*0.3)*100);
+    return Math.max(10,Math.min(95,v+shift));
+  }):null;
+  const similarity=hasFriend?Math.round(100-bars.reduce((s,v,i)=>s+Math.abs(v-friendBars[i]),0)/bars.length):0;
+
+  el.innerHTML=`
+    <div class="evo-card">
+      <div class="evo-title">👥 味觉对比</div>
+      ${hasFriend?`
+        <div style="position:relative;width:min(280px,76vw);height:min(280px,76vw);margin:0 auto">
+          <canvas id="compareCanvas" width="440" height="440" style="width:100%;height:100%"></canvas>
+        </div>
+        <div style="display:flex;justify-content:center;gap:16px;margin:10px 0 4px">
+          <span style="font-size:11px;color:var(--gold)">● 你</span>
+          <span style="font-size:11px;color:#4ade80">● 好友</span>
+        </div>
+        <div style="text-align:center;font-size:14px;color:var(--gold);font-weight:700;margin:8px 0">味觉相似度 ${similarity}%</div>
+        <div style="text-align:center;font-size:11px;color:var(--t3)">${similarity>=70?'你们适合一起点同一款酒！':'你们可以互相推荐对方没试过的风味'}
+        </div>
+      `:`
+        <div style="text-align:center;padding:16px 0">
+          <div style="font-size:28px;margin-bottom:8px">🔗</div>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:8px">邀请一位好友完成测试<br>解锁味觉对比雷达</div>
+          <div style="font-size:11px;color:var(--t3)">看看你们的味觉DNA相似度有多高</div>
+        </div>
+      `}
+    </div>`;
+  if(hasFriend){
+    setTimeout(()=>drawDualRadar('compareCanvas',bars,friendBars),100);
+  }
+}
+
+function drawDualRadar(canvasId,bars1,bars2){
+  const c=document.getElementById(canvasId);if(!c)return;
+  const ctx=c.getContext('2d');
+  const w=c.width,h=c.height,cx=w/2,cy=h/2,r=w*0.36;
+  const labels=['苦度','甜度','清爽','复杂'];
+  const n=4;
+  ctx.clearRect(0,0,w,h);
+  // 网格
+  for(let lv=1;lv<=4;lv++){
+    ctx.beginPath();
+    const lr=r*lv/4;
+    for(let i=0;i<=n;i++){const a=-Math.PI/2+i*2*Math.PI/n;const x=cx+lr*Math.cos(a),y=cy+lr*Math.sin(a);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.closePath();ctx.strokeStyle='rgba(201,168,76,'+(lv===4?0.2:0.08)+')';ctx.lineWidth=1;ctx.stroke();
+  }
+  // 数据区域 — 好友(绿)
+  ctx.beginPath();
+  bars2.forEach((v,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;const vr=r*v/100;const x=cx+vr*Math.cos(a),y=cy+vr*Math.sin(a);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.closePath();ctx.fillStyle='rgba(74,222,128,0.1)';ctx.fill();ctx.strokeStyle='rgba(74,222,128,0.6)';ctx.lineWidth=2;ctx.stroke();
+  // 数据区域 — 自己(金)
+  ctx.beginPath();
+  bars1.forEach((v,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;const vr=r*v/100;const x=cx+vr*Math.cos(a),y=cy+vr*Math.sin(a);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);});
+  ctx.closePath();ctx.fillStyle='rgba(201,168,76,0.15)';ctx.fill();ctx.strokeStyle='rgba(201,168,76,0.7)';ctx.lineWidth=2;ctx.stroke();
+  // 标签
+  ctx.font='22px "Noto Sans SC"';ctx.fillStyle='#888';ctx.textAlign='center';
+  const pad=28;
+  labels.forEach((l,i)=>{const a=-Math.PI/2+i*2*Math.PI/n;ctx.fillText(l,cx+(r+pad)*Math.cos(a),cy+(r+pad)*Math.sin(a)+7);});
+}
+
+// ── 罗盘进化 3: 味觉漂移（时间轨迹）──
+function saveDriftSnapshot(bars){
+  const history=JSON.parse(localStorage.getItem('tomo_drift')||'[]');
+  const today=new Date().toISOString().slice(0,10);
+  // 每天最多保存一次
+  if(history.length>0 && history[history.length-1].date===today) return;
+  history.push({date:today, bars:[...bars]});
+  if(history.length>30) history.shift(); // 保留最近30天
+  localStorage.setItem('tomo_drift',JSON.stringify(history));
+}
+
+function renderDriftCard(bars,containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  const history=JSON.parse(localStorage.getItem('tomo_drift')||'[]');
+  // 确保当前也存入
+  saveDriftSnapshot(bars);
+  const allSnaps=JSON.parse(localStorage.getItem('tomo_drift')||'[]');
+  const dimNames=['苦度','甜度','清爽','复杂'];
+  const colors=['#6a6aff','#ff7eb3','#87ceeb','#c9a84c'];
+
+  if(allSnaps.length<2){
+    el.innerHTML=`
+      <div class="evo-card">
+        <div class="evo-title">📈 味觉漂移</div>
+        <div style="text-align:center;padding:16px 0">
+          <div style="font-size:28px;margin-bottom:8px">🧬</div>
+          <div style="font-size:12px;color:var(--t2);margin-bottom:6px">再做一次测试，解锁你的味觉漂移轨迹</div>
+          <div style="font-size:11px;color:var(--t3)">TOMO会记录你每次测试的口味变化<br>看看你的味觉是在进化还是在漂移</div>
+        </div>
+      </div>`;
+    return;
+  }
+  // 对比第一次和最新
+  const first=allSnaps[0].bars, latest=allSnaps[allSnaps.length-1].bars;
+  const drifts=dimNames.map((n,i)=>({name:n, from:first[i], to:latest[i], delta:latest[i]-first[i], color:colors[i]}));
+  const biggestShift=drifts.reduce((a,b)=>Math.abs(b.delta)>Math.abs(a.delta)?b:a);
+  const direction=biggestShift.delta>0?'上升':'下降';
+
+  el.innerHTML=`
+    <div class="evo-card">
+      <div class="evo-title">📈 味觉漂移 · ${allSnaps.length} 次记录</div>
+      <div style="text-align:center;margin-bottom:12px">
+        <span style="font-size:20px;color:var(--gold);font-weight:700">${biggestShift.name}</span>
+        <span style="font-size:13px;color:${biggestShift.delta>0?'#4ade80':'#f87171'};margin-left:6px">${biggestShift.delta>0?'↑':'↓'}${Math.abs(biggestShift.delta)}</span>
+        <div style="font-size:11px;color:var(--t3);margin-top:4px">你的${biggestShift.name}偏好明显${direction}</div>
+      </div>
+      ${drifts.map(d=>`
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+          <span style="font-size:11px;color:var(--t2);min-width:36px">${d.name}</span>
+          <div style="flex:1;height:16px;background:rgba(255,255,255,.04);border-radius:8px;position:relative;overflow:visible">
+            <div style="position:absolute;left:${d.from}%;top:3px;width:10px;height:10px;border-radius:50%;background:${d.color};opacity:.3;transform:translateX(-5px)"></div>
+            <div style="position:absolute;left:${d.to}%;top:3px;width:10px;height:10px;border-radius:50%;background:${d.color};transform:translateX(-5px)"></div>
+            <div style="position:absolute;left:${Math.min(d.from,d.to)}%;top:6px;width:${Math.abs(d.to-d.from)}%;height:4px;background:${d.color};opacity:.2;border-radius:2px"></div>
+          </div>
+          <span style="font-size:11px;min-width:36px;text-align:right;color:${d.delta>0?'#4ade80':d.delta<0?'#f87171':'var(--t3)'}">${d.delta>0?'+':''}${d.delta}</span>
+        </div>
+      `).join('')}
+      <div style="margin-top:10px;text-align:center;font-size:11px;color:var(--t3)">
+        ${allSnaps[0].date.slice(5)} → ${allSnaps[allSnaps.length-1].date.slice(5)}
+        · 每次测试和评分都在塑造你的味觉轨迹
+      </div>
+    </div>`;
+}
+
+// ── 罗盘进化 4: 部落罗盘（群体 vs 个人）──
+const TRIBE_AVG_BARS={
+  edge:[88,18,20,78],   // 锋芒部落平均：高苦高复杂
+  bloom:[22,82,48,42],  // 绽放部落平均：高甜中等
+  easy:[16,38,82,30]    // 自在部落平均：高清爽低复杂
+};
+
+function renderTribeRadarCard(bars,quad,containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  const avg=TRIBE_AVG_BARS[quad]||[50,50,50,50];
+  const dimNames=['苦度','甜度','清爽','复杂'];
+  // 计算你在部落中的独特度
+  const deviation=Math.round(bars.reduce((s,v,i)=>s+Math.abs(v-avg[i]),0)/bars.length);
+  const uniquePct=Math.min(99,Math.max(5,Math.round(deviation*1.5)));
+  const t=TRIBES[quad];
+
+  el.innerHTML=`
+    <div class="evo-card">
+      <div class="evo-title">${t?.icon||'🍺'} 部落罗盘</div>
+      <div style="position:relative;width:min(280px,76vw);height:min(280px,76vw);margin:0 auto">
+        <canvas id="tribeRadarCanvas" width="440" height="440" style="width:100%;height:100%"></canvas>
+      </div>
+      <div style="display:flex;justify-content:center;gap:16px;margin:10px 0 4px">
+        <span style="font-size:11px;color:var(--gold)">● 你</span>
+        <span style="font-size:11px;color:rgba(201,168,76,.35)">● ${t?.name||'部落'}平均</span>
+      </div>
+      <div style="text-align:center;margin:8px 0">
+        <span style="font-size:13px;color:var(--t2)">你比 </span>
+        <span style="font-size:18px;color:var(--gold);font-weight:700">${uniquePct}%</span>
+        <span style="font-size:13px;color:var(--t2)"> 的${t?.name||'部落'}成员更独特</span>
+      </div>
+      ${dimNames.map((n,i)=>{
+        const diff=bars[i]-avg[i];
+        return diff!==0?`<div style="font-size:11px;color:var(--t3);text-align:center;margin:2px 0">
+          ${n} ${diff>0?'比部落平均高':'比部落平均低'} <span style="color:${diff>0?'#4ade80':'#f87171'}">${Math.abs(diff)}</span>
+        </div>`:'';
+      }).join('')}
+    </div>`;
+  setTimeout(()=>drawDualRadar('tribeRadarCanvas',bars,avg),100);
+}
+
 function renderTribePage(){
   const p=calcPersona();
   const t=TRIBES[p.quad];if(!t)return;
   const memberCount=Math.max(12,Math.round((STATS.quadDist[p.quad]||30)*1.2));
   const otherTribes=Object.entries(TRIBES).filter(([k])=>k!==p.quad);
+  const pjScore=50+(parseInt(localStorage.getItem('tomo_vote_idx'))||0>=0?30:0)+(parseInt(localStorage.getItem('tomo_ref_count')||'0')*20)+(window._hasRated?20:0);
+
   document.getElementById('sTribe').innerHTML=`<div class="pi">
     <div style="text-align:center;margin-bottom:20px">
       <div style="font-size:40px;margin-bottom:8px">${t.icon}</div>
@@ -2013,6 +2251,18 @@ function renderTribePage(){
       <span style="font-size:11px;background:rgba(201,168,76,.08);color:var(--gold);padding:5px 12px;border-radius:99px">${p.tags[1]||''}</span>
     </div>
 
+    <!-- 罗盘进化: 部落罗盘 -->
+    <div id="tribeRadarSlot"></div>
+
+    <!-- 罗盘进化: 味觉对比 -->
+    <div id="compareSlot"></div>
+
+    <!-- 罗盘进化: 味觉漂移 -->
+    <div id="driftSlot"></div>
+
+    <!-- 罗盘进化: 子维度解锁 -->
+    <div id="subDimSlot"></div>
+
     <div class="stit">其他部落</div>
     ${otherTribes.map(([k,ot])=>`<div style="background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:12px;margin-bottom:8px;opacity:.6">
       <div style="display:flex;justify-content:space-between;align-items:center">
@@ -2025,6 +2275,14 @@ function renderTribePage(){
     <div style="height:16px"></div>
     <button class="btn btn-g" onclick="renderProf();go('sProf')">← 返回主页</button>
   </div>`;
+
+  // 延迟渲染canvas和复杂组件
+  setTimeout(()=>{
+    renderTribeRadarCard(p.bars, p.quad, 'tribeRadarSlot');
+    renderCompareCard(p.bars, 'compareSlot');
+    renderDriftCard(p.bars, 'driftSlot');
+    renderSubDimCard(p.bars, pjScore, 'subDimSlot');
+  },200);
 }
 
 // ============================================================
