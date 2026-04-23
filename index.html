@@ -1192,7 +1192,7 @@ function advance(qi){
   }else{
     go('sLoad');
     startLoadTease(); // Hook: 期待感可变奖励预告
-    setTimeout(showResult,2200);
+    setTimeout(()=>{try{showResult();}catch(e){document.getElementById('sLoad').querySelector('.pi').innerHTML='<div style="color:red;padding:20px;font-size:14px;word-break:break-all">ERROR: '+e.message+'<br><br>'+e.stack+'</div>';}},2200);
   }
 }
 
