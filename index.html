@@ -37,11 +37,11 @@
   --shadow-lg:0 8px 32px rgba(0,0,0,0.08),0 2px 8px rgba(0,0,0,0.04);
 }
 *{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:var(--f-body);touch-action:manipulation;-webkit-font-smoothing:antialiased}
-#app{width:100%;height:100%;position:relative;overflow:hidden}
+html,body{width:100%;height:100%;overflow:hidden;background:#b0750a;color:var(--t1);font-family:var(--f-body);touch-action:manipulation;-webkit-font-smoothing:antialiased}
+#app{width:100%;height:100%;position:relative;overflow:hidden;background:url('beer-bg.jpg') center/cover no-repeat fixed}
 
-/* 全局背景纹理 */
-#app::before{content:'';position:fixed;top:0;left:0;width:100%;height:100%;background:radial-gradient(ellipse at 30% 20%,rgba(201,168,76,0.06),transparent 60%),radial-gradient(ellipse at 70% 80%,rgba(106,90,205,0.04),transparent 50%);pointer-events:none;z-index:0}
+/* 水珠动画画布 */
+#dropCanvas{position:fixed;top:0;left:0;width:100%;height:100%;z-index:1;pointer-events:none}
 /* PAGE — 升级转场动效 */
 .p{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(30px) scale(.97);transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1);pointer-events:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);will-change:opacity,transform}
 .p.on{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;z-index:2}
@@ -60,20 +60,20 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .btn-s{padding:12px 20px;font-size:14px;width:auto;border-radius:9999px}
 
 /* SPLASH */
-#s0{background:var(--bg);justify-content:center;align-items:center;text-align:center}
-.logo{font-family:var(--f-serif);font-size:68px;font-weight:900;color:var(--gold);letter-spacing:10px;text-shadow:0 4px 24px rgba(160,133,53,.12);animation:pop .9s ease-out}
+#s0{background:transparent;justify-content:center;align-items:center;text-align:center}
+.logo{font-family:var(--f-serif);font-size:68px;font-weight:900;color:rgba(255,255,255,0.92);letter-spacing:10px;text-shadow:0 2px 12px rgba(0,0,0,0.25);animation:pop .9s ease-out}
 @keyframes pop{0%{opacity:0;transform:scale(.8) translateY(16px)}100%{opacity:1;transform:none}}
-.logo-s{font-size:13px;color:var(--t3);letter-spacing:6px;margin:6px 0 10px;animation:fu .8s ease .2s both}
-.logo-jam{font-size:14px;color:var(--gold);letter-spacing:3px;opacity:.7;margin-bottom:52px;animation:fu .8s ease .35s both}
+.logo-s{font-size:13px;color:rgba(255,255,255,0.55);letter-spacing:6px;margin:6px 0 10px;animation:fu .8s ease .2s both}
+.logo-jam{font-size:14px;color:rgba(255,255,255,0.7);letter-spacing:3px;margin-bottom:52px;animation:fu .8s ease .35s both}
 @keyframes fu{0%{opacity:0;transform:translateY(10px)}100%{opacity:1;transform:none}}
-.ring{width:150px;height:150px;border:2px solid rgba(160,133,53,.2);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:rp 2.5s ease-in-out infinite,fu .8s ease .5s both;transition:transform .15s;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.4);box-shadow:var(--shadow)}
+.ring{width:150px;height:150px;border:2px solid rgba(255,255,255,.3);border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;animation:rp 2.5s ease-in-out infinite,fu .8s ease .5s both;transition:transform .15s;backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);background:rgba(255,255,255,0.18);box-shadow:0 4px 24px rgba(0,0,0,0.12)}
 .ring:active{transform:scale(.95)}
 @keyframes rp{0%,100%{border-color:rgba(160,133,53,.15);box-shadow:var(--shadow)}50%{border-color:rgba(160,133,53,.4);box-shadow:0 4px 32px rgba(160,133,53,.12)}}
-.ring-t{font-family:var(--f-display);font-size:16px;color:var(--gold);letter-spacing:0.08em}
-.hint{font-size:12px;color:var(--t3);margin-top:18px;animation:fu .8s ease .7s both}
+.ring-t{font-family:var(--f-display);font-size:16px;color:rgba(255,255,255,0.9);letter-spacing:0.08em;text-shadow:0 1px 4px rgba(0,0,0,0.15)}
+.hint{font-size:12px;color:rgba(255,255,255,0.45);margin-top:18px;animation:fu .8s ease .7s both}
 
 /* GENDER */
-#sGender{background:var(--bg)}
+#sGender{background:transparent}
 .gw{display:flex;gap:24px;justify-content:center;margin-top:36px}
 .gc{width:140px;padding:32px 16px 28px;border-radius:24px;background:var(--glass);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid var(--glass-b);text-align:center;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1);box-shadow:var(--shadow)}
 .gc:hover{background:var(--glass-h);border-color:var(--glass-bh);transform:translateY(-3px);box-shadow:var(--shadow-lg)}
@@ -104,7 +104,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .multi-hint{font-size:11px;color:var(--t3);margin-top:8px;text-align:center}
 
 /* LOADING — 味觉DNA解码动效 */
-#sLoad{justify-content:center;align-items:center;background:var(--bg);text-align:center}
+#sLoad{justify-content:center;align-items:center;background:transparent;text-align:center}
 .load-wrap{position:relative;width:140px;height:140px;margin:0 auto 28px}
 .spin{position:absolute;top:0;left:0;width:140px;height:140px;border:2px solid rgba(160,133,53,.1);border-top-color:var(--gold);border-radius:50%;animation:sp 1.2s cubic-bezier(.4,0,.2,1) infinite}
 .spin-inner{position:absolute;top:16px;left:16px;width:108px;height:108px;border:2px solid rgba(160,133,53,.06);border-bottom-color:rgba(160,133,53,.5);border-radius:50%;animation:sp 1.8s cubic-bezier(.4,0,.2,1) infinite reverse}
@@ -185,10 +185,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .foot{text-align:center;padding:20px;font-size:10px;color:rgba(0,0,0,.2)}
 
 /* === ENHANCED SPLASH === */
-#s0-canvas{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
-.test-count{font-size:11px;color:var(--t3);margin-top:12px;animation:fu .8s ease .9s both}
-.test-count b{color:var(--gold);font-size:14px}
-.tagline{font-size:12px;color:rgba(201,168,76,.5);letter-spacing:6px;margin-top:24px;animation:fu .8s ease 1.1s both}
+/* s0-canvas removed — replaced by global #dropCanvas */
+.test-count{font-size:11px;color:rgba(255,255,255,0.4);margin-top:12px;animation:fu .8s ease .9s both}
+.test-count b{color:rgba(255,255,255,0.75);font-size:14px}
+.tagline{font-size:12px;color:rgba(255,255,255,0.35);letter-spacing:6px;margin-top:24px;animation:fu .8s ease 1.1s both}
 
 /* === RADAR CHART === */
 .radar-wrap{width:220px;height:220px;margin:0 auto 16px;position:relative}
@@ -313,7 +313,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .checkin-done{color:var(--gold);font-size:13px;font-weight:600;text-align:center;animation:badgePop .4s ease}
 
 /* ═══ HOOK MODEL: 社交证明 ═══ */
-.social-proof{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:var(--t3);margin:8px 0}
+.social-proof{display:flex;align-items:center;justify-content:center;gap:6px;font-size:11px;color:rgba(255,255,255,0.4);margin:8px 0}
 .social-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:ctBlink 2s ease-in-out infinite}
 .qopt-pct{font-size:10px;color:var(--t3);margin-left:auto;font-family:var(--f-display);opacity:0;transition:opacity .5s .3s}
 .qopt.sel~.qopt .qopt-pct,.qopt.sel .qopt-pct{opacity:1}
@@ -359,10 +359,10 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 </head>
 <body>
 <div id="app">
+<canvas id="dropCanvas"></canvas>
 
 <!-- S0: Splash -->
 <div class="p on" id="s0">
-<canvas id="s0-canvas"></canvas>
 <div class="pi" style="display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;z-index:1">
   <div class="logo">共醸</div>
   <div class="logo-s">GÒNNIANG とも</div>
@@ -2881,29 +2881,115 @@ function renderCompass(){
 //  PARTICLE BACKGROUND — 开屏粒子
 // ============================================================
 function initParticles(){
-  const c=document.getElementById('s0-canvas');
+  const c=document.getElementById('dropCanvas');
   if(!c)return;
   const ctx=c.getContext('2d');
-  let w,h;
-  function resize(){w=c.width=c.offsetWidth*2;h=c.height=c.offsetHeight*2;}
-  resize();
-  const pts=Array.from({length:40},()=>({x:Math.random()*w,y:Math.random()*h,vx:(Math.random()-.5)*.4,vy:(Math.random()-.5)*.4,r:Math.random()*2+1}));
-  function draw(){
-    ctx.clearRect(0,0,w,h);
-    pts.forEach(p=>{
-      p.x+=p.vx;p.y+=p.vy;
-      if(p.x<0)p.x=w;if(p.x>w)p.x=0;if(p.y<0)p.y=h;if(p.y>h)p.y=0;
-      ctx.beginPath();ctx.arc(p.x,p.y,p.r,0,Math.PI*2);
-      ctx.fillStyle='rgba(201,168,76,0.15)';ctx.fill();
-    });
-    // 连线
-    for(let i=0;i<pts.length;i++)for(let j=i+1;j<pts.length;j++){
-      const dx=pts[i].x-pts[j].x,dy=pts[i].y-pts[j].y,d=Math.sqrt(dx*dx+dy*dy);
-      if(d<160){ctx.beginPath();ctx.moveTo(pts[i].x,pts[i].y);ctx.lineTo(pts[j].x,pts[j].y);ctx.strokeStyle='rgba(201,168,76,'+(0.06*(1-d/160))+')';ctx.stroke();}
-    }
-    requestAnimationFrame(draw);
+  const dpr=window.devicePixelRatio||2;
+  let W,H;
+  function resize(){
+    W=window.innerWidth;H=window.innerHeight;
+    c.width=W*dpr;c.height=H*dpr;
+    c.style.width=W+'px';c.style.height=H+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
   }
-  draw();
+  resize();
+  window.addEventListener('resize',resize);
+
+  // 水珠类 — 模拟凉啤酒杯凝结水珠
+  function makeDrop(ox,oy,or){
+    return{
+      x:ox!=null?ox:10+Math.random()*(W-20),
+      y:oy!=null?oy:Math.random()*H,
+      r:or!=null?or:(1.5+Math.random()*3),
+      vy:0,sliding:false,
+      wait:150+Math.random()*500,
+      age:0,speed:0,
+      wobble:Math.random()*6.28,
+      wobbleSpd:0.008+Math.random()*0.015
+    };
+  }
+  // 初始15颗，散布全屏
+  var drops=[];
+  for(var i=0;i<15;i++) drops.push(makeDrop());
+
+  function drawDrop(d){
+    var x=d.x,y=d.y,r=d.r;
+    // 滑落水痕
+    if(d.sliding&&d.speed>0.04){
+      ctx.beginPath();
+      ctx.moveTo(x-r*0.2,y);
+      ctx.quadraticCurveTo(x-r*0.1,y-r*3.5,x,y-r*5);
+      ctx.quadraticCurveTo(x+r*0.1,y-r*3.5,x+r*0.2,y);
+      ctx.fillStyle='rgba(255,255,255,0.05)';
+      ctx.fill();
+    }
+    // 水珠本体 — 径向渐变模拟折射
+    ctx.save();
+    ctx.beginPath();
+    ctx.ellipse(x,y,r,r*0.95,0,0,Math.PI*2);
+    var g=ctx.createRadialGradient(x-r*0.3,y-r*0.35,r*0.05,x,y,r);
+    g.addColorStop(0,'rgba(255,255,255,0.5)');
+    g.addColorStop(0.3,'rgba(255,255,255,0.16)');
+    g.addColorStop(0.7,'rgba(255,255,255,0.05)');
+    g.addColorStop(1,'rgba(255,255,255,0.02)');
+    ctx.fillStyle=g;ctx.fill();
+    // 边缘
+    ctx.beginPath();
+    ctx.ellipse(x,y,r,r*0.95,0,0,Math.PI*2);
+    ctx.strokeStyle='rgba(255,255,255,0.1)';
+    ctx.lineWidth=0.5;ctx.stroke();
+    // 高光点
+    ctx.beginPath();
+    ctx.ellipse(x-r*0.28,y-r*0.3,r*0.2,r*0.14,-0.4,0,Math.PI*2);
+    ctx.fillStyle='rgba(255,255,255,0.4)';ctx.fill();
+    ctx.restore();
+  }
+
+  var frame=0;
+  function loop(){
+    ctx.clearRect(0,0,W,H);
+    drops.forEach(function(d){
+      d.age++;
+      d.wobble+=d.wobbleSpd;
+      if(!d.sliding){
+        if(d.age>d.wait&&d.r>2.2) d.sliding=true;
+        return;
+      }
+      var grav=0.003+d.r*0.002;
+      d.speed+=grav;
+      d.speed=Math.min(d.speed,0.2+d.r*0.04);
+      d.y+=d.speed;
+      d.x+=Math.sin(d.wobble)*0.03;
+    });
+    // 碰撞融合
+    for(var i=drops.length-1;i>=0;i--){
+      for(var j=i-1;j>=0;j--){
+        var a=drops[i],b=drops[j];
+        if(!a||!b)continue;
+        var dx=a.x-b.x,dy=a.y-b.y,dist=Math.sqrt(dx*dx+dy*dy);
+        if(dist<a.r+b.r){
+          b.r=Math.min(7,Math.sqrt(a.r*a.r+b.r*b.r));
+          b.speed=Math.max(a.speed,b.speed);
+          b.sliding=true;b.wait=0;
+          drops.splice(i,1);break;
+        }
+      }
+    }
+    // 回收出界的，补新的
+    for(var i=drops.length-1;i>=0;i--){
+      if(drops[i].y>H+20){
+        drops[i]=makeDrop(null,20+Math.random()*H*0.25,null);
+      }
+    }
+    // 偶尔新增
+    if(frame%60===0&&drops.length<18){
+      drops.push(makeDrop(null,10+Math.random()*H*0.3,null));
+    }
+    drops.forEach(drawDrop);
+    frame++;
+    requestAnimationFrame(loop);
+  }
+  loop();
 }
 
 // ============================================================
