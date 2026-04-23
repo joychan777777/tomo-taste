@@ -417,7 +417,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
     <div class="spin-inner"></div>
     <div class="load-icon">🧬</div>
   </div>
-  <div class="load-text" id="loadText">正在分析你的味觉基因<span class="load-dots"></span></div>
+  <div class="load-text" id="loadText">正在解码你的味觉 DNA<span class="load-dots"></span></div>
   <div style="font-size:11px;color:var(--t3);margin-top:16px;opacity:0;animation:fu .6s ease .8s forwards" id="loadTease"></div>
 </div>
 
@@ -436,11 +436,6 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 
 </div>
 <script>
-// BUILD v2.1 — 2026-04-23 13:45
-window.onerror=function(msg,src,line,col,err){
-  var el=document.getElementById('loadText')||document.body;
-  el.innerHTML='<div style="color:red;font-size:12px;padding:10px;word-break:break-all">JS错误: '+msg+'<br>行:'+line+' 列:'+col+'</div>';
-};
 // ============================================================
 //  DEVICE FINGERPRINT — tomo_uid (cookie, 8位, 365天)
 // ============================================================
@@ -1197,7 +1192,7 @@ function advance(qi){
   }else{
     go('sLoad');
     startLoadTease(); // Hook: 期待感可变奖励预告
-    setTimeout(()=>{try{showResult();}catch(e){document.getElementById('loadText').innerHTML='<span style="color:red;font-size:13px">'+e.message+'</span>';}},2200);
+    setTimeout(showResult,2200);
   }
 }
 
@@ -2617,7 +2612,7 @@ function shareCard(mode){
 function drawShareCard(p,portrait,mode){
   const cv=document.createElement('canvas');
   // 降到540px宽（原1080太慢），手机屏幕足够清晰
-  const W=540, H=(mode==='social')?720:540;
+  const W=540, H=720;
   cv.width=W;cv.height=H;
   const ctx=cv.getContext('2d');
   const cx=W/2;
