@@ -431,6 +431,8 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 <div class="p" id="sDeliv"></div>
 <!-- Flavor Compass -->
 <div class="p" id="sCompass"></div>
+<!-- Tribe -->
+<div class="p" id="sTribe"></div>
 <!-- Profile -->
 <div class="p" id="sProf"></div>
 
@@ -1617,6 +1619,10 @@ function showResult(){
 
     ${getUpgradeBannerHTML()}
 
+    <!-- Godin: 部落入口 — Affiliation驱动 -->
+    <button class="btn" style="background:linear-gradient(135deg,${TRIBES[p.quad]?.color||'var(--gold)'},rgba(0,0,0,.4))" onclick="renderTribePage();go('sTribe')">${TRIBES[p.quad]?.icon||'🍺'} 进入${TRIBES[p.quad]?.name||'你的部落'} →</button>
+    <div style="height:8px"></div>
+
     <!-- 行动按钮（Godin: enrollment式邀请，非推销） -->
     <button class="btn" onclick="renderVote();go('sVote')">🗳 你的一票，决定下月大家喝什么 →</button>
     <div style="height:8px"></div>
@@ -1742,16 +1748,16 @@ async function renderProf(){
   // Lv1 尝: 完成测试 | Lv2 知: 3个象限SKU(Phase1) | Lv3 品: 10次品鉴 | Lv4 鉴: Top20% | Lv5 醸: 共创
   const PINJIAN=[
     {lv:1,name:'尝',full:'初尝',cond:'完成 TOMO 味觉测试',icon:'🌱'},
-    {lv:2,name:'知',full:'知味',cond:'品鉴 3 个象限的酒款',icon:'📖'},
-    {lv:3,name:'品',full:'品道',cond:'完成 10 次品鉴记录',icon:'🍷'},
+    {lv:2,name:'知',full:'知味',cond:'品鉴力达到 100',icon:'📖'},
+    {lv:3,name:'品',full:'品道',cond:'品鉴力达到 300',icon:'🍷'},
     {lv:4,name:'鉴',full:'鉴赏',cond:'品鉴力 Top 20%',icon:'👁'},
     {lv:5,name:'醸',full:'共醸',cond:'参与酿造 / 配方被选中',icon:'🔥'}
   ];
-  // Phase 0 判断逻辑（基于可采集数据）
+  // Phase 0 判断逻辑（基于品鉴力分数）
   let pjLv=0;
-  if(myTests>=1) pjLv=1;          // Lv1: 做过测试
-  if(myTests>=3 && myVotes>=1) pjLv=2;  // Lv2: 多次测试+投票（Phase0代替3象限SKU）
-  if(myTests>=10) pjLv=3;         // Lv3: 10次品鉴
+  if(myTests>=1) pjLv=1;                                 // Lv1: 做过测试 (50+)
+  if(pjScore>=100) pjLv=2;                               // Lv2: 品鉴力100（测试+投票+评分）
+  if(pjScore>=300) pjLv=3;                               // Lv3: 品鉴力300
   // Lv4/5 需要后台数据，Phase 0 暂不触发
   const pjCur=PINJIAN[pjLv]||PINJIAN[0];
   const pjNext=PINJIAN[pjLv+1]||null;
@@ -1762,10 +1768,10 @@ async function renderProf(){
   // ========== ♠ 身份阶梯 v3.1（商业轨道）==========
   // L0 共醸師(零门槛) → L1 ♠7体验官 → L2 ♠K共醸師 → L3 ♠A加盟
   const SPADE=[
-    {id:'l0', name:'共醸師',        desc:'完成测试 · 零门槛',           icon:'🍺', color:'var(--t2)',  short:'L0'},
-    {id:'s7', name:'♠7 共醸体验官',  desc:'推荐 1 人完成测试',           icon:'♠',  color:'var(--gold)',short:'♠7'},
-    {id:'sk', name:'♠K 共醸師',      desc:'累计销售 ¥20,000 · Phase 2', icon:'♠',  color:'#c0c0c0',   short:'♠K'},
-    {id:'sa', name:'♠A 加盟伙伴',    desc:'省级独家 · Phase 2.5',       icon:'♠',  color:'#e5c07b',   short:'♠A'}
+    {id:'l0', name:'多巴胺学徒',     desc:'完成测试 · 味觉觉醒',          icon:'🧪', color:'var(--t2)',  short:'L0'},
+    {id:'s7', name:'♠7 钩子猎人',    desc:'测试+推荐+首购',              icon:'♠',  color:'var(--gold)',short:'♠7'},
+    {id:'sk', name:'♠K 紫牛驯师',    desc:'累计销售 ¥20,000 · Phase 2', icon:'♠',  color:'#c0c0c0',   short:'♠K'},
+    {id:'sa', name:'♠A 飞轮引擎',    desc:'省级独家 · Phase 2.5',       icon:'♠',  color:'#e5c07b',   short:'♠A'}
   ];
   // v3.1 升级判断
   const hasTest=myTests>=1;
@@ -1774,23 +1780,26 @@ async function renderProf(){
   const isL0=hasTest;
   const isS7=hasTest && hasInvite;
   // ♠7 升级进度
+  const hasPurchase=false; // Phase 0: 购买数据需后台对接
   const s7Checks=[
     {label:'完成 TOMO 味觉测试',done:hasTest},
-    {label:'推荐 1 位好友完成测试',done:hasInvite}
+    {label:'推荐 1 位好友完成测试',done:hasInvite},
+    {label:'完成第一次购买',done:hasPurchase}
   ];
   const s7Done=s7Checks.filter(c=>c.done).length;
-  const spadeLevel=isS7?1:(isL0?0:-1);
+  const isS7Full=hasTest && hasInvite && hasPurchase;
+  const spadeLevel=isS7Full?1:(isL0?0:-1);
   const spadeCur=SPADE[Math.max(spadeLevel,0)];
   // 佣金信息
-  const commInfo=isS7?{l1f:'18%',l1r:'10%',l2:'7%',label:'♠7 佣金率'}:{l1f:'15%',l1r:'8%',l2:'7%',label:'共醸師 佣金率'};
+  const commInfo=isS7Full?{l1f:'15%',l1r:'8%',label:'♠7 佣金率'}:{l1f:'15%',l1r:'8%',label:'多巴胺学徒 佣金率'};
 
   const tierLabel={fresh:'FRESH 小白',craft:'CRAFT 进阶',nerd:'NERD 老司机'};
   const today=new Date().toISOString().slice(0,10).replace(/-/g,'.');
 
   // ========== 品鉴段位进度条计算 ==========
   const pjProgress=pjLv===0?0:pjLv>=4?100:
-    pjLv===1?(myTests>=3&&myVotes>=1?100:Math.min(Math.round((myTests/3)*60+(myVotes)*40),99)):
-    pjLv===2?Math.min(Math.round(myTests/10*100),99):100;
+    pjLv===1?Math.min(Math.round(pjScore/100*100),99):
+    pjLv===2?Math.min(Math.round(pjScore/300*100),99):100;
 
   document.getElementById('sProf').innerHTML=`<div class="pi">
     <div class="ph">
@@ -1844,9 +1853,9 @@ async function renderProf(){
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
         <div>
           <div style="font-size:14px;font-weight:700;color:${spadeCur.color}">${spadeCur.name}</div>
-          <div style="font-size:10px;color:var(--t3)">♠ 身份 · 推荐即赚 · v3.1</div>
+          <div style="font-size:10px;color:var(--t3)">♠ 身份 · 推荐赚佣金 · v3.1</div>
         </div>
-        ${isS7?'<div style="background:var(--gold);color:#1a1a2e;font-size:10px;padding:3px 10px;border-radius:99px;font-weight:700">♠7 已解锁</div>':isL0?'<div style="font-size:10px;color:var(--gold)">共醸師 已激活</div>':''}
+        ${isS7Full?'<div style="background:var(--gold);color:#1a1a2e;font-size:10px;padding:3px 10px;border-radius:99px;font-weight:700">♠7 已解锁</div>':isL0?'<div style="font-size:10px;color:var(--gold)">多巴胺学徒 已激活</div>':''}
       </div>
 
       <!-- 当前佣金率 -->
@@ -1855,31 +1864,27 @@ async function renderProf(){
         <div style="display:flex;gap:10px">
           <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--gold)">${commInfo.l1f}</div><div style="font-size:9px;color:var(--t3)">首单推荐</div></div>
           <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--t2)">${commInfo.l1r}</div><div style="font-size:9px;color:var(--t3)">复购</div></div>
-          <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--t2)">${commInfo.l2}</div><div style="font-size:9px;color:var(--t3)">搭子奖励</div></div>
         </div>
       </div>
 
-      ${isS7?`
+      ${isS7Full?`
         <div style="font-size:12px;color:var(--t2);line-height:1.8;margin-bottom:8px">
-          ♠7 全部权益已激活：首单 18% · 复购 10% · 会员 9 折 · 7 折进货 · 4 类现金券
+          ♠7 权益已激活：首单 15% · 复购 8%（券）· 会员 9 折 · 月度券
         </div>
         <div style="display:flex;gap:5px;flex-wrap:wrap">
-          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">首单18%</span>
-          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">9折</span>
-          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">7折进货</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">首单15%</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">复购8%券</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">会员9折</span>
           <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">月度券</span>
-          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">优先购</span>
-          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">品鉴会</span>
-          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">酒花×1.5</span>
         </div>
       `:`
-        <div style="font-size:11px;color:var(--t3);margin-bottom:8px">${isL0?'你已是共醸師 · 推荐 1 人完成测试即可升级 ♠7':'完成 TOMO 测试即自动成为共醸師'}</div>
+        <div style="font-size:11px;color:var(--t3);margin-bottom:8px">${isL0?'你已是多巴胺学徒 · 完成以下 3 步升级 ♠7':'完成 TOMO 测试即激活多巴胺学徒'}</div>
         ${s7Checks.map(c=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">
           <span style="font-size:14px">${c.done?'✅':'⬜'}</span>
           <span style="font-size:12px;color:${c.done?'var(--gold)':'var(--t2)'};${c.done?'text-decoration:line-through;opacity:.7':''}">${c.label}</span>
         </div>`).join('')}
         <div style="margin-top:10px;font-size:11px;color:var(--t3);line-height:1.6">
-          升级 ♠7 后：首单佣金 15%→18% · 会员 9 折 · 7 折进货资格 · 月度/生日/召回券 · 新品优先购
+          升级 ♠7 后：首单佣金 15% · 复购 8%（券）· 会员 9 折 · 月度券
         </div>
       `}
       <!-- ♠ 阶梯路线图 -->
@@ -1931,6 +1936,9 @@ async function renderProf(){
     <!-- HOOK: 徽章收藏（收集癖+成就系统） -->
     <div id="profBadgeSlot"></div>
 
+    <!-- 味觉部落卡片 -->
+    <div id="tribeCard"></div>
+
     <div class="stit">你和 TOMO 的故事</div>
     <div class="tl">
       ${myVotes>0?`<div class="ti"><div class="td">${today}</div><div class="tt">首次投票 · 七月共饮系列 · 品鉴力 <span style="color:var(--gold)">+30</span></div></div>`:''}
@@ -1953,7 +1961,70 @@ async function renderProf(){
     const lv=document.getElementById('lvFill');if(lv)lv.style.width=Math.min(pjProgress,100)+'%';
     drawQR('qrRef',getMyRefURL());
     renderBadgeGrid(p,'profBadgeSlot'); // Hook: 徽章收藏
+    renderTribeCard(p,'tribeCard');     // Godin: 部落归属
   },300);
+}
+
+// ============================================================
+//  味觉部落（Godin: Affiliation > Dominance）
+// ============================================================
+const TRIBES={
+  edge:{name:'锋芒部落',icon:'🦁',color:'var(--edge)',motto:'像我们这样的人，敢喝苦的',desc:'你属于精酿世界的硬核玩家。高苦度、高酒花、复杂风味是你的语言。',vibe:'挑战极限 · 追求锋利'},
+  bloom:{name:'绽放部落',icon:'🌸',color:'var(--bloom)',motto:'像我们这样的人，懂得甜的层次',desc:'你在甜与酸之间找到了精酿的温柔面。果香、花香、蜜语是你的世界。',vibe:'温柔力量 · 感官绽放'},
+  easy:{name:'自在部落',icon:'🏄',color:'var(--easy)',motto:'像我们这样的人，喝得自在',desc:'你知道最好的啤酒就是让你最放松的那杯。清爽、均衡、无压力是你的节奏。',vibe:'轻松自在 · 刚刚好'}
+};
+
+function renderTribeCard(p,containerId){
+  const el=document.getElementById(containerId);if(!el)return;
+  const t=TRIBES[p.quad];if(!t)return;
+  const memberCount=Math.max(12,Math.round((STATS.quadDist[p.quad]||30)*1.2));
+  el.innerHTML=`
+    <div style="background:linear-gradient(135deg,rgba(201,168,76,.04),rgba(0,0,0,.2));border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:16px;margin-bottom:16px;cursor:pointer" onclick="renderTribePage();go('sTribe')">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:14px;font-weight:700;color:var(--gold)">${t.icon} ${t.name}</div>
+        <div style="font-size:10px;color:var(--t3)">${memberCount} 人已加入 →</div>
+      </div>
+      <div style="font-size:12px;color:var(--t2);margin-bottom:6px;font-style:italic">"${t.motto}"</div>
+      <div style="font-size:11px;color:var(--t3)">${t.vibe}</div>
+    </div>`;
+}
+
+function renderTribePage(){
+  const p=calcPersona();
+  const t=TRIBES[p.quad];if(!t)return;
+  const memberCount=Math.max(12,Math.round((STATS.quadDist[p.quad]||30)*1.2));
+  const otherTribes=Object.entries(TRIBES).filter(([k])=>k!==p.quad);
+  document.getElementById('sTribe').innerHTML=`<div class="pi">
+    <div style="text-align:center;margin-bottom:20px">
+      <div style="font-size:40px;margin-bottom:8px">${t.icon}</div>
+      <div style="font-size:22px;font-weight:700;color:var(--gold);font-family:var(--f-serif)">${t.name}</div>
+      <div style="font-size:12px;color:var(--t3);margin-top:4px">${memberCount} 位成员 · 你是其中之一</div>
+    </div>
+    <div style="background:var(--glass);border:1px solid var(--glass-b);border-radius:14px;padding:16px;margin-bottom:16px;text-align:center">
+      <div style="font-size:14px;color:var(--gold);font-style:italic;margin-bottom:8px">"${t.motto}"</div>
+      <div style="font-size:12px;color:var(--t2);line-height:1.8">${t.desc}</div>
+    </div>
+
+    <div class="stit">部落特征</div>
+    <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:16px">
+      <span style="font-size:11px;background:rgba(201,168,76,.08);color:var(--gold);padding:5px 12px;border-radius:99px">${t.vibe.split(' · ')[0]}</span>
+      <span style="font-size:11px;background:rgba(201,168,76,.08);color:var(--gold);padding:5px 12px;border-radius:99px">${t.vibe.split(' · ')[1]||''}</span>
+      <span style="font-size:11px;background:rgba(201,168,76,.08);color:var(--gold);padding:5px 12px;border-radius:99px">${p.tags[0]||''}</span>
+      <span style="font-size:11px;background:rgba(201,168,76,.08);color:var(--gold);padding:5px 12px;border-radius:99px">${p.tags[1]||''}</span>
+    </div>
+
+    <div class="stit">其他部落</div>
+    ${otherTribes.map(([k,ot])=>`<div style="background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:12px;margin-bottom:8px;opacity:.6">
+      <div style="display:flex;justify-content:space-between;align-items:center">
+        <div style="font-size:13px;color:var(--t2)">${ot.icon} ${ot.name}</div>
+        <div style="font-size:10px;color:var(--t3)">${Math.max(8,Math.round((STATS.quadDist[k]||20)*1.2))} 人</div>
+      </div>
+      <div style="font-size:11px;color:var(--t3);margin-top:4px">${ot.motto}</div>
+    </div>`).join('')}
+
+    <div style="height:16px"></div>
+    <button class="btn btn-g" onclick="renderProf();go('sProf')">← 返回主页</button>
+  </div>`;
 }
 
 // ============================================================
