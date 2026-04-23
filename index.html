@@ -37,10 +37,10 @@
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--t1);font-family:var(--f-body);touch-action:manipulation;-webkit-font-smoothing:antialiased}
 #app{width:100%;height:100%;position:relative;overflow:hidden}
 
-/* PAGE */
-.p{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateX(50px);transition:opacity .4s,transform .4s;pointer-events:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
-.p.on{opacity:1;transform:translateX(0);pointer-events:auto;z-index:2}
-.p.out{opacity:0;transform:translateX(-50px);z-index:1}
+/* PAGE — 升级转场动效 */
+.p{position:absolute;top:0;left:0;width:100%;height:100%;display:flex;flex-direction:column;align-items:center;opacity:0;transform:translateY(30px) scale(.97);transition:opacity .45s cubic-bezier(.22,1,.36,1),transform .45s cubic-bezier(.22,1,.36,1);pointer-events:none;overflow-y:auto;-webkit-overflow-scrolling:touch;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom);will-change:opacity,transform}
+.p.on{opacity:1;transform:translateY(0) scale(1);pointer-events:auto;z-index:2}
+.p.out{opacity:0;transform:translateY(-20px) scale(.98);z-index:1}
 .pi{padding:48px 24px 40px;flex:1;width:100%;max-width:420px;margin:0 auto}
 .serif{font-family:var(--f-serif)}
 .display{font-family:var(--f-display)}
@@ -70,12 +70,13 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 /* GENDER */
 #sGender{background:radial-gradient(ellipse at 50% 40%,#14121e,var(--bg) 70%)}
 .gw{display:flex;gap:24px;justify-content:center;margin-top:36px}
-.gc{width:140px;padding:32px 16px 28px;border-radius:20px;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:2px solid var(--glass-b);text-align:center;cursor:pointer;transition:all .25s}
-.gc:hover{background:var(--glass-h);border-color:var(--glass-bh)}
-.gc:active{transform:scale(.95)}
-.gc.sel{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.06);box-shadow:0 8px 32px rgba(201,168,76,.08)}
-.gc-icon{font-size:52px;margin-bottom:12px}
-.gc-label{font-size:16px;color:var(--t2);letter-spacing:3px;font-weight:500}
+.gc{width:140px;padding:32px 16px 28px;border-radius:20px;background:var(--glass);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border:2px solid var(--glass-b);text-align:center;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1)}
+.gc:hover{background:var(--glass-h);border-color:var(--glass-bh);transform:translateY(-3px)}
+.gc:active{transform:scale(.93);transition-duration:.1s}
+.gc.sel{border-color:rgba(201,168,76,.4);background:rgba(201,168,76,.08);box-shadow:0 8px 32px rgba(201,168,76,.12),0 0 0 1px rgba(201,168,76,.1) inset;transform:translateY(-2px)}
+.gc-icon{font-size:52px;margin-bottom:12px;transition:transform .4s cubic-bezier(.34,1.56,.64,1)}
+.gc.sel .gc-icon{transform:scale(1.15)}
+.gc-label{font-size:16px;color:var(--t2);letter-spacing:3px;font-weight:500;transition:color .3s}
 .gc.sel .gc-label{color:var(--gold)}
 
 /* QUESTIONS */
@@ -85,50 +86,64 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .qn{font-family:var(--f-display);font-size:11px;color:var(--gold);letter-spacing:0.12em;margin-bottom:8px;text-transform:uppercase}
 .qt{font-family:var(--f-serif);font-size:20px;line-height:1.65;margin-bottom:24px}
 .qo{display:flex;flex-direction:column;gap:10px}
-.qopt{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .25s;-webkit-user-select:none;user-select:none}
-.qopt:hover{background:var(--glass-h);border-color:var(--glass-bh)}
-.qopt:active{transform:scale(.98)}
-.qopt .em{font-size:24px;flex-shrink:0}
-.qopt .lb{font-size:13px;color:var(--t2);line-height:1.5}
-.qopt.sel{background:rgba(201,168,76,.08);border-color:rgba(201,168,76,.3);box-shadow:0 4px 16px rgba(201,168,76,0.06)}
+.qopt{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .3s cubic-bezier(.22,1,.36,1);-webkit-user-select:none;user-select:none;opacity:0;transform:translateY(16px);will-change:opacity,transform}
+.p.on .qopt{opacity:1;transform:translateY(0)}
+.qopt:hover{background:var(--glass-h);border-color:var(--glass-bh);transform:translateY(-1px)}
+.qopt:active{transform:scale(.96) translateY(0);transition-duration:.1s}
+.qopt .em{font-size:24px;flex-shrink:0;transition:transform .3s cubic-bezier(.34,1.56,.64,1)}
+.qopt.sel .em{transform:scale(1.2)}
+.qopt .lb{font-size:13px;color:var(--t2);line-height:1.5;transition:color .3s}
+.qopt.sel{background:rgba(201,168,76,.1);border-color:rgba(201,168,76,.4);box-shadow:0 4px 24px rgba(201,168,76,0.1),inset 0 0 0 1px rgba(201,168,76,.08);transform:scale(1.01)}
 .qopt.sel .lb{color:var(--gold-l)}
 .qopt.dis{opacity:.3;pointer-events:none}
 .multi-hint{font-size:11px;color:var(--t3);margin-top:8px;text-align:center}
 
-/* LOADING */
+/* LOADING — 味觉DNA解码动效 */
 #sLoad{justify-content:center;align-items:center;background:radial-gradient(ellipse at 50% 50%,#14121e,var(--bg) 55%);text-align:center}
-.spin{width:100px;height:100px;border:3px solid rgba(201,168,76,.08);border-top-color:var(--gold);border-radius:50%;animation:sp 1s linear infinite;margin-bottom:24px}
+.load-wrap{position:relative;width:140px;height:140px;margin:0 auto 28px}
+.spin{position:absolute;top:0;left:0;width:140px;height:140px;border:2px solid rgba(201,168,76,.06);border-top-color:var(--gold);border-radius:50%;animation:sp 1.2s cubic-bezier(.4,0,.2,1) infinite}
+.spin-inner{position:absolute;top:16px;left:16px;width:108px;height:108px;border:2px solid rgba(201,168,76,.04);border-bottom-color:rgba(201,168,76,.5);border-radius:50%;animation:sp 1.8s cubic-bezier(.4,0,.2,1) infinite reverse}
+.load-icon{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);font-size:36px;animation:loadPulse 1.5s ease-in-out infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
+@keyframes loadPulse{0%,100%{opacity:.4;transform:translate(-50%,-50%) scale(.9)}50%{opacity:1;transform:translate(-50%,-50%) scale(1.1)}}
+.load-text{font-size:13px;color:var(--t3);letter-spacing:3px;animation:loadFade 2s ease-in-out infinite}
+.load-dots{display:inline}
+.load-dots::after{content:'';animation:dots 1.5s steps(4,end) infinite}
+@keyframes dots{0%{content:''}25%{content:'.'}50%{content:'..'}75%{content:'...'}}
+@keyframes loadFade{0%,100%{opacity:.3}50%{opacity:.8}}
 
-/* RESULT */
-.rc{border-radius:24px;padding:28px 20px;text-align:center;margin-bottom:22px;animation:rpop .55s cubic-bezier(.34,1.56,.64,1);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px)}
-@keyframes rpop{0%{opacity:0;transform:scale(.7)}100%{opacity:1;transform:scale(1)}}
+/* RESULT — 揭晓动效 */
+.rc{border-radius:24px;padding:28px 20px;text-align:center;margin-bottom:22px;backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);animation:rcReveal .7s cubic-bezier(.22,1,.36,1) both}
+@keyframes rcReveal{0%{opacity:0;transform:scale(.85) translateY(30px)}100%{opacity:1;transform:scale(1) translateY(0)}}
 .rc-edge{background:linear-gradient(135deg,rgba(44,44,52,.35),rgba(44,44,52,.1));border:1px solid rgba(44,44,52,.5)}
 .rc-bloom{background:linear-gradient(135deg,rgba(123,104,238,.1),rgba(176,196,222,.04));border:1px solid rgba(123,104,238,.2)}
 .rc-easy{background:linear-gradient(135deg,rgba(232,232,232,.06),rgba(245,245,247,.02));border:1px solid rgba(232,232,232,.15)}
 .rc-drop{background:linear-gradient(135deg,rgba(61,28,110,.18),rgba(26,10,46,.08));border:1px solid rgba(61,28,110,.3)}
 
-/* PORTRAIT */
-.portrait{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid rgba(201,168,76,.2);box-shadow:0 0 48px rgba(201,168,76,.1);animation:rpop .6s cubic-bezier(.34,1.56,.64,1)}
+/* PORTRAIT — 揭晓头像 */
+.portrait{width:180px;height:180px;border-radius:50%;object-fit:cover;margin:0 auto 14px;display:block;border:3px solid rgba(201,168,76,.2);box-shadow:0 0 48px rgba(201,168,76,.1);animation:portraitReveal .8s cubic-bezier(.22,1,.36,1) .15s both}
+@keyframes portraitReveal{0%{opacity:0;transform:scale(.5) rotate(-8deg);box-shadow:0 0 0 rgba(201,168,76,0)}60%{transform:scale(1.05) rotate(2deg)}100%{opacity:1;transform:scale(1) rotate(0);box-shadow:0 0 60px rgba(201,168,76,.15)}}
 .portrait-sm{width:58px;height:58px;border-radius:50%;object-fit:cover;border:2px solid var(--gold)}
 .portrait-xs{width:44px;height:44px;border-radius:50%;object-fit:cover;border:2px solid rgba(201,168,76,.3)}
 .emoji-fb{font-size:56px;text-align:center;margin-bottom:2px}
 
-.rn{font-family:var(--f-serif);font-size:26px;color:var(--gold-l)}
-.re{font-size:12px;color:var(--t3);letter-spacing:5px;margin-bottom:10px}
-.rl{font-size:13px;color:var(--t2);margin-bottom:10px;letter-spacing:2px}
-.rd{font-size:13px;color:var(--t2);line-height:1.85;text-align:left}
-.rt{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px}
-.rtg{background:var(--gold-subtle);border:1px solid rgba(201,168,76,.2);border-radius:9999px;padding:4px 12px;font-size:11px;color:var(--gold-l)}
-.rec{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-b);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin:10px 0 8px}
+.rn{font-family:var(--f-serif);font-size:26px;color:var(--gold-l);animation:textUp .5s cubic-bezier(.22,1,.36,1) .35s both}
+.re{font-size:12px;color:var(--t3);letter-spacing:5px;margin-bottom:10px;animation:textUp .5s cubic-bezier(.22,1,.36,1) .25s both}
+.rl{font-size:13px;color:var(--t2);margin-bottom:10px;letter-spacing:2px;animation:textUp .5s cubic-bezier(.22,1,.36,1) .45s both}
+.rd{font-size:13px;color:var(--t2);line-height:1.85;text-align:left;animation:textUp .5s cubic-bezier(.22,1,.36,1) .55s both}
+.rt{display:flex;flex-wrap:wrap;gap:7px;justify-content:center;margin-top:14px;animation:textUp .5s cubic-bezier(.22,1,.36,1) .65s both}
+.rtg{background:var(--gold-subtle);border:1px solid rgba(201,168,76,.2);border-radius:9999px;padding:4px 12px;font-size:11px;color:var(--gold-l);transition:transform .2s}
+.rtg:active{transform:scale(.95)}
+@keyframes textUp{0%{opacity:0;transform:translateY(14px)}100%{opacity:1;transform:translateY(0)}}
+.rec{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-b);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;margin:10px 0 8px;animation:textUp .5s cubic-bezier(.22,1,.36,1) .75s both}
 .bot{width:38px;height:54px;background:linear-gradient(180deg,rgba(201,168,76,0.3),rgba(201,168,76,0.1));border:1px solid rgba(201,168,76,0.2);border-radius:5px 5px 3px 3px;position:relative;flex-shrink:0}
 .bot::before{content:'';position:absolute;top:-6px;left:50%;transform:translateX(-50%);width:13px;height:8px;background:rgba(201,168,76,0.4);border-radius:3px 3px 0 0}
 
-/* VOTE */
-.vc{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);border-radius:18px;padding:16px 18px;margin-bottom:11px;cursor:pointer;transition:all .25s}
-.vc:hover{background:var(--glass-h);border-color:var(--glass-bh)}
-.vc:active{transform:scale(.98)}
-.vc.vd{border-color:rgba(201,168,76,.3);background:rgba(201,168,76,.06)}
+/* VOTE — 投票卡片 */
+.vc{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);border-radius:18px;padding:16px 18px;margin-bottom:11px;cursor:pointer;transition:all .35s cubic-bezier(.22,1,.36,1)}
+.vc:hover{background:var(--glass-h);border-color:var(--glass-bh);transform:translateY(-2px)}
+.vc:active{transform:scale(.97);transition-duration:.1s}
+.vc.vd{border-color:rgba(201,168,76,.35);background:rgba(201,168,76,.08);box-shadow:0 4px 20px rgba(201,168,76,.08);transform:translateY(-1px)}
 .vct{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}
 .vck{width:24px;height:24px;border:2px solid #333;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:13px;transition:all .2s;flex-shrink:0}
 .vc.vd .vck{border-color:var(--gold);background:var(--gold);color:#000}
@@ -197,6 +212,48 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .explore-hint{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-b);border-radius:12px;padding:10px 14px;font-size:12px;color:var(--t2);display:flex;align-items:center;gap:8px;margin-bottom:20px}
 .explore-hint span{color:var(--gold)}
 
+/* FRESH UPGRADE BANNER */
+.upgrade-banner{background:linear-gradient(135deg,rgba(201,168,76,.08),rgba(201,168,76,.02));border:1px dashed rgba(201,168,76,.3);border-radius:16px;padding:18px 16px;text-align:center;margin:14px 0;animation:rpop .5s ease}
+.upgrade-banner .ub-pct{font-family:var(--f-display);font-size:36px;color:var(--gold);font-weight:700;line-height:1}
+.upgrade-banner .ub-label{font-size:12px;color:var(--t3);margin:4px 0 10px}
+.upgrade-banner .ub-desc{font-size:13px;color:var(--t2);line-height:1.7;margin-bottom:14px}
+.upgrade-banner .btn-upgrade{display:inline-flex;align-items:center;gap:6px;background:rgba(201,168,76,.12);border:1px solid rgba(201,168,76,.3);border-radius:9999px;padding:10px 22px;font-size:14px;color:var(--gold);font-weight:600;cursor:pointer;transition:all .25s;font-family:var(--f-body)}
+.upgrade-banner .btn-upgrade:hover{background:rgba(201,168,76,.2)}
+.upgrade-banner .btn-upgrade:active{transform:scale(.97)}
+
+/* 对味推荐 SKU GRID */
+.duiwei-section{margin:16px 0}
+.duiwei-title{font-family:var(--f-display);font-size:11px;color:var(--gold);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:10px;text-align:center}
+.duiwei-grid{display:flex;flex-direction:column;gap:10px}
+.duiwei-card{background:var(--glass);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid var(--glass-b);border-radius:14px;padding:14px 16px;display:flex;align-items:center;gap:12px;transition:all .25s}
+.duiwei-card:hover{background:var(--glass-h);border-color:var(--glass-bh)}
+.duiwei-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:20px;flex-shrink:0}
+.duiwei-icon.di-edge{background:rgba(44,44,52,.5);border:1px solid rgba(44,44,52,.8)}
+.duiwei-icon.di-bloom{background:rgba(123,104,238,.1);border:1px solid rgba(123,104,238,.2)}
+.duiwei-icon.di-easy{background:rgba(232,232,232,.06);border:1px solid rgba(232,232,232,.15)}
+.duiwei-info{flex:1}
+.duiwei-name{font-size:14px;font-weight:600;color:var(--t1)}
+.duiwei-desc{font-size:11px;color:var(--t3);margin-top:2px}
+.duiwei-price{font-size:15px;color:var(--gold);font-weight:700;font-family:var(--f-display)}
+.duiwei-match{display:inline-flex;align-items:center;gap:3px;font-size:10px;color:var(--gold);background:rgba(201,168,76,.08);border-radius:9999px;padding:2px 8px;margin-top:4px}
+
+/* 人格分布 */
+.persona-dist{margin:12px 0}
+.persona-dist .pd-title{font-family:var(--f-display);font-size:11px;color:var(--t3);letter-spacing:0.08em;text-transform:uppercase;margin-bottom:8px;text-align:center}
+.persona-dist .pd-row{display:flex;align-items:center;gap:8px;margin-bottom:5px}
+.persona-dist .pd-name{font-size:11px;color:var(--t2);width:44px;text-align:right;flex-shrink:0}
+.persona-dist .pd-bar{flex:1;height:6px;background:rgba(255,255,255,.04);border-radius:3px;overflow:hidden}
+.persona-dist .pd-fill{height:100%;border-radius:3px;transition:width .8s ease .2s}
+.persona-dist .pd-fill-me{background:linear-gradient(90deg,var(--gold),var(--gold-l))}
+.persona-dist .pd-fill-other{background:rgba(255,255,255,.12)}
+.persona-dist .pd-num{font-size:10px;color:var(--t3);width:28px;font-family:var(--f-display)}
+
+/* 抖音购买按钮 */
+.btn-shop{display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#FE2C55,#25F4EE);border:none;border-radius:9999px;padding:14px 24px;font-size:15px;color:#fff;font-weight:700;cursor:pointer;width:100%;font-family:var(--f-body);transition:all .25s;text-decoration:none;letter-spacing:0.02em;box-shadow:0 4px 20px rgba(254,44,85,.2)}
+.btn-shop:hover{box-shadow:0 6px 28px rgba(254,44,85,.3);transform:translateY(-1px)}
+.btn-shop:active{transform:scale(.97)}
+.shop-hint{text-align:center;font-size:11px;color:var(--t3);margin-top:6px}
+
 /* === PROFILE ENHANCED === */
 .level-bar{height:4px;background:rgba(255,255,255,.04);border-radius:9999px;overflow:hidden;margin:6px 0 4px}
 .level-fill{height:100%;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:9999px;transition:width 1s ease .3s}
@@ -209,6 +266,40 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 .stat-card{background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-b);border-radius:12px;padding:10px 4px;text-align:center}
 .stat-val{font-family:var(--f-display);font-size:20px;color:var(--gold);font-weight:600}
 .stat-lbl{font-size:9px;color:var(--t3);margin-top:2px;letter-spacing:0.04em}
+
+/* === POSTER OVERLAY (微信长按保存) === */
+.poster-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.92);z-index:9999;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s ease;-webkit-overflow-scrolling:touch;overflow-y:auto;padding:20px 0}
+.poster-overlay.show{opacity:1;pointer-events:auto}
+.poster-hint{color:var(--gold);font-size:14px;letter-spacing:2px;margin-bottom:16px;animation:hintPulse 2s ease-in-out infinite;text-align:center;padding:0 20px}
+@keyframes hintPulse{0%,100%{opacity:.6}50%{opacity:1}}
+.poster-img{max-width:88vw;max-height:70vh;border-radius:12px;box-shadow:0 8px 40px rgba(0,0,0,.5);-webkit-touch-callout:default !important}
+.poster-close{margin-top:20px;padding:12px 32px;background:var(--glass);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid var(--glass-b);border-radius:9999px;color:var(--t2);font-size:14px;cursor:pointer;transition:all .2s}
+.poster-close:active{transform:scale(.95);background:var(--glass-h)}
+.poster-saving{color:var(--t3);font-size:12px;margin-top:10px}
+
+/* ═══ 风味罗盘 Flavor Compass ═══ */
+.compass-hero{position:relative;width:100%;display:flex;flex-direction:column;align-items:center;padding-top:12px}
+.compass-avatar{width:100px;height:100px;border-radius:50%;border:2.5px solid var(--gold);object-fit:cover;position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;box-shadow:0 0 24px rgba(201,168,76,.25)}
+.compass-avatar-fb{width:100px;height:100px;border-radius:50%;border:2.5px solid var(--gold);position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);z-index:3;display:flex;align-items:center;justify-content:center;font-size:48px;background:linear-gradient(135deg,var(--gold),#5a3d0a)}
+.compass-canvas-wrap{position:relative;width:min(340px,92vw);height:min(340px,92vw);margin:0 auto}
+.compass-canvas-wrap canvas{width:100%;height:100%}
+.compass-legend{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:16px 0;width:100%}
+.compass-leg-item{display:flex;align-items:center;gap:8px;padding:8px 10px;background:var(--glass);border-radius:10px;border:1px solid var(--glass-b)}
+.compass-leg-dot{width:10px;height:10px;border-radius:50%;flex-shrink:0}
+.compass-leg-name{font-size:13px;color:var(--t1);font-weight:600}
+.compass-leg-val{font-size:13px;color:var(--gold);font-weight:700;margin-left:auto}
+.compass-beer-title{text-align:center;font-size:12px;color:var(--t3);letter-spacing:3px;margin:20px 0 10px}
+.compass-beer-list{display:flex;flex-direction:column;gap:8px;width:100%}
+.compass-beer{display:flex;align-items:center;gap:12px;padding:12px 14px;background:var(--glass);border-radius:12px;border:1px solid var(--glass-b);transition:transform .2s}
+.compass-beer:active{transform:scale(.98)}
+.compass-beer-icon{font-size:28px;flex-shrink:0}
+.compass-beer-info{flex:1;min-width:0}
+.compass-beer-name{font-size:14px;font-weight:600;color:var(--t1)}
+.compass-beer-style{font-size:11px;color:var(--t3);margin-top:2px}
+.compass-beer-match{display:flex;align-items:center;gap:4px}
+.compass-beer-bar{height:4px;border-radius:2px;background:rgba(201,168,76,.15);flex:1;overflow:hidden}
+.compass-beer-bar-fill{height:100%;border-radius:2px;background:var(--gold);transition:width .8s cubic-bezier(.22,1,.36,1)}
+.compass-beer-pct{font-size:11px;color:var(--gold);font-weight:700;width:32px;text-align:right}
 </style>
 </head>
 <body>
@@ -222,7 +313,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
   <div class="logo-s">GÒNNIANG とも</div>
   <div class="logo-jam">JAM · 即兴精酿</div>
   <div class="ring" onclick="go('sGender')"><div class="ring-t">发现你的<br>味觉DNA</div></div>
-  <div class="hint">8 道感官题 · 90 秒 · 边喝边答</div>
+  <div class="hint">5-10 道味觉题 · 90 秒 · 边喝边答</div>
   <div class="test-count" id="testCount"></div>
   <div class="tagline">用味觉，投票你想喝的下一杯</div>
 </div>
@@ -247,7 +338,30 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 </div>
 </div>
 
-<!-- S1-S8: Questions (JS rendered) -->
+<!-- Tier Selection -->
+<div class="p" id="sTier">
+<div class="pi" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+  <div style="font-size:11px;color:var(--gold);letter-spacing:4px;margin-bottom:10px">选择你的段位</div>
+  <div class="serif" style="font-size:22px;text-align:center;line-height:1.7">你和精酿啤酒<br>是什么关系？</div>
+  <div style="display:flex;flex-direction:column;gap:14px;margin-top:28px;width:100%;max-width:320px">
+    <div class="gc" style="width:100%;display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:18px" onclick="pickTier('fresh',this)">
+      <div style="font-size:36px">🌱</div>
+      <div style="text-align:left"><div class="gc-label" style="font-size:16px;letter-spacing:1px;margin-bottom:4px">完全小白</div><div style="font-size:11px;color:var(--t3)">5题 · 生活直觉 · 不懂也没关系</div></div>
+    </div>
+    <div class="gc" style="width:100%;display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:18px" onclick="pickTier('craft',this)">
+      <div style="font-size:36px">🍺</div>
+      <div style="text-align:left"><div class="gc-label" style="font-size:16px;letter-spacing:1px;margin-bottom:4px">有点经验</div><div style="font-size:11px;color:var(--t3)">8题 · 感官引导 · 凭感觉走</div></div>
+    </div>
+    <div class="gc" style="width:100%;display:flex;align-items:center;gap:16px;padding:20px 22px;border-radius:18px" onclick="pickTier('nerd',this)">
+      <div style="font-size:36px">🧪</div>
+      <div style="text-align:left"><div class="gc-label" style="font-size:16px;letter-spacing:1px;margin-bottom:4px">老司机</div><div style="font-size:11px;color:var(--t3)">10题 · 专业术语 · 你说了算</div></div>
+    </div>
+  </div>
+  <div style="font-size:11px;color:var(--t3);margin-top:22px">选错了也没事，不影响结果准确度</div>
+</div>
+</div>
+
+<!-- S1-S10: Questions (JS rendered, max 10 for NERD) -->
 <div class="p" id="s1"></div>
 <div class="p" id="s2"></div>
 <div class="p" id="s3"></div>
@@ -256,11 +370,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 <div class="p" id="s6"></div>
 <div class="p" id="s7"></div>
 <div class="p" id="s8"></div>
+<div class="p" id="s9"></div>
+<div class="p" id="s10"></div>
 
 <!-- Loading -->
 <div class="p" id="sLoad">
-  <div class="spin"></div>
-  <div style="font-size:15px;color:var(--t3);letter-spacing:3px">正在分析你的味觉 DNA…</div>
+  <div class="load-wrap">
+    <div class="spin"></div>
+    <div class="spin-inner"></div>
+    <div class="load-icon">🧬</div>
+  </div>
+  <div class="load-text">正在解码你的味觉 DNA<span class="load-dots"></span></div>
 </div>
 
 <!-- Result -->
@@ -271,11 +391,41 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 <div class="p" id="sVoted"></div>
 <!-- Delivery -->
 <div class="p" id="sDeliv"></div>
+<!-- Flavor Compass -->
+<div class="p" id="sCompass"></div>
 <!-- Profile -->
 <div class="p" id="sProf"></div>
 
 </div>
 <script>
+// ============================================================
+//  DEVICE FINGERPRINT — tomo_uid (cookie, 8位, 365天)
+// ============================================================
+function genUID(){
+  const chars='ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789';
+  let r='';for(let i=0;i<8;i++)r+=chars[Math.floor(Math.random()*chars.length)];
+  return r;
+}
+function getTomoUID(){
+  const m=document.cookie.match(/tomo_uid=([^;]+)/);
+  if(m)return m[1];
+  const uid=genUID();
+  document.cookie='tomo_uid='+uid+';max-age='+60*60*24*365+';path=/;SameSite=Lax';
+  return uid;
+}
+const TOMO_UID=getTomoUID();
+
+// ============================================================
+//  REFERRAL TRACKING — ?ref=xxx
+// ============================================================
+const urlParams=new URLSearchParams(window.location.search);
+window._referrer=urlParams.get('ref')||'';
+// 我的裂变链接 = 当前页面 + ?ref=我的tomo_uid
+function getMyRefURL(){
+  const base=window.location.origin+window.location.pathname;
+  return base+'?ref='+TOMO_UID;
+}
+
 // ============================================================
 //  CONFIG — Google Form integration
 // ============================================================
@@ -311,35 +461,48 @@ function sbPost(table, body) {
   }).then(r => r.json()).catch(() => null);
 }
 
+function sbGet(query) {
+  return fetch(SB_URL + '/' + query, {
+    headers: { 'apikey': SB_KEY, 'Authorization': 'Bearer ' + SB_KEY }
+  }).then(r => r.json()).catch(() => []);
+}
+
 async function submitToSupabase(persona) {
+  // Build answer codes as JSONB (flexible for any tier/question count)
+  const qAnswers = {};
+  for (let i = 0; i < activeQ.length; i++) {
+    const a = ans[i];
+    const qid = activeQ[i].id;
+    if (a === null || a === undefined) qAnswers[qid] = null;
+    else if (Array.isArray(a)) qAnswers[qid] = a.map(j => activeQ[i].o[j].code).join(',');
+    else qAnswers[qid] = activeQ[i].o[a].code;
+  }
+
+  // Also populate legacy q1-q8 fields for CRAFT (backward compatible)
   const codes = [];
   for (let i = 0; i < 8; i++) {
-    const a = ans[i];
-    if (a === null || a === undefined) codes.push(null);
-    else if (Array.isArray(a)) codes.push(a.map(j => Q[i].o[j].code).join(','));
-    else codes.push(Q[i].o[a].code);
+    if (userTier === 'craft' && i < activeQ.length) {
+      const a = ans[i];
+      if (a === null || a === undefined) codes.push(null);
+      else if (Array.isArray(a)) codes.push(a.map(j => activeQ[i].o[j].code).join(','));
+      else codes.push(activeQ[i].o[a].code);
+    } else codes.push(null);
   }
-  let sE=0,sB=0,sD=0;
-  if(has(0,'visual_dark'))sE+=2;else if(has(0,'visual_light'))sD+=2;else if(has(0,'visual_medium'))sB+=1;
-  const q2c=getCode(1);q2c.forEach(c=>{if(c==='aroma_herbal')sE+=3;else if(c==='aroma_fruit')sB+=3;else if(c==='aroma_alcohol')sE+=1;else if(c==='aroma_null')sD+=2;});
-  if(q2c.includes('aroma_roast')){if(q3val()>=3)sE+=2;else sD+=1;}
-  const bv=q3val();if(bv===4)sE+=4;else if(bv===3)sE+=3;else if(bv===2)sB+=1;else if(bv===1)sD+=3;else if(bv===5){sD+=4;sE-=3;}
-  if(has(3,'bitter_pos_throat'))sE+=1;else if(has(3,'bitter_pos_side'))sE+=1;else if(has(3,'bitter_pos_tip'))sB+=1;else if(has(3,'bitter_pos_null'))sD+=1;
-  if(has(4,'aftertaste_clean'))sD+=2;else if(has(4,'aftertaste_heavy')){if(sE>sB&&sE>sD)sE+=2;else sB+=2;}else if(has(4,'aftertaste_astringent'))sE+=1;else if(has(4,'aftertaste_null'))sD+=1;
-  if(has(4,'aftertaste_heavy')&&q2c.includes('aroma_roast'))sE+=1;
-  if(has(5,'scene_solo'))sE+=1;else if(has(5,'scene_crowd'))sB+=2;else if(has(5,'scene_small'))sB+=1;else if(has(5,'scene_null'))sD+=1;
-  if(has(6,'accept_repeat'))sB+=1;else if(has(6,'accept_stop'))sD+=1;
-  if(has(7,'motive_taste'))sE+=2;else if(has(7,'motive_social'))sB+=1;else if(has(7,'motive_feeling'))sB+=1;
+
+  const sc = calcScoresRaw();
 
   const res = await sbPost('test_results', {
     gender: userGender,
+    tier: userTier,
     q1: codes[0], q2: codes[1], q3: codes[2], q4: codes[3],
     q5: codes[4], q6: codes[5], q7: codes[6], q8: codes[7],
+    q_answers: qAnswers,
     persona_id: persona.id, persona_bio: persona.bio,
     persona_pro: persona.pro, persona_quad: persona.quad,
     persona_suit: persona.suit,
-    score_edge: sE, score_bloom: sB, score_easy: sD,
-    user_agent: navigator.userAgent, referrer: window._referrer||document.referrer||null
+    score_edge: Math.round(sc.edge), score_bloom: Math.round(sc.bloom), score_easy: Math.round(sc.easy),
+    tomo_uid: TOMO_UID, ref_from: window._referrer||null,
+    user_agent: navigator.userAgent, referrer: document.referrer||null
   });
   if (res && res[0]) { lastTestResultId = res[0].id; loadMyRefCount(); }
 }
@@ -353,8 +516,10 @@ async function submitVoteToSupabase(beerIndex, beerName) {
 // ============================================================
 let curPage='s0';
 let userGender='m'; // 'm' or 'f'
-let ans=new Array(8).fill(null);
+let userTier='craft'; // 'fresh' / 'craft' / 'nerd'
+let ans=[];
 let votedI=-1;
+let activeQ=[]; // current question set based on tier
 
 // ============================================================
 //  GENDER SELECTION
@@ -362,16 +527,68 @@ let votedI=-1;
 function pickGender(g,el){
   userGender=g;
   if(navigator.vibrate)navigator.vibrate(8);
-  document.querySelectorAll('.gc').forEach(c=>c.classList.remove('sel'));
+  document.querySelectorAll('#sGender .gc').forEach(c=>c.classList.remove('sel'));
   el.classList.add('sel');
-  setTimeout(()=>go('s1'),450);
+  setTimeout(()=>go('sTier'),450);
 }
 
 // ============================================================
-//  8 QUESTIONS — from TOMO_系统规范_v1.0 §2.3
+//  THREE QUESTION SETS — from TOMO_H5_v2_产品方案
 // ============================================================
-const Q=[
-  { id:'q1', title:'看看杯子里的酒——<br>它的颜色让你想到……',
+
+// FRESH · 完全小白（5题）— 生活直觉型
+const Q_FRESH=[
+  { id:'f1', title:'你平时喝什么？',
+    hint:'没有对错，选你第一反应就好 ☺',
+    multi:false,
+    o:[
+      {e:'🥤',t:'奶茶/果汁多一点',code:'sweet_base'},
+      {e:'🍺',t:'啤酒偶尔来一杯',code:'beer_casual'},
+      {e:'🍷',t:'红酒/鸡尾酒',code:'wine_cocktail'},
+      {e:'🚰',t:'就喝水和咖啡',code:'minimal'}
+    ]},
+  { id:'f2', title:'吃火锅你选什么锅底？',
+    hint:'凭直觉选 ☺',
+    multi:false,
+    o:[
+      {e:'🍅',t:'番茄锅（不辣、酸甜）',code:'mild'},
+      {e:'🌶️',t:'微辣锅（有点刺激但能扛）',code:'medium'},
+      {e:'🔥',t:'牛油麻辣（越辣越爽）',code:'intense'},
+      {e:'🥬',t:'清汤锅（原味就好）',code:'clean'}
+    ]},
+  { id:'f3', title:'朋友递给你一杯精酿，<br>你第一反应？',
+    hint:'想象一下这个场景 ☺',
+    multi:false,
+    o:[
+      {e:'😍',t:'尝尝！什么味的？',code:'curious_open'},
+      {e:'🤔',t:'好喝吗？苦不苦？',code:'cautious'},
+      {e:'😎',t:'什么牌子？我研究一下',code:'analytical'},
+      {e:'😅',t:'我先闻闻……',code:'sensory_first'}
+    ]},
+  { id:'f4', title:'如果酒也有性格，<br>你想喝哪种？',
+    hint:'选最吸引你的那个 ☺',
+    multi:false,
+    o:[
+      {e:'🌸',t:'温柔的、甜甜的、像初恋',code:'bloom_vibe'},
+      {e:'⚡',t:'有冲击力的、一口记住的',code:'edge_vibe'},
+      {e:'💧',t:'清清爽爽的、像矿泉水加了点味道',code:'easy_vibe'},
+      {e:'🎭',t:'复杂的、每一口不一样的',code:'complex_vibe'}
+    ]},
+  { id:'f5', title:'一个人待着 vs 一群人嗨，<br>你更想喝酒的时刻？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'🌙',t:'安静独处，微醺刚好',code:'solo'},
+      {e:'👥',t:'三五好友，聊着喝',code:'small_group'},
+      {e:'🎉',t:'聚会蹦迪，气氛到了',code:'party'},
+      {e:'🤷',t:'都行，看心情',code:'flexible'}
+    ]}
+];
+
+// CRAFT · 有点经验（8题）— 感官引导型
+const Q_CRAFT=[
+  { id:'c1', title:'看看杯子里的酒——<br>它的颜色让你想到……',
+    hint:'凭感觉走',
     multi:false,
     o:[
       {e:'🍯',t:'阳光穿过蜂蜜',code:'visual_light'},
@@ -379,7 +596,8 @@ const Q=[
       {e:'☕',t:'深夜的咖啡',code:'visual_dark'},
       {e:'🫥',t:'没什么特别感觉',code:'visual_null'}
     ]},
-  { id:'q2', title:'凑近杯口——<br>你闻到了什么？',
+  { id:'c2', title:'凑近杯口——<br>你闻到了什么？',
+    hint:'凭感觉走',
     multi:true, maxSel:2,
     o:[
       {e:'🌿',t:'花园里的草和花',code:'aroma_herbal'},
@@ -388,7 +606,8 @@ const Q=[
       {e:'🫠',t:'有点刺鼻/酒精感',code:'aroma_alcohol'},
       {e:'❓',t:'说不上来/没闻到什么',code:'aroma_null'}
     ]},
-  { id:'q3', title:'喝一小口——<br>苦味强度如何？',
+  { id:'c3', title:'喝一小口——<br>苦味强度如何？',
+    hint:'',
     multi:false,
     o:[
       {e:'💧',t:'几乎没有苦味',code:'bitter_1'},
@@ -397,7 +616,8 @@ const Q=[
       {e:'🔥',t:'很苦，但还想再喝',code:'bitter_4'},
       {e:'🚫',t:'太苦了',code:'bitter_5'}
     ]},
-  { id:'q4', title:'如果有苦味，<br>它停留在哪里？',
+  { id:'c4', title:'如果有苦味，<br>它停留在哪里？',
+    hint:'',
     multi:false,
     o:[
       {e:'👅',t:'舌尖一闪就走了',code:'bitter_pos_tip'},
@@ -405,7 +625,8 @@ const Q=[
       {e:'🫁',t:'喉咙深处回荡',code:'bitter_pos_throat'},
       {e:'🤷',t:'没什么苦味/不确定',code:'bitter_pos_null'}
     ]},
-  { id:'q5', title:'咽下去——<br>嘴里留下了什么？',
+  { id:'c5', title:'咽下去——<br>嘴里留下了什么？',
+    hint:'',
     multi:false,
     o:[
       {e:'💨',t:'很清爽，像喝了口水',code:'aftertaste_clean'},
@@ -413,7 +634,17 @@ const Q=[
       {e:'🍵',t:'有点涩，像浓茶',code:'aftertaste_astringent'},
       {e:'🫥',t:'好像什么都没留下',code:'aftertaste_null'}
     ]},
-  { id:'q6', title:'什么时候<br>你最想来一杯？',
+  { id:'c6', title:'你更喜欢哪种酒的"收尾"？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'💨',t:'干净利落，说走就走',code:'finish_clean'},
+      {e:'🍬',t:'缓缓的甜，像回忆',code:'finish_sweet'},
+      {e:'🔥',t:'慢慢烧，越来越暖',code:'finish_warm'},
+      {e:'🌊',t:'一波一波的，每次不一样',code:'finish_wave'}
+    ]},
+  { id:'c7', title:'什么时候<br>你最想来一杯？',
+    hint:'',
     multi:false,
     o:[
       {e:'🌙',t:'一个人安静待着的时候',code:'scene_solo'},
@@ -421,14 +652,8 @@ const Q=[
       {e:'🎉',t:'球赛/聚会/热闹的地方',code:'scene_crowd'},
       {e:'😶',t:'其实不怎么想喝酒',code:'scene_null'}
     ]},
-  { id:'q7', title:'这杯酒喝完——',
-    multi:false,
-    o:[
-      {e:'🔄',t:'再来一杯同样的',code:'accept_repeat'},
-      {e:'🔀',t:'想换一款试试',code:'accept_explore'},
-      {e:'✋',t:'够了，今天不喝了',code:'accept_stop'}
-    ]},
-  { id:'q8', title:'你喝酒，<br>通常是因为——',
+  { id:'c8', title:'你喝酒，<br>通常是因为——',
+    hint:'',
     multi:false,
     o:[
       {e:'🥂',t:'喜欢那种微醺的感觉',code:'motive_feeling'},
@@ -438,153 +663,449 @@ const Q=[
     ]}
 ];
 
+// NERD · 老司机（10题）— 专业技术型
+const Q_NERD=[
+  { id:'n1', title:'今天你最想喝什么风格？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'🌲',t:'West Coast IPA — 松脂+柚皮，干苦到底',code:'style_wc'},
+      {e:'🌫️',t:'Hazy IPA — 果汁感，低苦高香',code:'style_hazy'},
+      {e:'☕',t:'Imperial Stout — 深焙、巧克力、12%+',code:'style_stout'},
+      {e:'🍋',t:'Gose/Berliner — 酸到牙疼还想再喝',code:'style_sour'}
+    ]},
+  { id:'n2', title:'你最在意酒花的哪个维度？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'🌿',t:'苦度（IBU说了算）',code:'hop_bitter'},
+      {e:'🌸',t:'香气（Citra还是Mosaic我分得清）',code:'hop_aroma'},
+      {e:'🧊',t:'鲜度（dry hop时间我有意见）',code:'hop_fresh'},
+      {e:'🤷',t:'酒花是辅助，麦芽才是灵魂',code:'malt_first'}
+    ]},
+  { id:'n3', title:'你能接受的最高ABV？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'📏',t:'5%以下（session才是正义）',code:'abv_low'},
+      {e:'📐',t:'5-8%（标准区间）',code:'abv_mid'},
+      {e:'📏',t:'8-12%（有劲才叫喝酒）',code:'abv_high'},
+      {e:'♾️',t:'没有上限（大麦酒来者不拒）',code:'abv_max'}
+    ]},
+  { id:'n4', title:'盲品你最有信心猜对的是？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'🎯',t:'风格（IPA vs Stout）',code:'blind_style'},
+      {e:'🧪',t:'酒花品种（Simcoe vs Amarillo）',code:'blind_hop'},
+      {e:'🏭',t:'酒厂（熊猫 vs 高大师）',code:'blind_brewery'},
+      {e:'🤡',t:'我不做盲品，喝得开心就行',code:'blind_skip'}
+    ]},
+  { id:'n5', title:'你怎么看"精酿鄙视链"？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'⬆️',t:'存在且合理，口味有高下',code:'chain_yes'},
+      {e:'⬇️',t:'扯淡，好喝就行',code:'chain_no'},
+      {e:'🔄',t:'以前信，现在觉得没必要',code:'chain_evolved'},
+      {e:'😈',t:'我就是链顶',code:'chain_top'}
+    ]},
+  { id:'n6', title:'你更看重酿酒师的哪个能力？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'🎨',t:'创意（敢用奇怪原料）',code:'brewer_creative'},
+      {e:'⚖️',t:'稳定性（每批味道一样）',code:'brewer_stable'},
+      {e:'📚',t:'对经典风格的理解',code:'brewer_classic'},
+      {e:'🔬',t:'技术控制力（发酵温控、pH）',code:'brewer_tech'}
+    ]},
+  { id:'n7', title:'一款酒你会喝几次<br>才给评价？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'1️⃣',t:'一口就知道了',code:'eval_instant'},
+      {e:'2️⃣',t:'至少喝完一整杯',code:'eval_full'},
+      {e:'3️⃣',t:'不同温度、不同杯型各来一次',code:'eval_thorough'},
+      {e:'🔁',t:'同一款酒不同批次对比',code:'eval_obsessive'}
+    ]},
+  { id:'n8', title:'"好喝"和"好酒"<br>是一回事吗？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'✅',t:'是，好喝就是好酒',code:'good_same'},
+      {e:'❌',t:'不是，有些好酒不好喝',code:'good_diff'},
+      {e:'🤔',t:'看对谁说',code:'good_context'},
+      {e:'🙄',t:'又来了，这个问题很无聊',code:'good_bored'}
+    ]},
+  { id:'n9', title:'你怎么看零糖/低卡精酿？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'👍',t:'市场需要，支持创新',code:'health_positive'},
+      {e:'👎',t:'精酿的灵魂在于不妥协',code:'health_purist'},
+      {e:'🧐',t:'要看执行，概念不代表品质',code:'health_nuanced'},
+      {e:'💰',t:'谁买谁傻',code:'health_cynical'}
+    ]},
+  { id:'n10', title:'最后一个问题：<br>你觉得AI能酿出好酒吗？',
+    hint:'',
+    multi:false,
+    o:[
+      {e:'🤖',t:'能，数据比舌头准',code:'ai_yes'},
+      {e:'🙅',t:'不能，酿酒是手艺',code:'ai_no'},
+      {e:'🤝',t:'AI辅助+人做决定，最优解',code:'ai_hybrid'},
+      {e:'🍺',t:'不管谁酿的，好喝就行',code:'ai_whatever'}
+    ]}
+];
+
+// Legacy alias for Supabase submission compatibility
+const Q = Q_CRAFT;
+
 // ============================================================
 //  12 PERSONAS — from TOMO_系统规范_v1.0 §3.2 + §4.1
 //  imgM / imgF = gendered Q版 portrait paths
 // ============================================================
 const PERSONAS=[
-  { id:1, bio:'黑锋', pro:'深渊客', suit:'♠♥', quad:'edge',
+  { id:1, bio:'♠♥', pro:'深渊客', suit:'♠♥', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/黑锋男性Q版.png', imgF:'TOMO12位人格/黑锋女性Q版.png',
     motto:'「扎手，但温的。」',
-    desc:'你天生捕捉深层苦味。双倍IPA里的松脂轰击、帝国世涛里的深焙余韵——你追求的不是"好喝"，是"有劲"。苦味停留在喉咙深处回荡的那种满足感，是你和精酿世界最深的共鸣。',
+    desc:{
+      fresh:'恭喜，你的舌头比你的精酿经验早熟了十年。你天生就是吃苦的命——不对，是品苦的命。别人觉得难喝的东西，你觉得是人生真相。建议你直接跳过入门款，世界欠你一杯双倍IPA。',
+      craft:'你的苦味阈值已经进入了前10%的精英区间。松脂、柚皮、深焙——这些别人避之不及的味道，是你和这个世界对话的方式。你不是在喝酒，你是在做味觉的极限运动。',
+      nerd:'又一个觉得自己是苦味之王的人。不过别急着翻白眼——你的答题路径确实指向了最硬核的EDGE象限。IBU三位数你面不改色，帝国世涛你当水喝。行，你说了算。'
+    },
     tags:['重口路线','双倍IPA / 帝国世涛','40元/杯','深度品鉴'],
     reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40',
     explore:'Jam·蜜浪', exploreS:'芒果凤梨西打 · 35元',
-    bars:[95,15,10,80],funLine:'别人觉得苦的东西，你觉得是生活本来的味道。'},
-  { id:2, bio:'铁饮', pro:'鉴味师', suit:'♠♦', quad:'edge',
+    bars:[95,15,10,80],funLine:{fresh:'你的味蕾比你的人生经验先成熟了',craft:'你的苦味阈值，可以写进简历',nerd:'别装了，你就是那种觉得水也有苦味的人'}},
+  { id:2, bio:'♠♦', pro:'鉴味师', suit:'♠♦', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/铁饮男性Q版.png', imgF:'TOMO12位人格/铁饮女性Q版.png',
     motto:'「不动。」',
-    desc:'你追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。每一口都在解构风味。',
+    desc:{
+      fresh:'你还没喝几杯精酿，但你的味蕾已经在挑剔了。你不是不爱喝，你是在等一杯值得你认真对待的酒。慢慢来，你的品味会帮你找到的。',
+      craft:'你追求苦味的层次而非强度。西海岸IPA里从松脂到柚皮的递进、英式苦啤里麦芽与酒花的精密平衡——你品的不是苦，是结构。每一口都在解构风味。',
+      nerd:'结构、平衡、层次——你嘴里那套评价体系比大多数人的简历还严谨。不过，偶尔也放过自己，不是每杯酒都需要CT扫描。'
+    },
     tags:['层次路线','West Coast IPA / 波特','35元/杯','理性品鉴'],
     reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35',
     explore:'Jam·白噪', exploreS:'零糖皮尔森 · 18元',
-    bars:[85,20,25,70],funLine:'你不是在喝酒，你是在做风味的CT扫描。'},
-  { id:3, bio:'猎浪', pro:'酒花徒', suit:'♠♣', quad:'edge',
+    bars:[85,20,25,70],funLine:{fresh:'你还没开始喝，但已经在挑了',craft:'你不是在喝酒，你是在做风味的CT扫描',nerd:'你的嘴是精酿界最精密的仪器'}},
+  { id:3, bio:'♠♣', pro:'酒花徒', suit:'♠♣', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/猎浪男性Q版.jpg', imgF:'TOMO12位人格/猎浪女性Q版.png',
     motto:'「下一个。」',
-    desc:'你的鼻子比舌头先行动。新英格兰IPA里的热带花香、鲜花IPA里的茉莉桂花——对你来说，酒花的香气就是一切。永远在追下一款限定款，永远不满足。',
+    desc:{
+      fresh:'你有一个特别的鼻子——不是说长得特别，而是它特别敏锐。你比大多数人更容易被香气吸引，这在精酿世界里是超能力。等你真的开始闻酒花，你会上瘾的。',
+      craft:'你的鼻子比舌头先行动。新英格兰IPA里的热带花香、鲜花IPA里的茉莉桂花——对你来说，酒花的香气就是一切。永远在追下一款限定款，永远不满足。',
+      nerd:'Citra和Mosaic你分得清，但生活你分不清。你追酒花的热情比追星还狂，每一款限定你都不放过。不过说真的，你上次闻到的那个"热带水果"，确定不是自己脑补的？'
+    },
     tags:['芬芳路线','新英格兰IPA / 鲜花IPA','35元/杯','香气猎手'],
     reco:'Jam·西风', recoS:'西海岸 IPA · ABV 7%', recoP:'¥35',
     explore:'当季DROP限定款', exploreS:'季节限定 · 价格待定',
-    bars:[75,30,20,90],funLine:'你的鼻子比大多数人的嘴还忙。'},
-  { id:4, bio:'蜜语', pro:'蜜语者', suit:'♥♦', quad:'bloom',
+    bars:[75,30,20,90],funLine:{fresh:'你的鼻子住着一个米其林评审',craft:'酒花香气的Wi-Fi，你是满格',nerd:'Citra和Mosaic你分得清，但生活你分不清'}},
+  { id:4, bio:'♥♦', pro:'蜜语者', suit:'♥♦', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/蜜语男性Q版.png', imgF:'TOMO12位人格/蜜语女性Q版.png',
     motto:'「嗯。」',
-    desc:'你被温柔的麦芽甜蜜吸引。小麦白啤里的丝滑口感、蜂蜜艾尔的暖意——你喝酒不是为了挑战味蕾，是为了被味蕾拥抱。厚重的余韵让你觉得安心。',
+    desc:{
+      fresh:'你对甜的执着，连奶茶店都要致敬。不过别担心，精酿世界也有属于你的甜蜜领地——小麦白啤、蜂蜜艾尔、水果酸啤，甜而不腻，比奶茶有层次。',
+      craft:'你被温柔的麦芽甜蜜吸引。小麦白啤里的丝滑口感、蜂蜜艾尔的暖意——你喝酒不是为了挑战味蕾，是为了被味蕾拥抱。厚重的余韵让你觉得安心。',
+      nerd:'麦芽甜？你确定不是在喝液体面包？开个玩笑——你对甜度的感知确实比一般人细腻，但你也知道好的甜是有结构的。Doppelbock的深层麦甜和蜂蜜艾尔的花香甜，你分得清。'
+    },
     tags:['温柔路线','小麦白啤 / 蜂蜜艾尔','35元/杯','感性品鉴'],
     reco:'Jam·蜜浪', recoS:'芒果凤梨西打 · ABV 4%', recoP:'¥35',
     explore:'Jam·白噪', exploreS:'零糖皮尔森 · 18元',
-    bars:[15,88,50,35],funLine:'世界对你来说是甜的，连苦味都像在撒娇。'},
-  { id:5, bio:'甜刺', pro:'畅言家', suit:'♥♠', quad:'bloom',
+    bars:[15,88,50,35],funLine:{fresh:'你对甜的执着，连奶茶店都要致敬',craft:'你的味蕾有自己的温柔乡',nerd:'麦芽甜？你确定不是在喝液体面包？'}},
+  { id:5, bio:'♥♠', pro:'畅言家', suit:'♥♠', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/甜刺男性Q版.png', imgF:'TOMO12位人格/甜刺女性Q版.png',
     motto:'「别被我骗了。」',
-    desc:'你是社交场的味觉中枢。球赛嗨的时候、聚会热的时候——你需要一杯在手才完整。你喝的不只是酒，是和身边人分享此刻的仪式。热闹的地方就有你。',
+    desc:{
+      fresh:'你是天生的社交达人——有人的地方就有你，有你的地方就需要酒。精酿对你来说首先是一种氛围，一种和朋友共享的仪式。先来一杯果味的，保证你爱上。',
+      craft:'你是社交场的味觉中枢。球赛嗨的时候、聚会热的时候——你需要一杯在手才完整。你喝的不只是酒，是和身边人分享此刻的仪式。热闹的地方就有你。',
+      nerd:'别装了，你明明什么都懂但偏要在人群里扮好喝就行的角色。你的社交力是最强的精酿安利武器——你让别人觉得喝精酿很酷，而不是很装。'
+    },
     tags:['社交路线','拉格 / 果味啤','35元/杯','社交达人'],
     reco:'Jam·绯语', recoS:'草莓杨梅石榴 · ABV 4%', recoP:'¥35',
     explore:'Jam·黑潮', exploreS:'燕麦世涛 · 30元',
-    bars:[20,82,45,40],funLine:'你的酒杯是社交货币，碰杯声是你的主题曲。'},
-  { id:6, bio:'花信', pro:'清风使', suit:'♥♣', quad:'bloom',
+    bars:[20,82,45,40],funLine:{fresh:'你的快乐需要朋友和酒同时在场',craft:'你的酒杯是社交货币，碰杯声是你的主题曲',nerd:'你是精酿世界最强的安利武器'}},
+  { id:6, bio:'♥♣', pro:'清风使', suit:'♥♣', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/花信男性Q版.png', imgF:'TOMO12位人格/花信女性Q版.jpg',
     motto:'「看这里。」',
-    desc:'你被清爽和视觉美感同时俘获。柑橘小麦的干净收尾、气泡酒的细腻泡沫——你追求的是"刚刚好"的愉悦。一杯值得拍照分享的酒，对你来说就是好酒。',
+    desc:{
+      fresh:'你天生对"美"有追求——一杯酒如果颜值过关，你就已经喜欢了一半。别觉得这肤浅，精酿世界里最好喝的酒往往也最好看。你的审美会带你去对的地方。',
+      craft:'你被清爽和视觉美感同时俘获。柑橘小麦的干净收尾、气泡酒的细腻泡沫——你追求的是"刚刚好"的愉悦。一杯值得拍照分享的酒，对你来说就是好酒。',
+      nerd:'你的审美比你的味觉更精准——但这不是坏事。你追求的"刚刚好"是一种极致的克制，比极端更难酿。你知道什么叫好的留白。'
+    },
     tags:['极简路线','柑橘小麦 / 气泡酒','25元/杯','视觉系'],
     reco:'Jam·青果', recoS:'原榨苹果西打 · ABV 4.5%', recoP:'¥25',
     explore:'当季DROP限定款', exploreS:'季节限定 · 社交货币',
-    bars:[10,75,60,50],funLine:'你拍照的速度比喝酒快，这不是缺点。'},
-  { id:7, bio:'清弦', pro:'寻芳客', suit:'♦♥', quad:'easy',
+    bars:[10,75,60,50],funLine:{fresh:'你的审美会带你去对的酒那里',craft:'你拍照的速度比喝酒快，这不是缺点',nerd:'你追求的"刚刚好"，比极端更难酿'}},
+  { id:7, bio:'♦♥', pro:'寻芳客', suit:'♦♥', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/清弦男性Q版.png', imgF:'TOMO12位人格/清弦女性Q版.png',
     motto:'「轻。」',
-    desc:'你追求恰到好处的平衡。零糖皮尔森的干净收尾、果味IPA里若隐若现的热带香——你不要极端，要的是"日常随时能喝"。简单的好喝，才是真功夫。',
+    desc:{
+      fresh:'你追求简单的快乐——不需要复杂，好喝就行。这种心态其实最接近日本的"日饮"文化，你天生适合每天来一杯轻松的精酿，像喝水一样自然。',
+      craft:'你追求恰到好处的平衡。零糖皮尔森的干净收尾、果味IPA里若隐若现的热带香——你不要极端，要的是"日常随时能喝"。简单的好喝，才是真功夫。',
+      nerd:'你知道session beer的价值不在ABV而在repeatability。你追求的那种"再来一杯"的冲动，是酿酒师最难达到的成就。简单？你的简单可不简单。'
+    },
     tags:['探索路线','果味IPA / 西打','18元/杯','日饮探索型'],
     reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·蜜浪', exploreS:'芒果凤梨西打 · 35元',
-    bars:[18,40,88,25],funLine:'简单好喝就行，你的快乐不需要复杂公式。'},
-  { id:8, bio:'暗潮', pro:'精算师', suit:'♦♠', quad:'easy',
+    bars:[18,40,88,25],funLine:{fresh:'简单好喝就行，你说得对',craft:'简单好喝就行，你的快乐不需要复杂公式',nerd:'你的"简单"可不简单'}},
+  { id:8, bio:'♦♠', pro:'精算师', suit:'♦♠', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/暗潮男性Q版.png', imgF:'TOMO12位人格/暗潮女性Q版.png',
     motto:'「看到了吗。」',
-    desc:'你表面喝得清淡，暗地里研究配方。比利时三料的复杂酵母风味、自然发酵酸啤的微生物魔法——你享受"看懂"一款酒的过程。有进化为♠的潜力。',
+    desc:{
+      fresh:'你看起来随和，但其实你在悄悄观察一切。你可能还没喝过几款精酿，但你已经开始想"为什么这个味道"了。这种好奇心会让你进化得很快。',
+      craft:'你表面喝得清淡，暗地里研究配方。比利时三料的复杂酵母风味、自然发酵酸啤的微生物魔法——你享受"看懂"一款酒的过程。有进化为♠的潜力。',
+      nerd:'你是那种喝酒的时候脑子比舌头忙的人。酵母菌种、发酵温度、pH曲线——你享受的不是喝，是"理解"。你迟早会自己酿一批。'
+    },
     tags:['研究路线','比利时三料 / 酸啤','18元/杯','工艺研究型'],
     reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·铁幕', exploreS:'英式苦啤ESB · 35元',
-    bars:[30,25,80,45],funLine:'表面佛系，暗地里在算这杯酒的酵母菌种。'},
-  { id:9, bio:'恒频', pro:'重墨客', suit:'♦♦', quad:'easy',
+    bars:[30,25,80,45],funLine:{fresh:'你看起来随和，但你在悄悄分析一切',craft:'表面佛系，暗地里在算这杯酒的酵母菌种',nerd:'你迟早会自己酿一批'}},
+  { id:9, bio:'♦♦', pro:'重墨客', suit:'♦♦', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/恒频男性Q版.png', imgF:'TOMO12位人格/恒频女性Q版.png',
     motto:'「每天。」',
-    desc:'你追求的是一种频率——每天、每晚、固定的那一杯。Porter的深色麦芽、Stout的巧克力尾韵——你不需要惊喜，你需要确定性。找到了就不换。',
+    desc:{
+      fresh:'你是"找到就不换"的人。不管是餐厅、咖啡还是音乐，你追求的都是"确定性"。精酿世界有专门为你准备的酒——你会找到属于你的那一杯，然后天天喝。',
+      craft:'你追求的是一种频率——每天、每晚、固定的那一杯。Porter的深色麦芽、Stout的巧克力尾韵——你不需要惊喜，你需要确定性。找到了就不换。',
+      nerd:'你是精酿世界里最有商业价值的人——LTV最高，复购率最强。你知道自己要什么，不需要被教育。但说真的，偶尔试试新的不会死。'
+    },
     tags:['深邃路线','Porter / Stout','18元/杯','日饮忠诚型'],
     reco:'Jam·暗流', recoS:'零糖黑生 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·黑潮', exploreS:'燕麦世涛 · 30元',
-    bars:[35,20,85,30],funLine:'你的忠诚度比大多数人的爱情还稳定。'},
-  { id:10, bio:'果心', pro:'守艺人', suit:'♥♥', quad:'bloom',
+    bars:[35,20,85,30],funLine:{fresh:'找到了就不换，这是你的超能力',craft:'你的忠诚度比大多数人的爱情还稳定',nerd:'你是精酿世界LTV最高的人'}},
+  { id:10, bio:'♥♥', pro:'守艺人', suit:'♥♥', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/果心男性Q版.png', imgF:'TOMO12位人格/果心女性Q版.png',
     motto:'「就这样。」',
-    desc:'你是最纯粹的♥BLOOM型——不跨象限，不冒险。慕尼黑拉格的经典、英式Ale的传统——你追求的是"确定的好喝"。忠诚度极高，一旦认定就不走。',
+    desc:{
+      fresh:'你知道自己喜欢什么——温暖的、熟悉的、不会出错的。在精酿世界里，你会很快找到属于你的"固定款"。经典永远不过时，你的选择说明你很有安全感。',
+      craft:'你是最纯粹的♥BLOOM型——不跨象限，不冒险。慕尼黑拉格的经典、英式Ale的传统——你追求的是"确定的好喝"。忠诚度极高，一旦认定就不走。',
+      nerd:'你看透了精酿的花哨，回到了经典。不是你不懂新潮，是你知道经典之所以是经典，是因为它经得住时间。你的"不变"是一种看穿之后的选择。'
+    },
     tags:['经典路线','慕尼黑拉格 / 英式Ale','18元/杯','忠诚型'],
     reco:'Jam·晨雾', recoS:'比利时小麦白啤 · ABV 4.5%', recoP:'¥18',
     explore:'Jam·绯语', exploreS:'草莓杨梅石榴 · 35元',
-    bars:[10,90,55,15],funLine:'认定了就不换，你的味蕾有自己的信仰。'},
-  { id:11, bio:'深渊', pro:'微醺客', suit:'♠♠', quad:'edge',
+    bars:[10,90,55,15],funLine:{fresh:'你知道自己喜欢什么，这很了不起',craft:'认定了就不换，你的味蕾有自己的信仰',nerd:'看穿花哨之后回到经典，这才是真懂'}},
+  { id:11, bio:'♠♠', pro:'微醺客', suit:'♠♠', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/深渊男性Q版.png', imgF:'TOMO12位人格/深渊女性Q版.png',
     motto:'「………」',
-    desc:'你是最纯粹的♠EDGE型——独饮、沉浸、微醺。大麦酒的缓慢灼烧、帝国世涛的厚重裹挟——你喝酒不为社交，是为了和自己独处的那个时刻。',
+    desc:{
+      fresh:'你不是不爱热闹，你只是更享受和自己相处的时间。一个人喝酒，对你来说不是孤独，是一种奢侈。精酿世界有很多为独处设计的好酒——你会找到的。',
+      craft:'你是最纯粹的♠EDGE型——独饮、沉浸、微醺。大麦酒的缓慢灼烧、帝国世涛的厚重裹挟——你喝酒不为社交，是为了和自己独处的那个时刻。',
+      nerd:'12%的大麦酒你能喝一晚上，不是因为酒量好，是因为你真的在品。你的独处时光是精酿的最高形态——不为任何人表演，纯粹和酒对话。'
+    },
     tags:['沉浸路线','大麦酒 / 帝国世涛','40元/杯','体验沉浸型'],
     reco:'Jam·烈奏', recoS:'双倍浑浊 IPA · ABV 9%', recoP:'¥40',
     explore:'Jam·铁幕', exploreS:'英式苦啤ESB · 35元',
-    bars:[92,10,15,75],funLine:'你的独处时光，值一杯慢慢烧的好酒。'},
-  { id:12, bio:'浅渡', pro:'探趣人', suit:'♦♣', quad:'easy',
+    bars:[92,10,15,75],funLine:{fresh:'一个人喝酒不是孤独，是奢侈',craft:'你的独处时光，值一杯慢慢烧的好酒',nerd:'你和酒的对话，不需要观众'}},
+  { id:12, bio:'♦♣', pro:'探趣人', suit:'♦♣', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/浅渡男性Q版.png', imgF:'TOMO12位人格/浅渡女性Q版.png',
     motto:'「嘶——」',
-    desc:'你刚踩进精酿的水里，水纹还在荡。什么都想试一口，味觉人格尚在形成。这不是弱点——好奇心是最强的进化引擎。3次消费后，你可能变成任何人格。',
+    desc:{
+      fresh:'你是精酿世界最值钱的存在——一张白纸。你什么都没试过，所以什么都有可能。别急着给自己贴标签，先喝三次再说。你的人格还在成型中，而这本身就很酷。',
+      craft:'你刚踩进精酿的水里，水纹还在荡。什么都想试一口，味觉人格尚在形成。这不是弱点——好奇心是最强的进化引擎。3次消费后，你可能变成任何人格。',
+      nerd:'什么都想试？行，先把菜单翻完再说。你的好奇心让你成不了任何一个类型的忠实粉丝，但也让你成为了最有趣的饭搭子。你是精酿的万花筒。'
+    },
     tags:['发现路线','什么都想试','18元/杯','新手好奇型'],
     reco:'Jam·白噪', recoS:'日式零糖皮尔森 · ABV 4.5%', recoP:'¥18',
     explore:'当季DROP限定款', exploreS:'季节限定 · 好奇驱动',
-    bars:[20,30,60,55],funLine:'你是精酿世界的白纸，而白纸最值钱。'}
+    bars:[20,30,60,55],funLine:{fresh:'你是精酿世界最值钱的存在——白纸',craft:'好奇心是你的超能力，别浪费',nerd:'什么都想试？行，先把菜单翻完再说'}}
 ];
 
 // helper: get portrait url for current gender
 function pImg(p){ return userGender==='f' ? p.imgF : p.imgM; }
+// helper: get tier-specific text (desc/funLine are now objects {fresh,craft,nerd})
+function pDesc(p){ return typeof p.desc==='string'?p.desc:(p.desc[userTier]||p.desc.craft); }
+function pFun(p){ return typeof p.funLine==='string'?p.funLine:(p.funLine[userTier]||p.funLine.craft); }
 
 // ============================================================
-//  VOTE BEERS (demo)
+//  对味推荐 SKU DATA (per quadrant)
+// ============================================================
+const DUIWEI_SKU={
+  edge:[
+    {name:'Jam·烈奏',style:'双倍浑浊 IPA · ABV 9%',price:'¥40',icon:'🔥',match:95},
+    {name:'Jam·西风',style:'西海岸 IPA · ABV 7%',price:'¥35',icon:'🌊',match:88},
+    {name:'Jam·铁幕',style:'英式苦啤 ESB · ABV 5.5%',price:'¥35',icon:'⚔️',match:78},
+    {name:'Jam·黑潮',style:'燕麦世涛 · ABV 6%',price:'¥30',icon:'🖤',match:72}
+  ],
+  bloom:[
+    {name:'Jam·蜜浪',style:'芒果凤梨西打 · ABV 4%',price:'¥35',icon:'🥭',match:92},
+    {name:'Jam·绯语',style:'草莓杨梅石榴 · ABV 4%',price:'¥35',icon:'🍓',match:88},
+    {name:'Jam·青果',style:'原榨苹果西打 · ABV 4.5%',price:'¥25',icon:'🍏',match:82},
+    {name:'Jam·晨雾',style:'比利时小麦白啤 · ABV 4.5%',price:'¥18',icon:'🌾',match:70}
+  ],
+  easy:[
+    {name:'Jam·白噪',style:'日式零糖皮尔森 · ABV 4.5%',price:'¥18',icon:'🍃',match:94},
+    {name:'Jam·暗流',style:'零糖黑生 · ABV 4.5%',price:'¥18',icon:'🌑',match:85},
+    {name:'Jam·晨雾',style:'比利时小麦白啤 · ABV 4.5%',price:'¥18',icon:'🌾',match:78},
+    {name:'Jam·青果',style:'原榨苹果西打 · ABV 4.5%',price:'¥25',icon:'🍏',match:68}
+  ]
+};
+
+function getDuiweiHTML(quad){
+  const skus=DUIWEI_SKU[quad]||DUIWEI_SKU.easy;
+  const iconCls={edge:'di-edge',bloom:'di-bloom',easy:'di-easy'};
+  return `<div class="duiwei-section">
+    <div class="duiwei-title">你的对味推荐 · ${quad==='edge'?'♠ EDGE':quad==='bloom'?'♥ BLOOM':'♦ EASY'} 系列</div>
+    <div class="duiwei-grid">${skus.map(s=>`<div class="duiwei-card">
+      <div class="duiwei-icon ${iconCls[quad]}">${s.icon}</div>
+      <div class="duiwei-info">
+        <div class="duiwei-name">${s.name}</div>
+        <div class="duiwei-desc">${s.style}</div>
+        <div class="duiwei-match">✦ ${s.match}% 对味</div>
+      </div>
+      <div class="duiwei-price">${s.price}</div>
+    </div>`).join('')}</div>
+    <a class="btn-shop" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">🛒 去抖音店铺 · 下单尝鲜</a>
+    <div class="shop-hint">复制链接到抖音APP打开 · 共醸精酿官方店</div>
+  </div>`;
+}
+
+// ============================================================
+//  FRESH → CRAFT 升级
+// ============================================================
+function upgradeToCraft(){
+  userTier='craft';
+  activeQ=TIER_QS.craft;
+  ans=new Array(activeQ.length).fill(null);
+  renderQuestions();
+  if(navigator.vibrate)navigator.vibrate([10,50,10]);
+  go('s1');
+}
+
+function getUpgradeBannerHTML(){
+  if(userTier!=='fresh') return '';
+  return `<div class="upgrade-banner">
+    <div class="ub-pct">60%</div>
+    <div class="ub-label">你的人格只显示了 60%</div>
+    <div class="ub-desc">FRESH 5题给了你一个方向，但你的味觉远不止于此。<br>升级到 CRAFT 8题，解锁完整的 12 人格精准匹配。</div>
+    <div class="btn-upgrade" onclick="upgradeToCraft()">🔓 解锁完整人格 · CRAFT 8题</div>
+  </div>`;
+}
+
+// ============================================================
+//  人格分布渲染
+// ============================================================
+function renderPersonaDist(myBio){
+  const el=document.getElementById('personaDistResult');
+  if(!el)return;
+  if(STATS.testCount<1){el.innerHTML='';return;}
+  const allBios=PERSONAS.map(p=>p.bio);
+  const maxCount=Math.max(...allBios.map(b=>STATS.personaDist[b]||0),1);
+  el.innerHTML=`<div class="pd-title">全球味觉人格分布 · ${STATS.testCount} 人已测试</div>
+    ${allBios.map(b=>{
+      const c=STATS.personaDist[b]||0;
+      const pct=Math.round(c/maxCount*100);
+      const isMe=b===myBio;
+      return `<div class="pd-row">
+        <div class="pd-name"${isMe?' style="color:var(--gold);font-weight:600"':''}>${isMe?'→ ':''} ${b}</div>
+        <div class="pd-bar"><div class="pd-fill ${isMe?'pd-fill-me':'pd-fill-other'}" style="width:${pct}%"></div></div>
+        <div class="pd-num"${isMe?' style="color:var(--gold)"':''}>${c}</div>
+      </div>`;
+    }).join('')}`;
+}
+
+// ============================================================
+//  VOTE BEERS
 // ============================================================
 const BEERS=[
-  {name:'🍊 Jam·西风',style:'西海岸 IPA · ABV 7%',votes:1847,pct:0},
-  {name:'🌊 Jam·潮汐',style:'海盐古斯 · ABV 4.5%',votes:1253,pct:0},
-  {name:'🌸 Jam·深海',style:'褐藻多糖皮尔森 · ABV 4.5%',votes:901,pct:0}
+  {name:'🍊 Jam·西风',style:'西海岸 IPA · ABV 7%',votes:0,pct:0},
+  {name:'🌊 Jam·潮汐',style:'海盐古斯 · ABV 4.5%',votes:0,pct:0},
+  {name:'🌸 Jam·深海',style:'褐藻多糖皮尔森 · ABV 4.5%',votes:0,pct:0}
 ];
-function calcPct(){const t=BEERS.reduce((a,b)=>a+b.votes,0);BEERS.forEach(b=>b.pct=Math.round(b.votes/t*100));}
-calcPct();
+function calcPct(){const t=BEERS.reduce((a,b)=>a+b.votes,0)||1;BEERS.forEach(b=>b.pct=Math.round(b.votes/t*100));}
+
+// 从 Supabase 加载真实投票数据
+async function loadRealVotes(){
+  try{
+    const d=await sbGet('votes?select=beer_index');
+    if(d&&d.length){
+      BEERS.forEach(b=>b.votes=0);
+      d.forEach(v=>{if(v.beer_index>=0&&v.beer_index<BEERS.length)BEERS[v.beer_index].votes++;});
+    }
+    calcPct();
+  }catch(e){calcPct();}
+}
+
+// 全局统计缓存
+let STATS={testCount:0,personaDist:{},quadDist:{edge:0,bloom:0,easy:0}};
+
+async function loadGlobalStats(){
+  try{
+    const d=await sbGet('test_results?select=id,persona_bio,persona_quad');
+    if(d&&d.length){
+      STATS.testCount=d.length;
+      STATS.personaDist={};STATS.quadDist={edge:0,bloom:0,easy:0};
+      d.forEach(r=>{
+        if(r.persona_bio){STATS.personaDist[r.persona_bio]=(STATS.personaDist[r.persona_bio]||0)+1;}
+        if(r.persona_quad&&STATS.quadDist[r.persona_quad]!==undefined)STATS.quadDist[r.persona_quad]++;
+      });
+    }
+    // 更新首页测试人数
+    const el=document.getElementById('testCount');
+    if(el)el.innerHTML=STATS.testCount>0?'已有 <b>'+STATS.testCount+'</b> 人发现了味觉DNA':'来，做第一个发现味觉DNA的人';
+  }catch(e){}
+}
 
 // ============================================================
-//  RENDER QUESTIONS
+//  TIER SELECTION + DYNAMIC QUESTION RENDERING
 // ============================================================
-Q.forEach((q,qi)=>{
-  const el=document.getElementById('s'+(qi+1));
-  const barHTML=Array.from({length:8},(_,i)=>`<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
-  const multiNote=q.multi?`<div class="multi-hint">可多选，最多 ${q.maxSel} 个</div>`:'';
-  el.innerHTML=`<div class="pi">
-    <div class="qbar">${barHTML}</div>
-    <div class="qn">问题 ${qi+1} / 8</div>
-    <div class="qt serif">${q.title}</div>
-    <div class="qo" id="qo${qi}">${q.o.map((o,oi)=>`<div class="qopt" data-qi="${qi}" data-oi="${oi}" onclick="pick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}</div>
-    ${multiNote}
-  </div>`;
-});
+const TIER_LABELS={fresh:'FRESH · 小白',craft:'CRAFT · 进阶',nerd:'NERD · 老司机'};
+const TIER_QS={fresh:Q_FRESH, craft:Q_CRAFT, nerd:Q_NERD};
+
+function pickTier(tier,el){
+  userTier=tier;
+  activeQ=TIER_QS[tier];
+  ans=new Array(activeQ.length).fill(null);
+  if(navigator.vibrate)navigator.vibrate(8);
+  document.querySelectorAll('#sTier .gc').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  renderQuestions();
+  setTimeout(()=>go('s1'),450);
+}
+
+function renderQuestions(){
+  const total=activeQ.length;
+  // Clear all question pages
+  for(let i=1;i<=10;i++){
+    const el=document.getElementById('s'+i);
+    if(el) el.innerHTML='';
+  }
+  activeQ.forEach((q,qi)=>{
+    const el=document.getElementById('s'+(qi+1));
+    if(!el) return;
+    const barHTML=Array.from({length:total},(_,i)=>`<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
+    const multiNote=q.multi?`<div class="multi-hint">可多选，最多 ${q.maxSel} 个</div>`:'';
+    const hintHTML=q.hint?`<div style="font-size:11px;color:var(--t3);margin-bottom:16px;text-align:center">${q.hint}</div>`:'';
+    el.innerHTML=`<div class="pi">
+      <div class="qbar">${barHTML}</div>
+      <div class="qn">问题 ${qi+1} / ${total}</div>
+      <div class="qt serif">${q.title}</div>
+      ${hintHTML}
+      <div class="qo" id="qo${qi}">${q.o.map((o,oi)=>`<div class="qopt" data-qi="${qi}" data-oi="${oi}" onclick="pick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}</div>
+      ${multiNote}
+    </div>`;
+  });
+}
+
+// Pre-render CRAFT as default (in case user somehow skips tier)
+activeQ=Q_CRAFT;
+ans=new Array(8).fill(null);
+renderQuestions();
 
 function pick(qi,oi,el){
-  const q=Q[qi];
+  const q=activeQ[qi];
   if(navigator.vibrate)navigator.vibrate(8);
 
   if(q.multi){
@@ -603,15 +1124,18 @@ function pick(qi,oi,el){
       el.classList.add('sel');
     }
     ans[qi]=sel.length?[...sel]:null;
-    if(q.o[oi].code==='aroma_null'&&sel.includes(oi)){
+    // Handle "null" type options (e.g. aroma_null) — deselect others
+    const isNull=q.o[oi].code.endsWith('_null');
+    if(isNull&&sel.includes(oi)){
       sel.forEach(s=>{if(s!==oi)document.querySelector(`#qo${qi} [data-oi="${s}"]`).classList.remove('sel');});
       ans[qi]=[oi];
-    }else if(sel.length>0&&sel.some(s=>q.o[s].code==='aroma_null')&&q.o[oi].code!=='aroma_null'){
-      const ni=sel.indexOf(q.o.findIndex(o=>o.code==='aroma_null'));
-      if(ni>=0){sel.splice(ni,1);document.querySelector(`#qo${qi} [data-oi="${q.o.findIndex(o=>o.code==='aroma_null')}"]`).classList.remove('sel');}
+    }else if(sel.length>0&&sel.some(s=>q.o[s].code.endsWith('_null'))&&!isNull){
+      const nullIdx=q.o.findIndex(o=>o.code.endsWith('_null'));
+      const ni=sel.indexOf(nullIdx);
+      if(ni>=0){sel.splice(ni,1);document.querySelector(`#qo${qi} [data-oi="${nullIdx}"]`).classList.remove('sel');}
       ans[qi]=[...sel];
     }
-    if((ans[qi]&&ans[qi].length>=q.maxSel)||q.o[oi].code==='aroma_null'){
+    if((ans[qi]&&ans[qi].length>=q.maxSel)||isNull){
       setTimeout(()=>advance(qi),600);
     }
   }else{
@@ -623,41 +1147,118 @@ function pick(qi,oi,el){
 }
 
 function advance(qi){
-  if(qi<7) go('s'+(qi+2));
+  if(qi<activeQ.length-1) go('s'+(qi+2));
   else{ go('sLoad'); setTimeout(showResult,1800); }
 }
 
 // ============================================================
-//  SCORING ALGORITHM — TOMO v2.0 (Q4/Q6/Q7参与计分，均衡分布)
+//  SCORING ALGORITHM — TOMO v3.0 (三套题，分层权重)
 // ============================================================
 function getCode(qi){
   const a=ans[qi];
   if(a===null||a===undefined)return[];
-  if(Array.isArray(a))return a.map(i=>Q[qi].o[i].code);
-  return[Q[qi].o[a].code];
+  if(Array.isArray(a))return a.map(i=>activeQ[qi].o[i].code);
+  return[activeQ[qi].o[a].code];
 }
 function has(qi,code){return getCode(qi).includes(code);}
+function codeAt(qi){const a=ans[qi];if(a===null||a===undefined)return'';return activeQ[qi].o[a].code;}
+
+// CRAFT helper: bitter intensity from C3
 function q3val(){
-  const a=ans[2];
-  if(a===null)return 0;
-  const c=Q[2].o[a].code;
+  if(userTier!=='craft')return 0;
+  const a=ans[2]; if(a===null)return 0;
+  const c=activeQ[2].o[a].code;
   return parseInt(c.replace('bitter_',''))||0;
 }
 
-function calcPersona(){
+// ============================================================
+//  FRESH scoring — 5题，权重×2
+// ============================================================
+function calcFresh(){
+  let sE=0,sB=0,sD=0;
+  const W=2; // weight multiplier
+
+  // F1 你平时喝什么
+  const f1=codeAt(0);
+  if(f1==='sweet_base')sB+=2*W;
+  else if(f1==='beer_casual')sD+=1*W;
+  else if(f1==='wine_cocktail')sB+=1*W;
+  else if(f1==='minimal')sD+=2*W;
+
+  // F2 火锅锅底
+  const f2=codeAt(1);
+  if(f2==='mild')sB+=2*W;
+  else if(f2==='medium')sB+=1*W;
+  else if(f2==='intense')sE+=2*W;
+  else if(f2==='clean')sD+=2*W;
+
+  // F3 朋友递精酿
+  const f3=codeAt(2);
+  if(f3==='curious_open')sB+=1*W;
+  else if(f3==='cautious')sD+=1*W;
+  else if(f3==='analytical')sE+=1*W;
+  else if(f3==='sensory_first')sE+=1*W;
+
+  // F4 酒的性格
+  const f4=codeAt(3);
+  if(f4==='bloom_vibe')sB+=3*W;
+  else if(f4==='edge_vibe')sE+=3*W;
+  else if(f4==='easy_vibe')sD+=3*W;
+  else if(f4==='complex_vibe'){sE+=1*W;sB+=1*W;}
+
+  // F5 独处vs社交
+  const f5=codeAt(4);
+  if(f5==='solo')sE+=2*W;
+  else if(f5==='small_group')sB+=1*W;
+  else if(f5==='party')sB+=2*W;
+  else if(f5==='flexible')sD+=1*W;
+
+  return{edge:sE,bloom:sB,easy:sD};
+}
+
+function calcFreshPersona(){
+  const sc=calcFresh();
+  const sorted=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+  const primary=sorted[0][0];
+
+  // FRESH simplified persona mapping — broader strokes
+  const f4=codeAt(3);
+  const f5=codeAt(4);
+
+  if(primary==='edge'){
+    if(f4==='complex_vibe')return PERSONAS[2];      // ♠♣ — 好奇型
+    if(f5==='solo')return PERSONAS[10];              // ♠♠ — 独处
+    return PERSONAS[1];                               // ♠♦ — default edge
+  }
+  if(primary==='bloom'){
+    if(f5==='party')return PERSONAS[4];              // ♥♠ — 社交
+    if(f4==='bloom_vibe')return PERSONAS[3];         // ♥♦ — 温柔
+    return PERSONAS[5];                               // ♥♣ — 清爽bloom
+  }
+  if(primary==='easy'){
+    if(f4==='easy_vibe')return PERSONAS[6];          // ♦♥ — 轻快
+    return PERSONAS[11];                              // ♦♣ — 新手探索
+  }
+  return PERSONAS[11]; // ♦♣ fallback for FRESH
+}
+
+// ============================================================
+//  CRAFT scoring — 8题，权重×1 (updated C6=收尾)
+// ============================================================
+function calcCraft(){
   let sE=0,sB=0,sD=0;
 
-  // Q1 Visual
+  // C1 Visual
   if(has(0,'visual_dark'))sE+=2;
   else if(has(0,'visual_light'))sD+=2;
   else if(has(0,'visual_medium'))sB+=1;
 
-  // Q2 Aroma
+  // C2 Aroma
   const q2=getCode(1);
   q2.forEach(c=>{
     if(c==='aroma_herbal')sE+=3;
     else if(c==='aroma_fruit')sB+=3;
-    else if(c==='aroma_roast'){/* cross with Q3 */}
+    else if(c==='aroma_roast'){/* cross with C3 */}
     else if(c==='aroma_alcohol')sE+=1;
     else if(c==='aroma_null')sD+=2;
   });
@@ -665,7 +1266,7 @@ function calcPersona(){
     if(q3val()>=3)sE+=2;else sD+=1;
   }
 
-  // Q3 Bitter intensity
+  // C3 Bitter intensity
   const bv=q3val();
   if(bv===4)sE+=4;
   else if(bv===3)sE+=3;
@@ -673,13 +1274,13 @@ function calcPersona(){
   else if(bv===1)sD+=3;
   else if(bv===5){sD+=4;sE-=3;}
 
-  // Q4 Bitter position — 参与计分
+  // C4 Bitter position
   if(has(3,'bitter_pos_throat'))sE+=1;
   else if(has(3,'bitter_pos_side'))sE+=1;
   else if(has(3,'bitter_pos_tip'))sB+=1;
   else if(has(3,'bitter_pos_null'))sD+=1;
 
-  // Q5 Aftertaste
+  // C5 Aftertaste
   if(has(4,'aftertaste_clean'))sD+=2;
   else if(has(4,'aftertaste_heavy')){
     if(sE>sB&&sE>sD)sE+=2;else sB+=2;
@@ -688,62 +1289,194 @@ function calcPersona(){
   else if(has(4,'aftertaste_null'))sD+=1;
   if(has(4,'aftertaste_heavy')&&q2.includes('aroma_roast'))sE+=1;
 
-  // Q6 Scene — 参与计分
-  if(has(5,'scene_solo'))sE+=1;
-  else if(has(5,'scene_crowd'))sB+=2;
-  else if(has(5,'scene_small'))sB+=1;
-  else if(has(5,'scene_null'))sD+=1;
+  // C6 Finish (NEW — replaces old Q7 accept)
+  if(has(5,'finish_clean'))sD+=2;
+  else if(has(5,'finish_sweet'))sB+=2;
+  else if(has(5,'finish_warm'))sE+=2;
+  else if(has(5,'finish_wave'))sE+=1;
 
-  // Q7 Acceptance — 参与计分
-  if(has(6,'accept_repeat'))sB+=1;
-  else if(has(6,'accept_stop'))sD+=1;
+  // C7 Scene
+  if(has(6,'scene_solo'))sE+=1;
+  else if(has(6,'scene_crowd'))sB+=2;
+  else if(has(6,'scene_small'))sB+=1;
+  else if(has(6,'scene_null'))sD+=1;
 
-  // Q8 Motive — 扩展
+  // C8 Motive
   if(has(7,'motive_taste'))sE+=2;
   else if(has(7,'motive_social'))sB+=1;
   else if(has(7,'motive_feeling'))sB+=1;
 
-  // Step 1: Primary quadrant
-  const scores={edge:sE,bloom:sB,easy:sD};
-  const sorted=Object.entries(scores).sort((a,b)=>b[1]-a[1]);
+  return{edge:sE,bloom:sB,easy:sD};
+}
+
+function calcCraftPersona(){
+  const sc=calcCraft();
+  const sorted=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
   const primary=sorted[0][0];
+  const q2=getCode(1);
 
-  // Step 2: Cross-quadrant specials
-  if(primary==='bloom'&&has(6,'accept_repeat')&&!has(7,'motive_social'))return PERSONAS[9]; // 果心
-  if(primary==='edge'&&has(7,'motive_feeling')&&has(5,'scene_solo'))return PERSONAS[10];    // 深渊
-  if(has(7,'motive_null')&&has(6,'accept_explore'))return PERSONAS[11];                      // 浅渡
-  // 花信 跨象限入口：清爽+果香+非独饮
-  if(has(4,'aftertaste_clean')&&q2.includes('aroma_fruit')&&!has(5,'scene_solo'))return PERSONAS[5];
+  // Cross-quadrant specials
+  if(primary==='bloom'&&has(5,'finish_sweet')&&!has(7,'motive_social'))return PERSONAS[9]; // ♥♥
+  if(primary==='edge'&&has(7,'motive_feeling')&&has(6,'scene_solo'))return PERSONAS[10];    // ♠♠
+  if(has(7,'motive_null')&&has(5,'finish_wave'))return PERSONAS[11];                         // ♦♣ (探索型收尾)
+  if(has(4,'aftertaste_clean')&&q2.includes('aroma_fruit')&&!has(6,'scene_solo'))return PERSONAS[5]; // ♥♣
 
-  // Step 3: Sub-persona
   if(primary==='edge'){
-    if(q3val()>=3&&has(3,'bitter_pos_throat'))return PERSONAS[0];  // 黑锋：苦+喉咙
-    if(q3val()>=3&&has(3,'bitter_pos_side'))return PERSONAS[1];    // 铁饮：苦+两侧
-    if(q2.includes('aroma_herbal'))return PERSONAS[2];              // 猎浪：草花香 = 嗅觉驱动型
-    if(q3val()>=4)return PERSONAS[0];                               // 黑锋：极苦兜底
-    if(has(5,'scene_solo'))return PERSONAS[10];                      // 深渊：独饮EDGE
-    if(has(6,'accept_explore'))return PERSONAS[2];                   // 猎浪：探索型EDGE
-    return PERSONAS[1];                                              // 铁饮
+    if(q3val()>=3&&has(3,'bitter_pos_throat'))return PERSONAS[0];  // ♠♥
+    if(q3val()>=3&&has(3,'bitter_pos_side'))return PERSONAS[1];    // ♠♦
+    if(q2.includes('aroma_herbal'))return PERSONAS[2];              // ♠♣
+    if(q3val()>=4)return PERSONAS[0];                               // ♠♥
+    if(has(6,'scene_solo'))return PERSONAS[10];                      // ♠♠
+    if(has(5,'finish_wave'))return PERSONAS[2];                      // ♠♣：波浪收尾=探索型
+    return PERSONAS[1];                                              // ♠♦
   }
   if(primary==='bloom'){
-    if(has(4,'aftertaste_heavy')||q2.includes('aroma_roast'))return PERSONAS[3]; // 蜜语
-    if(has(7,'motive_social')||has(5,'scene_crowd'))return PERSONAS[4];          // 甜刺
-    if(has(4,'aftertaste_clean'))return PERSONAS[5];                              // 花信
-    if(has(6,'accept_explore'))return PERSONAS[4];                                // 甜刺：好奇型BLOOM
-    return PERSONAS[3];                                                           // 蜜语
+    if(has(4,'aftertaste_heavy')||q2.includes('aroma_roast'))return PERSONAS[3]; // ♥♦
+    if(has(7,'motive_social')||has(6,'scene_crowd'))return PERSONAS[4];          // ♥♠
+    if(has(4,'aftertaste_clean'))return PERSONAS[5];                              // ♥♣
+    if(has(5,'finish_wave'))return PERSONAS[4];                                   // ♥♠
+    return PERSONAS[3];                                                           // ♥♦
   }
   if(primary==='easy'){
-    if(q2.includes('aroma_fruit')&&has(6,'accept_explore'))return PERSONAS[6];   // 清弦
-    if(q2.includes('aroma_roast')&&has(7,'motive_taste'))return PERSONAS[7];     // 暗潮
-    if(has(4,'aftertaste_heavy')&&!has(0,'visual_light'))return PERSONAS[8];     // 恒频
-    if(has(6,'accept_repeat')&&(has(4,'aftertaste_heavy')||has(0,'visual_dark')||has(4,'aftertaste_astringent')))return PERSONAS[8]; // 恒频：习惯+深度信号
-    if(q2.includes('aroma_null')&&has(7,'motive_taste'))return PERSONAS[7];      // 暗潮：无嗅觉+味道派
-    if(has(5,'scene_solo')&&(has(4,'aftertaste_astringent')||has(7,'motive_taste')))return PERSONAS[7]; // 暗潮：安静研究型
-    if(has(6,'accept_repeat'))return PERSONAS[8];                                 // 恒频：习惯型
-    if(has(0,'visual_dark')&&has(4,'aftertaste_astringent'))return PERSONAS[8];  // 恒频：深色+涩
-    return PERSONAS[6];                                                           // 清弦
+    if(q2.includes('aroma_fruit')&&has(5,'finish_wave'))return PERSONAS[6];      // ♦♥
+    if(q2.includes('aroma_roast')&&has(7,'motive_taste'))return PERSONAS[7];     // ♦♠
+    if(has(4,'aftertaste_heavy')&&!has(0,'visual_light'))return PERSONAS[8];     // ♦♦
+    if(has(5,'finish_sweet')&&(has(4,'aftertaste_heavy')||has(0,'visual_dark')))return PERSONAS[8]; // ♦♦
+    if(q2.includes('aroma_null')&&has(7,'motive_taste'))return PERSONAS[7];      // ♦♠
+    if(has(6,'scene_solo')&&(has(4,'aftertaste_astringent')||has(7,'motive_taste')))return PERSONAS[7]; // ♦♠
+    if(has(5,'finish_clean'))return PERSONAS[6];                                  // ♦♥：干净收尾
+    if(has(0,'visual_dark')&&has(4,'aftertaste_astringent'))return PERSONAS[8];  // ♦♦
+    return PERSONAS[6];                                                           // ♦♥
   }
   return PERSONAS[6];
+}
+
+// ============================================================
+//  NERD scoring — 10题，权重×0.8 + 反向验证
+// ============================================================
+function calcNerd(){
+  let sE=0,sB=0,sD=0;
+  const W=0.8;
+
+  // N1 风格偏好
+  const n1=codeAt(0);
+  if(n1==='style_wc')sE+=4*W;
+  else if(n1==='style_hazy'){sB+=2*W;sE+=1*W;}
+  else if(n1==='style_stout')sE+=3*W;
+  else if(n1==='style_sour'){sB+=1*W;sE+=1*W;}
+
+  // N2 酒花维度
+  const n2=codeAt(1);
+  if(n2==='hop_bitter')sE+=3*W;
+  else if(n2==='hop_aroma'){sE+=1*W;sB+=1*W;}
+  else if(n2==='hop_fresh')sE+=2*W;
+  else if(n2==='malt_first')sB+=2*W;
+
+  // N3 ABV
+  const n3=codeAt(2);
+  if(n3==='abv_low')sD+=3*W;
+  else if(n3==='abv_mid')sD+=1*W;
+  else if(n3==='abv_high')sE+=2*W;
+  else if(n3==='abv_max')sE+=3*W;
+
+  // N4 盲品
+  const n4=codeAt(3);
+  if(n4==='blind_style')sE+=1*W;
+  else if(n4==='blind_hop')sE+=2*W;
+  else if(n4==='blind_brewery')sB+=1*W;
+  else if(n4==='blind_skip')sD+=2*W;
+
+  // N5 鄙视链 — 反向验证
+  const n5=codeAt(4);
+  if(n5==='chain_yes')sE+=1*W;
+  else if(n5==='chain_no')sB+=1*W;
+  else if(n5==='chain_evolved')sD+=1*W;
+  else if(n5==='chain_top')sE+=2*W;
+
+  // N6 酿酒师
+  const n6=codeAt(5);
+  if(n6==='brewer_creative'){sE+=1*W;sB+=1*W;}
+  else if(n6==='brewer_stable')sD+=2*W;
+  else if(n6==='brewer_classic')sB+=1*W;
+  else if(n6==='brewer_tech')sE+=2*W;
+
+  // N7 评价次数
+  const n7=codeAt(6);
+  if(n7==='eval_instant')sB+=1*W;
+  else if(n7==='eval_full')sD+=1*W;
+  else if(n7==='eval_thorough')sE+=1*W;
+  else if(n7==='eval_obsessive')sE+=2*W;
+
+  // N8 好喝vs好酒 — 反向验证：可修正N1权重
+  const n8=codeAt(7);
+  if(n8==='good_same')sB+=1*W;
+  else if(n8==='good_diff')sE+=2*W;
+  else if(n8==='good_context')sD+=1*W;
+  else if(n8==='good_bored')sE+=1*W;
+  // 反向验证：如果N8=good_same 但 N1=style_wc，说矛盾 → 减弱edge
+  if(n8==='good_same'&&n1==='style_wc'){sE-=1*W;}
+
+  // N9 零糖看法
+  const n9=codeAt(8);
+  if(n9==='health_positive')sD+=1*W;
+  else if(n9==='health_purist')sE+=2*W;
+  else if(n9==='health_nuanced')sB+=1*W;
+  else if(n9==='health_cynical')sE+=1*W;
+
+  // N10 AI酿酒
+  const n10=codeAt(9);
+  if(n10==='ai_yes')sD+=1*W;
+  else if(n10==='ai_no')sE+=1*W;
+  else if(n10==='ai_hybrid')sB+=1*W;
+  else if(n10==='ai_whatever')sD+=1*W;
+
+  return{edge:Math.round(sE*10)/10,bloom:Math.round(sB*10)/10,easy:Math.round(sD*10)/10};
+}
+
+function calcNerdPersona(){
+  const sc=calcNerd();
+  const sorted=Object.entries(sc).sort((a,b)=>b[1]-a[1]);
+  const primary=sorted[0][0];
+  const n1=codeAt(0);
+
+  if(primary==='edge'){
+    if(n1==='style_wc'&&codeAt(1)==='hop_bitter')return PERSONAS[0];   // ♠♥：WC+苦度
+    if(n1==='style_wc')return PERSONAS[1];                              // ♠♦：WC general
+    if(n1==='style_stout')return PERSONAS[10];                          // ♠♠：帝国世涛
+    if(codeAt(1)==='hop_aroma'||codeAt(1)==='hop_fresh')return PERSONAS[2]; // ♠♣：嗅觉型
+    if(codeAt(4)==='chain_top')return PERSONAS[0];                      // ♠♥：自称链顶
+    return PERSONAS[1];                                                  // ♠♦
+  }
+  if(primary==='bloom'){
+    if(n1==='style_hazy')return PERSONAS[3];                            // ♥♦：Hazy
+    if(codeAt(5)==='brewer_creative')return PERSONAS[4];                // ♥♠：创意
+    if(n1==='style_sour')return PERSONAS[5];                            // ♥♣：酸啤
+    if(codeAt(1)==='malt_first')return PERSONAS[9];                     // ♥♥：麦芽派
+    return PERSONAS[3];                                                  // ♥♦
+  }
+  if(primary==='easy'){
+    if(codeAt(2)==='abv_low')return PERSONAS[6];                        // ♦♥：session
+    if(codeAt(5)==='brewer_stable')return PERSONAS[8];                  // ♦♦：稳定性
+    if(codeAt(7)==='good_diff')return PERSONAS[7];                      // ♦♠：好酒≠好喝
+    if(codeAt(3)==='blind_skip')return PERSONAS[11];                    // ♦♣：不盲品=轻松型
+    return PERSONAS[6];                                                  // ♦♥
+  }
+  return PERSONAS[6];
+}
+
+// ============================================================
+//  UNIFIED DISPATCHER
+// ============================================================
+function calcPersona(){
+  if(userTier==='fresh')return calcFreshPersona();
+  if(userTier==='nerd')return calcNerdPersona();
+  return calcCraftPersona(); // default
+}
+
+function calcScoresRaw(){
+  if(userTier==='fresh')return calcFresh();
+  if(userTier==='nerd')return calcNerd();
+  return calcCraft();
 }
 
 // ============================================================
@@ -755,18 +1488,18 @@ function showResult(){
   const gLabel=userGender==='f'?'女':'男';
 
   // Submit form data
-  const fd={result:p.bio+'('+p.pro+') '+gLabel};
-  Q.forEach((q,i)=>{
+  const fd={result:p.bio+'('+p.pro+') '+gLabel+' ['+userTier.toUpperCase()+']'};
+  activeQ.forEach((q,i)=>{
     const a=ans[i];
-    if(a===null)fd['q'+(i+1)]='(跳过)';
-    else if(Array.isArray(a))fd['q'+(i+1)]=a.map(j=>Q[i].o[j].t).join('+');
-    else fd['q'+(i+1)]=Q[i].o[a].t;
+    if(a===null)fd[q.id]='(跳过)';
+    else if(Array.isArray(a))fd[q.id]=a.map(j=>activeQ[i].o[j].t).join('+');
+    else fd[q.id]=activeQ[i].o[a].t;
   });
   submitToGForm(fd);
   submitToSupabase(p);
 
   // 计算匹配度
-  const sc=calcScoresForResult();
+  const sc=calcScoresRaw();
   const total=sc.edge+sc.bloom+sc.easy;
   const primary=sc[p.quad]||0;
   const matchPct=total>0?Math.round(primary/total*100):50;
@@ -785,7 +1518,7 @@ function showResult(){
       <div class="match-pct">${matchPct}%</div>
       <div class="match-label">味觉匹配度</div>
       <div class="rl">${p.motto}</div>
-      <div class="rd">${p.desc}</div>
+      <div class="rd">${pDesc(p)}</div>
       <div class="rt">${p.tags.map(t=>`<span class="rtg">${t}</span>`).join('')}</div>
     </div>
     <div style="text-align:center;font-size:12px;color:var(--t3);letter-spacing:2px;margin-bottom:4px">味觉雷达</div>
@@ -796,6 +1529,7 @@ function showResult(){
       <div class="flavor-item"><div class="flavor-val">${p.bars[2]}</div><div class="flavor-lbl">清爽</div></div>
       <div class="flavor-item"><div class="flavor-val">${p.bars[3]}</div><div class="flavor-lbl">复杂</div></div>
     </div>
+    <div class="persona-dist" id="personaDistResult"></div>
     <div class="reco-card">
       <div class="reco-title">为你推荐 · JAM 首单</div>
       <div class="reco-main">
@@ -803,22 +1537,35 @@ function showResult(){
         <div class="reco-info"><div class="reco-name">${p.reco}</div><div class="reco-style">${p.recoS}</div></div>
         <div class="reco-price">${p.recoP}</div>
       </div>
+      <a class="btn-shop" style="margin-top:12px" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">🛒 抖音下单 · 首箱尝鲜</a>
+      <div class="shop-hint">复制链接到抖音APP打开</div>
     </div>
     <div class="explore-hint">🔀 <span>下次试试 → ${p.explore}</span> ${p.exploreS}</div>
+    ${getDuiweiHTML(p.quad)}
+    ${getUpgradeBannerHTML()}
     <button class="btn" onclick="renderVote();go('sVote')">看看下月投票 →</button>
+    <div style="height:8px"></div>
+    <button class="btn btn-g" onclick="renderCompass();go('sCompass')">🧭 风味罗盘 · 精酿口味地图</button>
     <div style="height:8px"></div>
     <button class="btn btn-g" onclick="renderProf();go('sProf')">查看我的 TOMO 主页</button>
     <div style="height:8px"></div>
-    <button class="btn btn-g" onclick="shareCard()">生成分享海报</button>
+    <div style="display:flex;gap:10px">
+      <button class="btn btn-g" style="flex:1" onclick="shareCard('wechat')">朋友圈海报</button>
+      <button class="btn btn-g" style="flex:1" onclick="shareCard('social')">社媒海报</button>
+    </div>
   </div>`;
   go('sResult');
+  preCacheQR(); // 提前加载QR码，海报秒出
   setTimeout(()=>drawRadar('radarResult',p.bars),400);
+  // 加载并渲染人格分布
+  loadGlobalStats().then(()=>renderPersonaDist(p.bio));
 }
 
 // ============================================================
 //  VOTE
 // ============================================================
-function renderVote(){
+async function renderVote(){
+  await loadRealVotes();
   calcPct();
   const total=BEERS.reduce((a,b)=>a+b.votes,0);
   document.getElementById('sVote').innerHTML=`<div class="pi">
@@ -866,6 +1613,9 @@ function renderVoted(){
       <div style="font-size:12px;color:var(--t3)">届时你将收到通知 · 优先购买权已锁定</div>
     </div>
     <div style="font-size:13px;color:var(--t3);margin-bottom:24px;line-height:1.8">你是第 <span style="color:var(--gold);font-size:17px;font-weight:700">${(BEERS.reduce((a,b)=>a+b.votes,0)+1).toLocaleString()}</span> 位投票者<br>酒标将印上所有共酿者编号</div>
+    <a class="btn-shop" style="margin-top:16px" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">🛒 去抖音店铺 · 先喝为敬</a>
+    <div class="shop-hint">复制链接到抖音APP打开 · 共醸精酿官方店</div>
+    <div style="height:12px"></div>
     <button class="btn" onclick="renderDeliv();go('sDeliv')">模拟 → Day 30 酒已上市</button>
   </div>`;
 }
@@ -893,75 +1643,264 @@ function renderDeliv(){
 // ============================================================
 //  PROFILE — with gendered portrait
 // ============================================================
-function renderProf(){
+async function renderProf(){
   const p=calcPersona();
   const img=pImg(p);
-  // 进化路径提示
-  const evoMap={
-    edge:{hint:'继续深入 EDGE 象限，解锁「黑标品鉴师」成就',next:'♠9 鉴酒师'},
-    bloom:{hint:'再参与 3 次共酿投票，即可进入「花酿者」圈层',next:'♥9 花酿者'},
-    easy:{hint:'尝试一款 EDGE 象限酒款，开启跨象限探索之旅',next:'♦9 探路者'}
-  };
-  const evo=evoMap[p.quad]||evoMap.easy;
+
+  // ========== 查询真实数据 ==========
+  let myTests=0,myVotes=0,myRefCount=window._myRefCount||0;
+  try{
+    const tests=await sbGet('test_results?tomo_uid=eq.'+TOMO_UID+'&select=id,created_at');
+    myTests=tests?tests.length:0;
+    // 查推荐人数（有多少人的 ref_from = 我的 uid）
+    const refs=await sbGet('test_results?ref_from=eq.'+TOMO_UID+'&select=id');
+    myRefCount=refs?refs.length:0;
+    window._myRefCount=myRefCount;
+    myVotes=votedI>=0?1:0;
+  }catch(e){}
+
+  // ========== 品鉴段位（软轨道）· 只升不降 ==========
+  // Lv1 尝: 完成测试 | Lv2 知: 3个象限SKU(Phase1) | Lv3 品: 10次品鉴 | Lv4 鉴: Top20% | Lv5 醸: 共创
+  const PINJIAN=[
+    {lv:1,name:'尝',full:'初尝',cond:'完成 TOMO 味觉测试',icon:'🌱'},
+    {lv:2,name:'知',full:'知味',cond:'品鉴 3 个象限的酒款',icon:'📖'},
+    {lv:3,name:'品',full:'品道',cond:'完成 10 次品鉴记录',icon:'🍷'},
+    {lv:4,name:'鉴',full:'鉴赏',cond:'品鉴力 Top 20%',icon:'👁'},
+    {lv:5,name:'醸',full:'共醸',cond:'参与酿造 / 配方被选中',icon:'🔥'}
+  ];
+  // Phase 0 判断逻辑（基于可采集数据）
+  let pjLv=0;
+  if(myTests>=1) pjLv=1;          // Lv1: 做过测试
+  if(myTests>=3 && myVotes>=1) pjLv=2;  // Lv2: 多次测试+投票（Phase0代替3象限SKU）
+  if(myTests>=10) pjLv=3;         // Lv3: 10次品鉴
+  // Lv4/5 需要后台数据，Phase 0 暂不触发
+  const pjCur=PINJIAN[pjLv]||PINJIAN[0];
+  const pjNext=PINJIAN[pjLv+1]||null;
+
+  // 品鉴力分数：测试×50 + 投票×30 + 推荐×20
+  const pjScore=myTests*50+myVotes*30+myRefCount*20;
+
+  // ========== ♠ 身份阶梯 v3.1（商业轨道）==========
+  // L0 共醸師(零门槛) → L1 ♠7体验官 → L2 ♠K共醸師 → L3 ♠A加盟
+  const SPADE=[
+    {id:'l0', name:'共醸師',        desc:'完成测试 · 零门槛',           icon:'🍺', color:'var(--t2)',  short:'L0'},
+    {id:'s7', name:'♠7 共醸体验官',  desc:'推荐 1 人完成测试',           icon:'♠',  color:'var(--gold)',short:'♠7'},
+    {id:'sk', name:'♠K 共醸師',      desc:'累计销售 ¥20,000 · Phase 2', icon:'♠',  color:'#c0c0c0',   short:'♠K'},
+    {id:'sa', name:'♠A 加盟伙伴',    desc:'省级独家 · Phase 2.5',       icon:'♠',  color:'#e5c07b',   short:'♠A'}
+  ];
+  // v3.1 升级判断
+  const hasTest=myTests>=1;
+  const hasInvite=myRefCount>=1;
+  // L0: 完成测试 | L1(♠7): 推荐1人完成测试 | L2(♠K): 累计销售¥20K | L3(♠A): ¥10万+数据密度
+  const isL0=hasTest;
+  const isS7=hasTest && hasInvite;
+  // ♠7 升级进度
+  const s7Checks=[
+    {label:'完成 TOMO 味觉测试',done:hasTest},
+    {label:'推荐 1 位好友完成测试',done:hasInvite}
+  ];
+  const s7Done=s7Checks.filter(c=>c.done).length;
+  const spadeLevel=isS7?1:(isL0?0:-1);
+  const spadeCur=SPADE[Math.max(spadeLevel,0)];
+  // 佣金信息
+  const commInfo=isS7?{l1f:'18%',l1r:'10%',l2:'7%',label:'♠7 佣金率'}:{l1f:'15%',l1r:'8%',l2:'7%',label:'共醸師 佣金率'};
+
+  const tierLabel={fresh:'FRESH 小白',craft:'CRAFT 进阶',nerd:'NERD 老司机'};
+  const today=new Date().toISOString().slice(0,10).replace(/-/g,'.');
+
+  // ========== 品鉴段位进度条计算 ==========
+  const pjProgress=pjLv===0?0:pjLv>=4?100:
+    pjLv===1?(myTests>=3&&myVotes>=1?100:Math.min(Math.round((myTests/3)*60+(myVotes)*40),99)):
+    pjLv===2?Math.min(Math.round(myTests/10*100),99):100;
 
   document.getElementById('sProf').innerHTML=`<div class="pi">
     <div class="ph">
       <img class="portrait-sm" src="${img}" alt="${p.bio}" onerror="this.outerHTML='<div style=\\'width:58px;height:58px;border-radius:50%;background:linear-gradient(135deg,var(--gold),#5a3d0a);display:flex;align-items:center;justify-content:center;font-size:28px;border:2px solid var(--gold)\\'>${p.emoji}</div>'">
       <div>
         <div style="font-size:18px;font-weight:700">我的 TOMO</div>
-        <div class="pb">${p.suit} · ${p.bio}（${p.pro}）</div>
+        <div class="pb">${p.bio} · ${p.pro}</div>
       </div>
     </div>
 
-    <!-- 等级进度 -->
-    <div style="margin-bottom:20px">
-      <div style="display:flex;justify-content:space-between;align-items:center">
-        <span style="font-size:13px;color:var(--gold);font-weight:600">♠7 共醸師</span>
-        <span style="font-size:11px;color:var(--t3)">→ ${evo.next}</span>
+    <!-- TOMO ID + 段位 -->
+    <div style="background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:10px 14px;margin-bottom:16px;display:flex;justify-content:space-between;align-items:center">
+      <div><div style="font-size:10px;color:var(--t3)">TOMO ID</div><div style="font-size:14px;font-family:var(--f-display);color:var(--gold);letter-spacing:1px">${TOMO_UID}</div></div>
+      <div style="text-align:right"><div style="font-size:10px;color:var(--t3)">测试段位</div><div style="font-size:12px;color:var(--t2)">${tierLabel[userTier]||'CRAFT'}</div></div>
+    </div>
+
+    <!-- ═══ 双轨成长系统 ═══ -->
+    <div style="font-size:11px;color:var(--gold);letter-spacing:3px;text-align:center;margin-bottom:12px">—— 双轨成长 ——</div>
+
+    <!-- 轨道 1: 品鉴段位（软实力） -->
+    <div style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.1);border-radius:14px;padding:14px;margin-bottom:12px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="display:flex;align-items:center;gap:8px">
+          <span style="font-size:20px">${pjCur.icon}</span>
+          <div>
+            <div style="font-size:14px;font-weight:700;color:var(--gold)">Lv${pjCur.lv} · ${pjCur.full}</div>
+            <div style="font-size:10px;color:var(--t3)">品鉴段位 · 只升不降</div>
+          </div>
+        </div>
+        <div style="text-align:right">
+          <div style="font-size:16px;font-weight:700;color:var(--gold)">${pjScore}</div>
+          <div style="font-size:10px;color:var(--t3)">品鉴力</div>
+        </div>
       </div>
       <div class="level-bar"><div class="level-fill" id="lvFill" style="width:0%"></div></div>
-      <div class="level-info"><span>品鉴力 420</span><span>还差 80 升级</span></div>
+      <div class="level-info">
+        <span style="font-size:10px">${pjNext?'下一级: Lv'+(pjLv+2)+' · '+pjNext.full:'已达最高段位'}</span>
+        <span style="font-size:10px">${pjNext?pjNext.cond:''}</span>
+      </div>
+      <!-- 段位路线图 -->
+      <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,.08)">
+        ${PINJIAN.map((lv,i)=>`<div style="text-align:center;opacity:${i<=pjLv?1:0.35}">
+          <div style="font-size:14px;${i===pjLv?'filter:none':'filter:grayscale(1)'}">${lv.icon}</div>
+          <div style="font-size:10px;color:${i<=pjLv?'var(--gold)':'var(--t3)'};font-weight:${i===pjLv?'700':'400'}">${lv.name}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <!-- 轨道 2: ♠ 身份阶梯 v3.1（商业身份） -->
+    <div style="background:rgba(0,0,0,.2);border:1px solid rgba(201,168,76,.1);border-radius:14px;padding:14px;margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <div>
+          <div style="font-size:14px;font-weight:700;color:${spadeCur.color}">${spadeCur.name}</div>
+          <div style="font-size:10px;color:var(--t3)">♠ 身份 · 推荐即赚 · v3.1</div>
+        </div>
+        ${isS7?'<div style="background:var(--gold);color:#1a1a2e;font-size:10px;padding:3px 10px;border-radius:99px;font-weight:700">♠7 已解锁</div>':isL0?'<div style="font-size:10px;color:var(--gold)">共醸師 已激活</div>':''}
+      </div>
+
+      <!-- 当前佣金率 -->
+      <div style="background:rgba(201,168,76,.06);border-radius:10px;padding:10px 12px;margin-bottom:10px">
+        <div style="font-size:10px;color:var(--t3);margin-bottom:6px">${commInfo.label}</div>
+        <div style="display:flex;gap:10px">
+          <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--gold)">${commInfo.l1f}</div><div style="font-size:9px;color:var(--t3)">首单推荐</div></div>
+          <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--t2)">${commInfo.l1r}</div><div style="font-size:9px;color:var(--t3)">复购</div></div>
+          <div style="flex:1;text-align:center"><div style="font-size:18px;font-weight:700;color:var(--t2)">${commInfo.l2}</div><div style="font-size:9px;color:var(--t3)">搭子奖励</div></div>
+        </div>
+      </div>
+
+      ${isS7?`
+        <div style="font-size:12px;color:var(--t2);line-height:1.8;margin-bottom:8px">
+          ♠7 全部权益已激活：首单 18% · 复购 10% · 会员 9 折 · 7 折进货 · 4 类现金券
+        </div>
+        <div style="display:flex;gap:5px;flex-wrap:wrap">
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">首单18%</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">9折</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">7折进货</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">月度券</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">优先购</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">品鉴会</span>
+          <span style="font-size:10px;background:rgba(201,168,76,.1);color:var(--gold);padding:3px 8px;border-radius:6px">酒花×1.5</span>
+        </div>
+      `:`
+        <div style="font-size:11px;color:var(--t3);margin-bottom:8px">${isL0?'你已是共醸師 · 推荐 1 人完成测试即可升级 ♠7':'完成 TOMO 测试即自动成为共醸師'}</div>
+        ${s7Checks.map(c=>`<div style="display:flex;align-items:center;gap:8px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,.04)">
+          <span style="font-size:14px">${c.done?'✅':'⬜'}</span>
+          <span style="font-size:12px;color:${c.done?'var(--gold)':'var(--t2)'};${c.done?'text-decoration:line-through;opacity:.7':''}">${c.label}</span>
+        </div>`).join('')}
+        <div style="margin-top:10px;font-size:11px;color:var(--t3);line-height:1.6">
+          升级 ♠7 后：首单佣金 15%→18% · 会员 9 折 · 7 折进货资格 · 月度/生日/召回券 · 新品优先购
+        </div>
+      `}
+      <!-- ♠ 阶梯路线图 -->
+      <div style="display:flex;justify-content:space-between;margin-top:10px;padding-top:10px;border-top:1px solid rgba(201,168,76,.08)">
+        ${SPADE.map((s,i)=>`<div style="text-align:center;opacity:${i<=spadeLevel?1:0.3}">
+          <div style="font-size:14px;color:${i<=spadeLevel?s.color:'var(--t3)'};font-weight:${i===spadeLevel?'700':'400'}">${s.icon}</div>
+          <div style="font-size:9px;color:${i<=spadeLevel?'var(--t2)':'var(--t3)'};max-width:60px">${s.short}</div>
+        </div>`).join('')}
+      </div>
     </div>
 
     <!-- 4列数据 -->
     <div class="stats-grid">
-      <div class="stat-card"><div class="stat-val">12</div><div class="stat-lbl">投票</div></div>
-      <div class="stat-card"><div class="stat-val">5</div><div class="stat-lbl">共酿</div></div>
-      <div class="stat-card"><div class="stat-val">3</div><div class="stat-lbl">盲品</div></div>
-      <div class="stat-card"><div class="stat-val">90</div><div class="stat-lbl">天数</div></div>
+      <div class="stat-card"><div class="stat-val">${myTests}</div><div class="stat-lbl">测试</div></div>
+      <div class="stat-card"><div class="stat-val">${myVotes}</div><div class="stat-lbl">投票</div></div>
+      <div class="stat-card"><div class="stat-val">${myRefCount}</div><div class="stat-lbl">推荐</div></div>
+      <div class="stat-card"><div class="stat-val">${STATS.testCount}</div><div class="stat-lbl">全球</div></div>
     </div>
 
     <!-- 雷达图 -->
-    <div style="text-align:center;font-size:12px;color:var(--t3);letter-spacing:2px;margin-bottom:4px">味觉雷达 · ${p.suit} ${p.bio}</div>
+    <div style="text-align:center;font-size:12px;color:var(--t3);letter-spacing:2px;margin-bottom:4px">味觉雷达 · ${p.bio}</div>
     <div class="radar-wrap"><canvas id="radarProf" width="440" height="440"></canvas></div>
 
-    <!-- 进化路径 -->
-    <div class="evo-card">
-      <div class="evo-arrow">⚡</div>
-      <div class="evo-text"><b>进化路径</b><br>${evo.hint}</div>
+    <!-- 裂变二维码 -->
+    <div style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:18px;margin-bottom:16px;text-align:center">
+      <div style="font-size:11px;color:var(--t3);margin-bottom:10px">你的专属推荐码 · 扫码即测</div>
+      <canvas id="qrRef" width="180" height="180" style="border-radius:8px;background:#fff;padding:8px;width:180px;height:180px"></canvas>
+      <div style="font-size:10px;color:var(--t3);margin-top:8px">长按二维码保存 · 发给朋友扫一扫</div>
+      ${myRefCount>0?`<div style="font-size:11px;color:var(--gold);margin-top:6px">已有 <b>${myRefCount}</b> 人通过你的码测试</div>`:''}
+      <div style="display:flex;gap:8px;margin-top:10px;justify-content:center">
+        <button class="btn btn-s btn-g" style="font-size:11px;padding:7px 14px" onclick="saveQR()">保存二维码</button>
+        <button class="btn btn-s btn-g" style="font-size:11px;padding:7px 14px" onclick="navigator.clipboard.writeText(getMyRefURL()).then(()=>this.textContent='已复制 ✓')">复制链接</button>
+      </div>
     </div>
 
     <div class="stit">参与历史 · 不可迁移</div>
     <div class="tl">
-      <div class="ti"><div class="td">Day 90 · 2026.09.15</div><div class="tt">盲品对决 × 3 · 品鉴力 <span style="color:var(--gold)">+15</span></div></div>
-      <div class="ti"><div class="td">Day 75 · 2026.09.01</div><div class="tt">风味滑块投票 · 苦度建议被采纳 ✓</div></div>
-      <div class="ti"><div class="td">Day 60 · 2026.08.15</div><div class="tt">晋升 <span style="color:var(--gold)">♠7 共醸師</span></div></div>
-      <div class="ti"><div class="td">Day 30 · 2026.07.15</div><div class="tt">共酿者 <span style="color:var(--gold)">#0892</span> · 酒标印名 · 限量发售</div></div>
-      <div class="ti"><div class="td">Day 7 · 2026.06.22</div><div class="tt">首次投票 · 七月共饮系列 · 品鉴力 <span style="color:var(--gold)">+5</span></div></div>
-      <div class="ti"><div class="td">Day 1 · 2026.06.15</div><div class="tt">梭鱼湾扫码 · TOMO测试 → <span style="color:var(--gold)">${p.suit} ${p.bio}</span></div></div>
+      ${myVotes>0?`<div class="ti"><div class="td">${today}</div><div class="tt">首次投票 · 七月共饮系列 · 品鉴力 <span style="color:var(--gold)">+30</span></div></div>`:''}
+      ${myRefCount>0?`<div class="ti"><div class="td">${today}</div><div class="tt">推荐 ${myRefCount} 人完成测试 · 品鉴力 <span style="color:var(--gold)">+${myRefCount*20}</span></div></div>`:''}
+      <div class="ti"><div class="td">${today}</div><div class="tt">TOMO测试 [${(userTier||'craft').toUpperCase()}] → <span style="color:var(--gold)">${p.bio}</span> · 品鉴力 <span style="color:var(--gold)">+50</span></div></div>
+      <div class="ti"><div class="td">${today}</div><div class="tt">加入 TOMO · ID <span style="color:var(--gold)">${TOMO_UID}</span></div></div>
     </div>
-    <div class="fm">「我们不锁定你的钱包。<br>我们锁定的是你和这个品牌<br>共同走过的时间。」</div>
+    <div class="fm">「你的味觉有自己的生命。」</div>
+    <button class="btn btn-g" style="margin-bottom:10px" onclick="renderCompass();go('sCompass')">🧭 风味罗盘 · 精酿口味地图</button>
     <div class="share-row">
       <button class="btn btn-s" onclick="restart()">↺ 重来</button>
-      <button class="btn btn-s btn-g" onclick="shareCard()">生成分享海报</button>
-      <button class="btn btn-s btn-g" onclick="share()">复制分享</button>
+      <button class="btn btn-s btn-g" onclick="shareCard('wechat')">朋友圈</button>
+      <button class="btn btn-s btn-g" onclick="shareCard('social')">社媒</button>
+      <button class="btn btn-s btn-g" onclick="share()">复制</button>
     </div>
     <div class="foot">共醸 GÒNNIANG · JAM即兴精酿<br>joychan777777.github.io/tomo-taste</div>
   </div>`;
   setTimeout(()=>{
     drawRadar('radarProf',p.bars);
-    const lv=document.getElementById('lvFill');if(lv)lv.style.width='84%';
+    const lv=document.getElementById('lvFill');if(lv)lv.style.width=Math.min(pjProgress,100)+'%';
+    drawQR('qrRef',getMyRefURL());
   },300);
+}
+
+// ============================================================
+//  QR CODE GENERATOR (minimal, no dependencies)
+// ============================================================
+function drawQR(canvasId,text){
+  // Use QR Server API to render into canvas
+  const c=document.getElementById(canvasId);if(!c)return;
+  const ctx=c.getContext('2d');
+  const img=new Image();
+  img.crossOrigin='anonymous';
+  img.onload=function(){
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
+    const pad=12,s=Math.min(c.width,c.height)-pad*2;
+    ctx.drawImage(img,pad,pad,s,s);
+    // Draw center logo
+    const ls=32;
+    ctx.fillStyle='#1a1a2e';ctx.fillRect((c.width-ls)/2,(c.height-ls)/2,ls,ls);
+    ctx.fillStyle='#c9a84c';ctx.font='bold 14px serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('醸',c.width/2,c.height/2);
+  };
+  img.onerror=function(){
+    // Fallback: show text link
+    ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
+    ctx.fillStyle='#1a1a2e';ctx.font='11px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+    ctx.fillText('扫码加载失败',c.width/2,c.height/2-10);
+    ctx.fillText('请复制链接分享',c.width/2,c.height/2+10);
+  };
+  img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=0&data='+encodeURIComponent(text);
+}
+function saveQR(){
+  const c=document.getElementById('qrRef');if(!c)return;
+  try{
+    const link=document.createElement('a');
+    link.download='TOMO_推荐码_'+TOMO_UID+'.png';
+    link.href=c.toDataURL('image/png');
+    link.click();
+  }catch(e){
+    // iOS Safari fallback
+    const w=window.open();
+    w.document.write('<img src="'+c.toDataURL()+'" style="width:100%;max-width:300px">');
+    w.document.title='长按保存二维码';
+  }
 }
 
 // ============================================================
@@ -970,9 +1909,10 @@ function renderProf(){
 function share(){
   const p=calcPersona();
   const gLabel=userGender==='f'?'她':'他';
-  const txt=`我的味觉DNA是 ${p.suit} ${p.bio}（${p.pro}）！${p.motto}\n${gLabel}的味觉人格已觉醒\nhttps://joychan777777.github.io/tomo-taste/\n#共醸 #JAM即兴精酿 #TOMO`;
+  const myLink=getMyRefURL();
+  const txt=`我的味觉DNA是 ${p.bio}（${p.pro}）！${p.motto}\n${gLabel}的味觉人格已觉醒\n${myLink}\n#共醸 #JAM即兴精酿 #TOMO`;
   if(navigator.share){
-    navigator.share({title:'我的味觉DNA',text:txt,url:'https://joychan777777.github.io/tomo-taste/'}).catch(()=>{});
+    navigator.share({title:'我的味觉DNA',text:txt,url:myLink}).catch(()=>{});
   }else{
     navigator.clipboard.writeText(txt).then(()=>alert('已复制到剪贴板，去朋友圈粘贴吧！')).catch(()=>alert(txt));
   }
@@ -983,38 +1923,38 @@ function share(){
 // ============================================================
 function go(id){
   document.querySelectorAll('.p').forEach(p=>{
-    if(p.id===curPage){p.classList.remove('on');p.classList.add('out');setTimeout(()=>p.classList.remove('out'),450);}
+    if(p.id===curPage){p.classList.remove('on');p.classList.add('out');setTimeout(()=>p.classList.remove('out'),500);}
   });
   const target=document.getElementById(id);
-  if(target){target.classList.add('on');target.scrollTop=0;}
+  if(target){
+    target.classList.add('on');target.scrollTop=0;
+    // 选项卡片逐个入场动画
+    const opts=target.querySelectorAll('.qopt');
+    opts.forEach((o,i)=>{
+      o.style.transitionDelay=(i*0.06)+'s';
+      setTimeout(()=>{o.style.transitionDelay='0s';},500+i*60);
+    });
+  }
   curPage=id;
 }
 function restart(){
-  votedI=-1;ans.fill(null);userGender='m';
-  Q.forEach((q,qi)=>{
-    document.querySelectorAll(`#qo${qi} .qopt`).forEach(o=>o.classList.remove('sel'));
-  });
+  votedI=-1;userGender='m';userTier='craft';
+  activeQ=Q_CRAFT;ans=new Array(8).fill(null);
+  for(let i=0;i<10;i++){
+    document.querySelectorAll(`#qo${i} .qopt`).forEach(o=>o.classList.remove('sel'));
+  }
   document.querySelectorAll('.gc').forEach(c=>c.classList.remove('sel'));
   document.querySelectorAll('.p').forEach(p=>{p.classList.remove('on','out');});
   document.getElementById('s0').classList.add('on');curPage='s0';
+  renderQuestions();
 }
 
 // ============================================================
 //  CALC SCORES (for result page)
 // ============================================================
 function calcScoresForResult(){
-  let sE=0,sB=0,sD=0;
-  if(has(0,'visual_dark'))sE+=2;else if(has(0,'visual_light'))sD+=2;else if(has(0,'visual_medium'))sB+=1;
-  const q2c=getCode(1);q2c.forEach(c=>{if(c==='aroma_herbal')sE+=3;else if(c==='aroma_fruit')sB+=3;else if(c==='aroma_alcohol')sE+=1;else if(c==='aroma_null')sD+=2;});
-  if(q2c.includes('aroma_roast')){if(q3val()>=3)sE+=2;else sD+=1;}
-  const bv=q3val();if(bv===4)sE+=4;else if(bv===3)sE+=3;else if(bv===2)sB+=1;else if(bv===1)sD+=3;else if(bv===5){sD+=4;sE-=3;}
-  if(has(3,'bitter_pos_throat'))sE+=1;else if(has(3,'bitter_pos_side'))sE+=1;else if(has(3,'bitter_pos_tip'))sB+=1;else if(has(3,'bitter_pos_null'))sD+=1;
-  if(has(4,'aftertaste_clean'))sD+=2;else if(has(4,'aftertaste_heavy')){if(sE>sB&&sE>sD)sE+=2;else sB+=2;}else if(has(4,'aftertaste_astringent'))sE+=1;else if(has(4,'aftertaste_null'))sD+=1;
-  if(has(4,'aftertaste_heavy')&&q2c.includes('aroma_roast'))sE+=1;
-  if(has(5,'scene_solo'))sE+=1;else if(has(5,'scene_crowd'))sB+=2;else if(has(5,'scene_small'))sB+=1;else if(has(5,'scene_null'))sD+=1;
-  if(has(6,'accept_repeat'))sB+=1;else if(has(6,'accept_stop'))sD+=1;
-  if(has(7,'motive_taste'))sE+=2;else if(has(7,'motive_social'))sB+=1;else if(has(7,'motive_feeling'))sB+=1;
-  return {edge:Math.max(0,sE),bloom:Math.max(0,sB),easy:Math.max(0,sD)};
+  const sc=calcScoresRaw();
+  return {edge:Math.max(0,Math.round(sc.edge)),bloom:Math.max(0,Math.round(sc.bloom)),easy:Math.max(0,Math.round(sc.easy))};
 }
 
 // ============================================================
@@ -1093,6 +2033,214 @@ function drawRadar(canvasId, bars){
 }
 
 // ============================================================
+//  FLAVOR COMPASS — 风味罗盘（8维 + 头像 + 酒款匹配）
+// ============================================================
+function expandBars(bars,quad){
+  // 从4基础维度 [苦度,甜度,清爽,复杂] 扩展到8维
+  const [bitter,sweet,crisp,complex]=bars;
+  return [
+    {name:'苦度',   val:bitter,  color:'#6a6aff', desc:'苦味敏感度',icon:'💀'},
+    {name:'酒花香', val:Math.min(100,Math.round(bitter*0.5+complex*0.5)), color:'#50c878', desc:'酒花香气感知',icon:'🌿'},
+    {name:'甜度',   val:sweet,   color:'#ff7eb3', desc:'甜味偏好',icon:'🍯'},
+    {name:'果味',   val:Math.min(100,Math.round(sweet*0.6+crisp*0.3+10)),  color:'#ffb347', desc:'水果风味强度',icon:'🍊'},
+    {name:'清爽',   val:crisp,   color:'#87ceeb', desc:'清爽利落感',icon:'❄️'},
+    {name:'酒体',   val:Math.min(100,Math.round(bitter*0.4+complex*0.3+30)),color:'#c9a84c', desc:'酒体厚度',icon:'🏋'},
+    {name:'复杂',   val:complex, color:'#b19cd9', desc:'层次丰富度',icon:'🔬'},
+    {name:'烘烤',   val:Math.min(100,Math.round(complex*0.5+bitter*0.3)),    color:'#d2691e', desc:'烘烤焦香',icon:'🔥'}
+  ];
+}
+
+function drawCompass(canvasId,dims,portraitSrc){
+  const c=document.getElementById(canvasId);
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const w=c.width,h=c.height,cx=w/2,cy=h/2;
+  const n=dims.length;
+  const r=w*0.34; // 留空给标签
+  ctx.clearRect(0,0,w,h);
+
+  // 背景辉光
+  const bg=ctx.createRadialGradient(cx,cy,0,cx,cy,r*1.3);
+  bg.addColorStop(0,'rgba(201,168,76,0.03)');bg.addColorStop(1,'transparent');
+  ctx.fillStyle=bg;ctx.fillRect(0,0,w,h);
+
+  // 同心环（4级）
+  for(let lv=1;lv<=4;lv++){
+    const lr=r*lv/4;
+    ctx.beginPath();
+    for(let i=0;i<=n;i++){
+      const a=-Math.PI/2+i*2*Math.PI/n;
+      const x=cx+lr*Math.cos(a),y=cy+lr*Math.sin(a);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();
+    ctx.strokeStyle=lv===4?'rgba(201,168,76,0.2)':'rgba(201,168,76,0.06)';
+    ctx.lineWidth=1;ctx.stroke();
+  }
+
+  // 轴线
+  for(let i=0;i<n;i++){
+    const a=-Math.PI/2+i*2*Math.PI/n;
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
+    ctx.strokeStyle='rgba(201,168,76,0.08)';ctx.stroke();
+  }
+
+  // 数据填充（渐变）
+  ctx.beginPath();
+  dims.forEach((d,i)=>{
+    const a=-Math.PI/2+i*2*Math.PI/n;
+    const vr=r*d.val/100;
+    const x=cx+vr*Math.cos(a),y=cy+vr*Math.sin(a);
+    i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+  });
+  ctx.closePath();
+  const grd=ctx.createRadialGradient(cx,cy,0,cx,cy,r);
+  grd.addColorStop(0,'rgba(201,168,76,0.25)');grd.addColorStop(1,'rgba(201,168,76,0.05)');
+  ctx.fillStyle=grd;ctx.fill();
+  ctx.strokeStyle='rgba(201,168,76,0.7)';ctx.lineWidth=2;ctx.stroke();
+
+  // 顶点光点
+  dims.forEach((d,i)=>{
+    const a=-Math.PI/2+i*2*Math.PI/n;
+    const vr=r*d.val/100;
+    const x=cx+vr*Math.cos(a),y=cy+vr*Math.sin(a);
+    // 外发光
+    const gl=ctx.createRadialGradient(x,y,0,x,y,8);
+    gl.addColorStop(0,d.color+'88');gl.addColorStop(1,'transparent');
+    ctx.fillStyle=gl;ctx.fillRect(x-10,y-10,20,20);
+    // 实心点
+    ctx.beginPath();ctx.arc(x,y,4.5,0,Math.PI*2);
+    ctx.fillStyle=d.color;ctx.fill();
+  });
+
+  // 标签（维度名+数值）
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  const pad=32;
+  dims.forEach((d,i)=>{
+    const a=-Math.PI/2+i*2*Math.PI/n;
+    const lx=cx+(r+pad)*Math.cos(a),ly=cy+(r+pad)*Math.sin(a);
+    // 维度名
+    ctx.font='bold 18px "Noto Sans SC",sans-serif';
+    ctx.fillStyle=d.color;
+    ctx.fillText(d.name,lx,ly-8);
+    // 数值
+    ctx.font='13px sans-serif';
+    ctx.fillStyle='rgba(255,255,255,0.5)';
+    ctx.fillText(d.val,lx,ly+10);
+  });
+
+  // 中心头像（圆形裁剪）
+  if(portraitSrc){
+    const avatarR=36;
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>{
+      ctx.save();
+      ctx.beginPath();ctx.arc(cx,cy,avatarR,0,Math.PI*2);ctx.closePath();ctx.clip();
+      ctx.drawImage(img,cx-avatarR,cy-avatarR,avatarR*2,avatarR*2);
+      ctx.restore();
+      // 头像边框
+      ctx.beginPath();ctx.arc(cx,cy,avatarR+1,0,Math.PI*2);
+      ctx.strokeStyle='rgba(201,168,76,0.6)';ctx.lineWidth=2;ctx.stroke();
+    };
+    img.src=portraitSrc;
+  }
+}
+
+function getFlavorBeers(dims,quad){
+  // 根据用户8维分数推荐最匹配的酒款风格
+  const allBeers=[
+    {name:'双倍IPA',       style:'Double IPA · 浓郁酒花炸弹',     icon:'💥', dims:[90,85,10,30,15,80,75,20], price:'¥40'},
+    {name:'新英格兰IPA',    style:'Hazy IPA · 热带果汁感',        icon:'🌴', dims:[60,70,50,75,30,55,65,10], price:'¥35'},
+    {name:'西海岸IPA',      style:'West Coast IPA · 干爽松脂',    icon:'🌊', dims:[80,60,15,20,50,65,60,15], price:'¥35'},
+    {name:'比利时小麦',      style:'Witbier · 柑橘芫荽清香',      icon:'🍋', dims:[10,15,70,55,85,20,30,5],  price:'¥18'},
+    {name:'芒果西打',        style:'Mango Cider · 热带果甜',      icon:'🥭', dims:[5,10,90,95,80,10,20,0],   price:'¥35'},
+    {name:'燕麦世涛',        style:'Oatmeal Stout · 丝滑咖啡',    icon:'☕', dims:[65,20,20,10,10,85,50,95], price:'¥30'},
+    {name:'酸啤',            style:'Berliner Weisse · 柠檬酸爽',  icon:'🍋', dims:[10,5,30,60,70,15,75,5],   price:'¥18'},
+    {name:'帝国世涛',        style:'Imperial Stout · 浓黑深邃',   icon:'🖤', dims:[85,15,15,5,5,95,85,90],   price:'¥40'},
+    {name:'拉格',            style:'Lager · 清爽百搭日饮',        icon:'🍺', dims:[15,10,40,25,90,20,15,10], price:'¥18'},
+    {name:'波特',            style:'Porter · 巧克力焦糖',         icon:'🍫', dims:[55,25,35,15,20,70,55,80], price:'¥30'},
+    {name:'三料啤酒',        style:'Tripel · 比利时修道院',       icon:'⛪', dims:[30,15,60,50,35,60,90,30], price:'¥35'},
+    {name:'果味IPA',         style:'Fruited IPA · 水果酒花碰撞',  icon:'🍑', dims:[50,55,65,90,45,45,60,10], price:'¥35'}
+  ];
+  // 计算匹配分数（欧氏距离倒数归一化）
+  const userVec=dims.map(d=>d.val);
+  const scored=allBeers.map(b=>{
+    let dist=0;
+    for(let i=0;i<8;i++) dist+=(userVec[i]-b.dims[i])**2;
+    dist=Math.sqrt(dist);
+    const match=Math.max(0,Math.round(100-dist/3.2)); // 归一化到0-100
+    return {...b,match};
+  });
+  scored.sort((a,b)=>b.match-a.match);
+  return scored.slice(0,5);
+}
+
+function renderCompass(){
+  const p=calcPersona();
+  const img=pImg(p);
+  const dims=expandBars(p.bars,p.quad);
+  const beers=getFlavorBeers(dims,p.quad);
+
+  // 找到主导维度
+  const sorted=[...dims].sort((a,b)=>b.val-a.val);
+  const top3=sorted.slice(0,3);
+  const flavorSig=top3.map(d=>d.name).join(' · ');
+
+  document.getElementById('sCompass').innerHTML=`<div class="pi">
+    <div style="text-align:center;font-size:11px;color:var(--gold);letter-spacing:4px;margin-bottom:4px">风味罗盘</div>
+    <div class="serif" style="font-size:22px;text-align:center;margin-bottom:2px">你的精酿口味地图</div>
+    <div style="text-align:center;font-size:12px;color:var(--t3);margin-bottom:12px">Flavor Compass · ${p.bio}</div>
+
+    <div class="compass-canvas-wrap">
+      <img class="compass-avatar" src="${img}" alt="${p.bio}" onerror="this.className='compass-avatar-fb';this.innerHTML='${p.emoji}';this.removeAttribute('src')">
+      <canvas id="compassCanvas" width="680" height="680"></canvas>
+    </div>
+
+    <div style="text-align:center;font-size:13px;color:var(--t2);margin:8px 0 4px">
+      风味签名 · <span style="color:var(--gold);font-weight:600">${flavorSig}</span>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--t3);margin-bottom:16px">${p.suit} ${p.pro} · 味觉匹配基因</div>
+
+    <div class="compass-legend">
+      ${dims.map(d=>`<div class="compass-leg-item">
+        <div class="compass-leg-dot" style="background:${d.color}"></div>
+        <span class="compass-leg-name">${d.name}</span>
+        <span class="compass-leg-val">${d.val}</span>
+      </div>`).join('')}
+    </div>
+
+    <div class="compass-beer-title">为你匹配 · 精酿口味</div>
+    <div class="compass-beer-list">
+      ${beers.map((b,i)=>`<div class="compass-beer">
+        <div class="compass-beer-icon">${b.icon}</div>
+        <div class="compass-beer-info">
+          <div class="compass-beer-name">${b.name}</div>
+          <div class="compass-beer-style">${b.style}</div>
+          <div class="compass-beer-match">
+            <div class="compass-beer-bar"><div class="compass-beer-bar-fill" style="width:0%" data-w="${b.match}%"></div></div>
+            <div class="compass-beer-pct">${b.match}%</div>
+          </div>
+        </div>
+      </div>`).join('')}
+    </div>
+
+    <div style="height:16px"></div>
+    <button class="btn btn-g" onclick="go('sResult')">← 返回结果</button>
+  </div>`;
+
+  // 绘制8维罗盘
+  setTimeout(()=>{
+    drawCompass('compassCanvas',dims,img);
+    // 酒款匹配度条动画
+    document.querySelectorAll('.compass-beer-bar-fill').forEach((el,i)=>{
+      setTimeout(()=>{el.style.width=el.dataset.w;},200+i*100);
+    });
+  },350);
+}
+
+// ============================================================
 //  PARTICLE BACKGROUND — 开屏粒子
 // ============================================================
 function initParticles(){
@@ -1125,154 +2273,129 @@ function initParticles(){
 //  TEST COUNT — 从 Supabase 读取
 // ============================================================
 async function loadTestCount(){
-  try{
-    const r=await fetch(SB_URL+'/test_results?select=id',{headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
-    const d=await r.json();
-    const el=document.getElementById('testCount');
-    if(el&&d&&d.length)el.innerHTML='已有 <b>'+d.length+'</b> 人发现了味觉DNA';
-  }catch(e){}
+  await loadGlobalStats();
 }
 
 // ============================================================
-//  SHARE CARD — 生成分享海报（含头像+玩味描述+二维码+裂变码）
+//  SHARE CARD — 快速海报（540px宽，大头像大字，紧凑布局）
 // ============================================================
-function shareCard(){
-  const p=calcPersona();
+
+// 预缓存QR码（结果页加载时就开始）
+var _qrCache={};
+function preCacheQR(){
+  const url='https://joychan777777.github.io/tomo-taste/?ref='+TOMO_UID;
+  const qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=c9a84c&bgcolor=08080f&data='+encodeURIComponent(url);
   const img=new Image();
   img.crossOrigin='anonymous';
-  img.onload=()=>drawShareCard(p,img);
-  img.onerror=()=>drawShareCard(p,null);
-  img.src=pImg(p);
+  img.onload=()=>{_qrCache.img=img;};
+  img.src=qrUrl;
 }
 
-function drawShareCard(p,portrait){
-  const cv=document.createElement('canvas');
-  cv.width=750;cv.height=1334;
-  const ctx=cv.getContext('2d');
-  const W=750,H=1334;
+function shareCard(mode){
+  const p=calcPersona();
+  // 头像已在结果页加载过，直接从页面取缓存
+  const cachedPortrait=document.querySelector('#sResult .portrait');
+  if(cachedPortrait&&cachedPortrait.complete&&cachedPortrait.naturalWidth>0){
+    drawShareCard(p,cachedPortrait,mode);
+  }else{
+    const img=new Image();
+    img.crossOrigin='anonymous';
+    img.onload=()=>drawShareCard(p,img,mode);
+    img.onerror=()=>drawShareCard(p,null,mode);
+    img.src=pImg(p);
+  }
+}
 
-  // 背景渐变
-  ctx.fillStyle='#0a0a12';ctx.fillRect(0,0,W,H);
-  const grd=ctx.createRadialGradient(375,350,0,375,350,500);
-  grd.addColorStop(0,'#1a1520');grd.addColorStop(1,'#0a0a12');
+function drawShareCard(p,portrait,mode){
+  const cv=document.createElement('canvas');
+  // 降到540px宽（原1080太慢），手机屏幕足够清晰
+  const W=540, H=(mode==='social')?720:540;
+  cv.width=W;cv.height=H;
+  const ctx=cv.getContext('2d');
+  const cx=W/2;
+
+  // ═══ 背景 ═══
+  ctx.fillStyle='#08080f';ctx.fillRect(0,0,W,H);
+  const grd=ctx.createRadialGradient(cx,H*0.3,0,cx,H*0.3,W*0.8);
+  grd.addColorStop(0,'#18162a');grd.addColorStop(1,'#08080f');
   ctx.fillStyle=grd;ctx.fillRect(0,0,W,H);
 
-  // 顶部品牌
+  // ═══ 顶部品牌（紧凑） ═══
+  let y=28;
   ctx.textAlign='center';
-  ctx.fillStyle='#c9a84c';ctx.font='900 52px serif';ctx.fillText('共醸',375,90);
-  ctx.fillStyle='#555';ctx.font='12px sans-serif';ctx.fillText('GÒNNIANG · JAM即兴精酿',375,120);
-
-  // 分割线
-  ctx.beginPath();ctx.moveTo(200,145);ctx.lineTo(550,145);
+  ctx.fillStyle='rgba(201,168,76,0.5)';ctx.font='600 14px sans-serif';
+  ctx.fillText('TOMO · 共醸',cx,y);
+  y+=12;
+  ctx.beginPath();ctx.moveTo(cx-60,y);ctx.lineTo(cx+60,y);
   ctx.strokeStyle='rgba(201,168,76,0.15)';ctx.lineWidth=1;ctx.stroke();
 
-  // 头像（圆形裁剪）
-  const avatarY=260,avatarR=85;
+  // ═══ 大头像（3倍=半径225→在540宽里用R=150） ═══
+  y+=20;
+  const avatarR=mode==='social'?160:130;
+  const avatarCY=y+avatarR;
+
+  // 光晕
+  ctx.beginPath();ctx.arc(cx,avatarCY,avatarR+10,0,Math.PI*2);
+  ctx.strokeStyle='rgba(201,168,76,0.06)';ctx.lineWidth=8;ctx.stroke();
+  ctx.beginPath();ctx.arc(cx,avatarCY,avatarR+2,0,Math.PI*2);
+  ctx.strokeStyle='rgba(201,168,76,0.25)';ctx.lineWidth=2;ctx.stroke();
+
   if(portrait){
     ctx.save();
-    ctx.beginPath();ctx.arc(375,avatarY,avatarR,0,Math.PI*2);ctx.closePath();ctx.clip();
-    ctx.drawImage(portrait,375-avatarR,avatarY-avatarR,avatarR*2,avatarR*2);
+    ctx.beginPath();ctx.arc(cx,avatarCY,avatarR,0,Math.PI*2);ctx.closePath();ctx.clip();
+    ctx.drawImage(portrait,cx-avatarR,avatarCY-avatarR,avatarR*2,avatarR*2);
     ctx.restore();
-  }
-  // 头像边框
-  ctx.beginPath();ctx.arc(375,avatarY,avatarR+2,0,Math.PI*2);
-  ctx.strokeStyle='rgba(201,168,76,0.35)';ctx.lineWidth=3;ctx.stroke();
-  // 光晕
-  ctx.beginPath();ctx.arc(375,avatarY,avatarR+12,0,Math.PI*2);
-  ctx.strokeStyle='rgba(201,168,76,0.06)';ctx.lineWidth=8;ctx.stroke();
-
-  // 如果没头像显示 emoji
-  if(!portrait){
-    ctx.fillStyle='#c9a84c';ctx.font='72px serif';ctx.fillText(p.emoji,375,avatarY+24);
+  }else{
+    ctx.fillStyle='#c9a84c';ctx.font='bold 100px serif';ctx.fillText(p.emoji,cx,avatarCY+35);
   }
 
-  // 人格名
-  ctx.fillStyle='#c9a84c';ctx.font='900 44px serif';ctx.fillText(p.bio,375,395);
-  ctx.fillStyle='#888';ctx.font='500 15px sans-serif';ctx.fillText(p.suit+' · '+p.pro,375,425);
+  // ═══ 人格名（大字） ═══
+  y=avatarCY+avatarR+30;
+  ctx.fillStyle='rgba(232,212,139,0.95)';ctx.font='bold 56px serif';
+  ctx.fillText(p.bio,cx,y);
 
-  // motto
-  ctx.fillStyle='rgba(201,168,76,0.7)';ctx.font='italic 16px serif';ctx.fillText(p.motto,375,465);
+  // 花色+专业名
+  y+=28;
+  ctx.fillStyle='rgba(255,255,255,0.45)';ctx.font='500 20px sans-serif';
+  ctx.fillText(p.suit+' · '+p.pro,cx,y);
 
-  // 玩味描述（大字居中）
-  ctx.fillStyle='#ddd';ctx.font='500 20px sans-serif';
-  const funLines=(p.funLine||'').match(/.{1,18}/g)||[p.funLine];
-  funLines.forEach((l,i)=>ctx.fillText(l,375,520+i*32));
+  // ═══ Motto（大字） ═══
+  y+=36;
+  ctx.fillStyle='rgba(201,168,76,0.65)';ctx.font='italic 22px serif';
+  ctx.fillText(p.motto,cx,y);
 
-  // 分割线
-  const divY=520+funLines.length*32+25;
-  ctx.beginPath();ctx.moveTo(250,divY);ctx.lineTo(500,divY);
-  ctx.strokeStyle='rgba(201,168,76,0.1)';ctx.stroke();
-
-  // 描述文字
-  ctx.fillStyle='#999';ctx.font='14px sans-serif';ctx.textAlign='center';
-  const descLines=p.desc.match(/.{1,26}/g)||[];
-  descLines.forEach((l,i)=>{if(i<5)ctx.fillText(l,375,divY+35+i*24);});
-
-  // 推荐酒款
-  const recoY=divY+35+Math.min(descLines.length,5)*24+30;
+  // ═══ 推荐酒款（大字药丸） ═══
+  y+=36;
+  const recoText='推荐 · '+p.reco+' · '+p.recoP;
+  ctx.font='500 18px sans-serif';
+  const tw=ctx.measureText(recoText).width;
+  const pillW=tw+36,pillH=38,pillX=cx-pillW/2;
   ctx.fillStyle='rgba(201,168,76,0.08)';
-  roundRect(ctx,100,recoY,550,60,12);ctx.fill();
-  ctx.strokeStyle='rgba(201,168,76,0.15)';roundRect(ctx,100,recoY,550,60,12);ctx.stroke();
-  ctx.fillStyle='#c9a84c';ctx.font='600 15px sans-serif';ctx.textAlign='left';
-  ctx.fillText('推荐 · '+p.reco,130,recoY+26);
-  ctx.fillStyle='#666';ctx.font='12px sans-serif';ctx.fillText(p.recoS,130,recoY+46);
-  ctx.fillStyle='#c9a84c';ctx.font='700 22px sans-serif';ctx.textAlign='right';
-  ctx.fillText(p.recoP,620,recoY+38);
+  roundRect(ctx,pillX,y-24,pillW,pillH,19);ctx.fill();
+  ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=1;
+  roundRect(ctx,pillX,y-24,pillW,pillH,19);ctx.stroke();
+  ctx.fillStyle='rgba(201,168,76,0.85)';ctx.fillText(recoText,cx,y);
 
-  // 二维码区域
-  const qrY=recoY+90;
-  ctx.textAlign='center';
-  // 绘制简约二维码占位框 + 文字
-  ctx.strokeStyle='rgba(201,168,76,0.2)';ctx.lineWidth=2;
-  roundRect(ctx,285,qrY,180,180,16);ctx.stroke();
-  // QR code：用API生成
-  const qrImg=new Image();
-  qrImg.crossOrigin='anonymous';
-  qrImg.onload=()=>{
-    ctx.drawImage(qrImg,295,qrY+10,160,160);
-    finishCard(ctx,cv,p,qrY);
-  };
-  qrImg.onerror=()=>{
-    ctx.fillStyle='#333';ctx.font='13px sans-serif';ctx.fillText('扫码测试',375,qrY+95);
-    finishCard(ctx,cv,p,qrY);
-  };
-  const refCode=getMyRefCode();
-  qrImg.src='https://api.qrserver.com/v1/create-qr-code/?size=160x160&color=c9a84c&bgcolor=0a0a12&data='+encodeURIComponent('https://joychan777777.github.io/tomo-taste/?ref='+refCode);
-}
+  // ═══ 底部：QR + CTA（紧凑） ═══
+  const qrSize=mode==='social'?120:100;
+  const qrY=H-qrSize-50;
+  const qrX=cx-qrSize/2;
 
-function finishCard(ctx,cv,p,qrY){
-  ctx.textAlign='center';
-  ctx.fillStyle='#c9a84c';ctx.font='500 14px sans-serif';
-  ctx.fillText('扫码发现你的味觉DNA',375,qrY+205);
-  ctx.fillStyle='#444';ctx.font='11px sans-serif';
-  ctx.fillText('共醸 GÒNNIANG · 用味觉投票你想喝的下一杯',375,qrY+235);
-
-  // 裂变统计
-  const refCount=window._myRefCount||0;
-  if(refCount>0){
-    ctx.fillStyle='rgba(201,168,76,0.6)';ctx.font='12px sans-serif';
-    ctx.fillText('已有 '+refCount+' 人通过我的链接发现味觉DNA',375,qrY+265);
+  if(_qrCache.img){
+    ctx.drawImage(_qrCache.img,qrX,qrY,qrSize,qrSize);
+  }else{
+    // QR还没加载完就画占位文字
+    ctx.fillStyle='rgba(201,168,76,0.3)';ctx.font='14px sans-serif';
+    ctx.fillText('扫码测试你的味觉DNA',cx,qrY+qrSize/2+5);
   }
 
-  // 下载
-  cv.toBlob(blob=>{
-    if(!blob)return;
-    const url=URL.createObjectURL(blob);
-    // 移动端尝试分享，桌面端下载
-    if(navigator.share&&navigator.canShare){
-      const file=new File([blob],'TOMO_'+p.bio+'_味觉DNA.png',{type:'image/png'});
-      if(navigator.canShare({files:[file]})){
-        navigator.share({files:[file],title:'我的味觉DNA · '+p.bio}).catch(()=>downloadBlob(url,p));
-        return;
-      }
-    }
-    downloadBlob(url,p);
-  });
-}
+  // CTA
+  ctx.fillStyle='rgba(201,168,76,0.7)';ctx.font='500 16px sans-serif';
+  ctx.fillText('扫码发现你的味觉DNA',cx,H-18);
 
-function downloadBlob(url,p){
-  const a=document.createElement('a');a.href=url;a.download='TOMO_'+p.bio+'_味觉DNA.png';a.click();
-  setTimeout(()=>URL.revokeObjectURL(url),1000);
+  // 导出
+  const dataUrl=cv.toDataURL('image/png');
+  showPosterOverlay(dataUrl);
 }
 
 function roundRect(ctx,x,y,w,h,r){
@@ -1285,30 +2408,22 @@ function roundRect(ctx,x,y,w,h,r){
 //  REFERRAL TRACKING — 裂变追踪
 // ============================================================
 function getMyRefCode(){
-  // 用 lastTestResultId 或随机生成
-  if(lastTestResultId)return lastTestResultId.substring(0,8);
-  if(!window._myRef)window._myRef=Math.random().toString(36).substring(2,10);
-  return window._myRef;
+  // 裂变码 = 我的 tomo_uid（永久不变）
+  return TOMO_UID;
 }
 
 function trackReferral(){
-  const params=new URLSearchParams(window.location.search);
-  const ref=params.get('ref');
-  if(ref){
-    // 记录来源
-    window._referrer=ref;
-    // 清理 URL（不影响用户体验）
-    if(window.history.replaceState){
-      window.history.replaceState({},'',window.location.pathname);
-    }
+  // ref 已在顶部 urlParams 中读取到 window._referrer
+  // 清理 URL（不影响用户体验）
+  if(window._referrer && window.history.replaceState){
+    window.history.replaceState({},'',window.location.pathname);
   }
 }
 
 async function loadMyRefCount(){
-  if(!lastTestResultId)return;
-  const refCode=lastTestResultId.substring(0,8);
+  // 统计通过我的裂变链接来的人数: ref_from = 我的 tomo_uid
   try{
-    const r=await fetch(SB_URL+'/test_results?referrer=like.*'+refCode+'*&select=id',
+    const r=await fetch(SB_URL+'/test_results?ref_from=eq.'+TOMO_UID+'&select=id',
       {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
     const d=await r.json();
     if(d&&d.length)window._myRefCount=d.length;
@@ -1322,6 +2437,30 @@ trackReferral();
 // ============================================================
 initParticles();
 loadTestCount();
+</script>
+
+<!-- 海报浮层（微信长按保存） -->
+<div class="poster-overlay" id="posterOverlay" onclick="closePoster(event)">
+  <div class="poster-hint">长按图片保存到相册</div>
+  <img class="poster-img" id="posterImg" src="" alt="TOMO味觉DNA海报">
+  <div class="poster-saving" id="posterSaving"></div>
+  <button class="poster-close" onclick="closePoster()">关闭</button>
+</div>
+<script>
+function isWeChat(){return /MicroMessenger/i.test(navigator.userAgent);}
+function showPosterOverlay(dataUrl){
+  var img=document.getElementById('posterImg');
+  img.src=dataUrl;
+  var ov=document.getElementById('posterOverlay');
+  ov.classList.add('show');
+  document.getElementById('posterSaving').textContent=isWeChat()?'在微信中长按图片即可保存':'也可右键 / 长按保存';
+  document.body.style.overflow='hidden';
+}
+function closePoster(e){
+  if(e&&e.target.tagName==='IMG')return;
+  document.getElementById('posterOverlay').classList.remove('show');
+  document.body.style.overflow='';
+}
 </script>
 </body>
 </html>
