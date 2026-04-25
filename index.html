@@ -1869,8 +1869,10 @@ async function renderProf(){
     myVotes=votedI>=0?1:0;
   }catch(e){}
 
+  // 品鉴力分数：测试×50 + 投票×30 + 推荐×20
+  const pjScore=myTests*50+myVotes*30+myRefCount*20;
+
   // ========== 品鉴段位（软轨道）· 只升不降 ==========
-  // Lv1 尝: 完成测试 | Lv2 知: 3个象限SKU(Phase1) | Lv3 品: 10次品鉴 | Lv4 鉴: Top20% | Lv5 醸: 共创
   const PINJIAN=[
     {lv:1,name:'尝',full:'初尝',cond:'完成 TOMO 味觉测试',icon:'🌱'},
     {lv:2,name:'知',full:'知味',cond:'品鉴力达到 100',icon:'📖'},
@@ -1878,17 +1880,12 @@ async function renderProf(){
     {lv:4,name:'鉴',full:'鉴赏',cond:'品鉴力 Top 20%',icon:'👁'},
     {lv:5,name:'醸',full:'共醸',cond:'参与酿造 / 配方被选中',icon:'🔥'}
   ];
-  // Phase 0 判断逻辑（基于品鉴力分数）
   let pjLv=0;
-  if(myTests>=1) pjLv=1;                                 // Lv1: 做过测试 (50+)
-  if(pjScore>=100) pjLv=2;                               // Lv2: 品鉴力100（测试+投票+评分）
-  if(pjScore>=300) pjLv=3;                               // Lv3: 品鉴力300
-  // Lv4/5 需要后台数据，Phase 0 暂不触发
+  if(myTests>=1) pjLv=1;
+  if(pjScore>=100) pjLv=2;
+  if(pjScore>=300) pjLv=3;
   const pjCur=PINJIAN[pjLv]||PINJIAN[0];
   const pjNext=PINJIAN[pjLv+1]||null;
-
-  // 品鉴力分数：测试×50 + 投票×30 + 推荐×20
-  const pjScore=myTests*50+myVotes*30+myRefCount*20;
 
   // ========== ♠ 身份阶梯 v3.1（商业轨道）==========
   // L0 共醸師(零门槛) → L1 ♠7体验官 → L2 ♠K共醸師 → L3 ♠A加盟
@@ -2094,9 +2091,9 @@ async function renderProf(){
 //  味觉部落（Godin: Affiliation > Dominance）
 // ============================================================
 const TRIBES={
-  edge:{name:'锋芒部落',icon:'🦁',color:'var(--edge)',motto:'像我们这样的人，敢喝苦的',desc:'你属于精酿世界的硬核玩家。高苦度、高酒花、复杂风味是你的语言。',vibe:'挑战极限 · 追求锋利'},
-  bloom:{name:'绽放部落',icon:'🌸',color:'var(--bloom)',motto:'像我们这样的人，懂得甜的层次',desc:'你在甜与酸之间找到了精酿的温柔面。果香、花香、蜜语是你的世界。',vibe:'温柔力量 · 感官绽放'},
-  easy:{name:'自在部落',icon:'🏄',color:'var(--easy)',motto:'像我们这样的人，喝得自在',desc:'你知道最好的啤酒就是让你最放松的那杯。清爽、均衡、无压力是你的节奏。',vibe:'轻松自在 · 刚刚好'}
+  edge:{name:'锋芒部落',icon:'♠',color:'var(--edge)',motto:'像我们这样的人，敢喝苦的',desc:'你属于精酿世界的硬核玩家。高苦度、高酒花、复杂风味是你的语言。',vibe:'挑战极限 · 追求锋利'},
+  bloom:{name:'绽放部落',icon:'♥',color:'var(--bloom)',motto:'像我们这样的人，懂得甜的层次',desc:'你在甜与酸之间找到了精酿的温柔面。果香、花香、蜜语是你的世界。',vibe:'温柔力量 · 感官绽放'},
+  easy:{name:'自在部落',icon:'♦',color:'var(--easy)',motto:'像我们这样的人，喝得自在',desc:'你知道最好的啤酒就是让你最放松的那杯。清爽、均衡、无压力是你的节奏。',vibe:'轻松自在 · 刚刚好'}
 };
 
 function renderTribeCard(p,containerId){
