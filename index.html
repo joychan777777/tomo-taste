@@ -2697,7 +2697,7 @@ function drawRadar(canvasId, bars){
       i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
     }
     ctx.closePath();
-    ctx.strokeStyle='rgba(201,168,76,'+(lv===4?0.2:0.08)+')';
+    ctx.strokeStyle='rgba(201,168,76,'+(lv===4?0.4:0.18)+')';
     ctx.lineWidth=1;
     ctx.stroke();
   }
@@ -2708,7 +2708,7 @@ function drawRadar(canvasId, bars){
     ctx.beginPath();
     ctx.moveTo(cx,cy);
     ctx.lineTo(cx+r*Math.cos(a),cy+r*Math.sin(a));
-    ctx.strokeStyle='rgba(201,168,76,0.1)';
+    ctx.strokeStyle='rgba(201,168,76,0.25)';
     ctx.stroke();
   }
 
@@ -2721,10 +2721,10 @@ function drawRadar(canvasId, bars){
     i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
   });
   ctx.closePath();
-  ctx.fillStyle='rgba(201,168,76,0.15)';
+  ctx.fillStyle='rgba(209,174,107,0.3)';
   ctx.fill();
-  ctx.strokeStyle='rgba(201,168,76,0.7)';
-  ctx.lineWidth=2;
+  ctx.strokeStyle='rgba(209,174,107,0.9)';
+  ctx.lineWidth=2.5;
   ctx.stroke();
 
   // 数据点
@@ -2734,13 +2734,16 @@ function drawRadar(canvasId, bars){
     const x=cx+vr*Math.cos(a),y=cy+vr*Math.sin(a);
     ctx.beginPath();
     ctx.arc(x,y,5,0,Math.PI*2);
-    ctx.fillStyle='#c9a84c';
+    ctx.fillStyle='#D1AE6B';
     ctx.fill();
+    ctx.strokeStyle='rgba(255,255,255,0.3)';
+    ctx.lineWidth=1.5;
+    ctx.stroke();
   });
 
   // 标签
-  ctx.font='22px "Noto Sans SC"';
-  ctx.fillStyle='#888';
+  ctx.font='600 24px "Noto Sans SC"';
+  ctx.fillStyle='rgba(242,235,222,0.85)';
   ctx.textAlign='center';
   const pad=28;
   labels.forEach((l,i)=>{
