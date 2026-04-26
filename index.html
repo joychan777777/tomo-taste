@@ -397,7 +397,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
   <div class="hint">90 秒 · 零门槛 · 发现你是谁</div>
   <div id="challengeBanner"></div>
   <div class="test-count" id="testCount"></div>
-  <div class="social-proof"><div class="social-dot"></div><span id="liveNow">3 人正在测试</span></div>
+  <div class="social-proof"><div class="social-dot"></div><span id="liveNow">发现你的味觉DNA</span></div>
   <div class="tagline">像我们这样的人，不靠运气选酒</div>
 </div>
 </div>
@@ -1711,10 +1711,10 @@ function showResult(){
       <div class="rd">${pDesc(p)}</div>
       <div class="rt">${p.tags.map(t=>`<span class="rtg">${t}</span>`).join('')}</div>
     </div>
-    <!-- Godin: 社交身份张力 + 稀缺性 -->
+    <!-- Godin: 社交身份归属 -->
     <div style="text-align:center;padding:10px 16px;margin-bottom:4px;font-size:14px;color:var(--t2);line-height:1.8">
-      在已测试的人中，只有 <b style="color:var(--gold)">${(Math.max(0.8,100/Math.max(matchPct,1)*3.2)).toFixed(1)}%</b> 的人和你口味相同<br>
-      <span style="font-size:14px;color:var(--t3)">像你这样的人，值得被AI认真对待</span>
+      你属于 <b style="color:var(--gold)">${TRIBES[p.quad]?.name||p.quad.toUpperCase()}</b> 族群<br>
+      <span style="font-size:14px;color:var(--t3)">你的味觉轮廓，正在被 TOMO 记住</span>
     </div>
     <div style="text-align:center;font-size:14px;color:var(--t3);letter-spacing:2px;margin-bottom:4px">味觉雷达</div>
     <div class="radar-wrap"><canvas id="radarResult" width="440" height="440"></canvas></div>
@@ -2238,40 +2238,17 @@ function renderSubDimCard(bars,pjScore,containerId){
 // ── 罗盘进化 2: 好友罗盘对比 ──
 function renderCompareCard(bars,containerId){
   const el=document.getElementById(containerId);if(!el)return;
-  // 生成模拟好友数据（Phase 0 没有真好友数据，用推荐链数据模拟）
-  const refCount=parseInt(localStorage.getItem('tomo_ref_count')||'0');
-  const hasFriend=refCount>0;
-  const friendBars=hasFriend?bars.map((v,i)=>{
-    const shift=Math.round((Math.sin(i*2.7+refCount)*0.3)*100);
-    return Math.max(10,Math.min(95,v+shift));
-  }):null;
-  const similarity=hasFriend?Math.round(100-bars.reduce((s,v,i)=>s+Math.abs(v-friendBars[i]),0)/bars.length):0;
-
+  // Phase 1: 没有真实好友味觉数据，显示邀请提示（不生成假数据）
   el.innerHTML=`
     <div class="evo-card">
       <div class="evo-title">👥 味觉对比</div>
-      ${hasFriend?`
-        <div style="position:relative;width:min(280px,76vw);height:min(280px,76vw);margin:0 auto">
-          <canvas id="compareCanvas" width="440" height="440" style="width:100%;height:100%"></canvas>
-        </div>
-        <div style="display:flex;justify-content:center;gap:16px;margin:10px 0 4px">
-          <span style="font-size:14px;color:var(--gold)">● 你</span>
-          <span style="font-size:14px;color:#4ade80">● 好友</span>
-        </div>
-        <div style="text-align:center;font-size:14px;color:var(--gold);font-weight:700;margin:8px 0">味觉相似度 ${similarity}%</div>
-        <div style="text-align:center;font-size:14px;color:var(--t3)">${similarity>=70?'你们适合一起点同一款酒！':'你们可以互相推荐对方没试过的风味'}
-        </div>
-      `:`
-        <div style="text-align:center;padding:16px 0">
-          <div style="font-size:28px;margin-bottom:8px">🔗</div>
-          <div style="font-size:14px;color:var(--t2);margin-bottom:8px">邀请一位好友完成测试<br>解锁味觉对比雷达</div>
-          <div style="font-size:14px;color:var(--t3)">看看你们的味觉DNA相似度有多高</div>
-        </div>
-      `}
+      <div style="text-align:center;padding:16px 0">
+        <div style="font-size:28px;margin-bottom:8px">🔗</div>
+        <div style="font-size:14px;color:var(--t2);margin-bottom:8px">邀请一位好友完成测试<br>解锁味觉对比雷达</div>
+        <div style="font-size:14px;color:var(--t3)">看看你们的味觉DNA相似度有多高</div>
+        <button onclick="navigator.clipboard.writeText(getMyRefURL()).then(()=>this.textContent='已复制 ✓')" style="margin-top:10px;padding:8px 20px;border-radius:99px;background:rgba(209,174,107,.1);border:1px solid rgba(209,174,107,.2);color:var(--gold);font-size:13px;cursor:pointer;font-family:var(--f-body)">复制邀请链接</button>
+      </div>
     </div>`;
-  if(hasFriend){
-    setTimeout(()=>drawDualRadar('compareCanvas',bars,friendBars),100);
-  }
 }
 
 function drawDualRadar(canvasId,bars1,bars2){
@@ -2493,16 +2470,15 @@ async function renderTribeFeed(quad, containerId){
     }
   }catch(e){}
 
-  // Fallback: simulated feed if no real data
+  // 无真实数据时显示空状态（不生成假用户）
   if(feedItems.length===0){
-    const bios=PERSONAS.filter(p=>p.quad===quad).map(p=>p.bio);
-    const actions=['完成了味觉测试','投票选择了下月口味','分享了味觉DNA卡片','第2次回测味觉','解锁了新徽章'];
-    feedItems=Array.from({length:4},(_,i)=>({
-      tomo_uid:'user_'+Math.random().toString(36).slice(2,6),
-      persona_bio:bios[i%bios.length],
-      action:actions[i%actions.length],
-      created_at:new Date(Date.now()-i*3600000*(1+Math.random()*12)).toISOString()
-    }));
+    el.innerHTML=`<div style="text-align:center;padding:24px 16px">
+      <div style="font-size:36px;margin-bottom:10px">🌱</div>
+      <div style="font-size:15px;color:var(--t2);margin-bottom:6px">这个族群刚刚诞生</div>
+      <div style="font-size:13px;color:var(--t3);line-height:1.6">邀请朋友来测试，成为这里的第一批成员</div>
+      <button onclick="navigator.clipboard.writeText(getMyRefURL()).then(()=>this.textContent='已复制 ✓')" style="margin-top:12px;padding:8px 20px;border-radius:99px;background:rgba(209,174,107,.1);border:1px solid rgba(209,174,107,.2);color:var(--gold);font-size:13px;cursor:pointer;font-family:var(--f-body)">邀请好友加入 →</button>
+    </div>`;
+    return;
   }
 
   const timeAgo=(iso)=>{
@@ -2540,16 +2516,7 @@ function renderTribeInteract(quad, containerId){
   const commentsKey='tomo_tribe_comments_'+quad;
   let comments=JSON.parse(localStorage.getItem(commentsKey)||'[]');
 
-  // Seed with sample comments if empty
-  if(comments.length===0){
-    const seeds=[
-      {uid:'demo1',bio:'族友A',text:'这个月的投票太难选了！两杯都想喝',likes:3,ts:Date.now()-7200000},
-      {uid:'demo2',bio:'族友B',text:'推荐Jam·西风，搭配烧烤绝了',likes:5,ts:Date.now()-18000000},
-      {uid:'demo3',bio:'族友C',text:'有人试过深海系列吗？求评价',likes:1,ts:Date.now()-43200000}
-    ];
-    comments=seeds;
-    localStorage.setItem(commentsKey,JSON.stringify(comments));
-  }
+  // 无评论时不注入假种子数据
 
   const timeAgo=(ts)=>{
     const ms=Date.now()-ts;
@@ -2926,14 +2893,28 @@ function rateCheckin(val){
 // ============================================================
 //  HOOK MODEL: 社交证明 — 实时在线 + 选项百分比
 // ============================================================
-function simulateLive(){
-  const base=2+Math.floor(Math.random()*5);
+async function loadRealTestCount(){
   const el=document.getElementById('liveNow');
-  if(el) el.textContent=base+' 人正在发现自己';
-  setInterval(()=>{
-    const n=Math.max(1,base+Math.floor(Math.random()*4)-1);
-    if(el) el.textContent=n+' 人正在发现自己';
-  },8000+Math.random()*7000);
+  if(!el) return;
+  try{
+    const r=await fetch(SB_URL+'/test_results?select=id',
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY},method:'HEAD'});
+    // Supabase 用 content-range header 返回总数
+    const range=r.headers.get('content-range');
+    if(range){
+      const total=parseInt(range.split('/')[1]);
+      if(total>0){el.textContent=total+' 人已完成测试';return;}
+    }
+    // fallback: 直接 count
+    const r2=await fetch(SB_URL+'/test_results?select=id',
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY,'Range':'0-0','Prefer':'count=exact'}});
+    const range2=r2.headers.get('content-range');
+    if(range2){
+      const total=parseInt(range2.split('/')[1]);
+      if(total>0){el.textContent=total+' 人已完成测试';return;}
+    }
+    el.textContent='发现你的味觉DNA';
+  }catch(e){el.textContent='发现你的味觉DNA';}
 }
 
 // 选项百分比（基于真实分布模拟）
@@ -3389,8 +3370,8 @@ function renderCompass(){
           </div>
         </div>`;
       }).join('')+`
-        <a class="btn-shop" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">去抖音店铺 · 下单���鲜</a>
-        <div class="shop-hint">��制链接到抖音APP打开 · 共醸精酿官方店</div>`;
+        <a class="btn-shop" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">去抖音店铺 · 下单尝鲜</a>
+        <div class="shop-hint">复制链接到抖音APP打开 · 共醸精酿官方店</div>`;
     }
   },300);
 }
@@ -3848,7 +3829,7 @@ function drawChallengeRadar(canvasId, myBars, frBars){
 // ============================================================
 initParticles();
 loadTestCount();
-simulateLive();
+loadRealTestCount();
 </script>
 
 <!-- 海报浮层（微信长按保存） -->
