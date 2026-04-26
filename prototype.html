@@ -1,0 +1,340 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no">
+<title>TOMO UI 定稿原型</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&family=Noto+Serif+SC:wght@400;600;700;900&display=swap');
+*{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{width:100%;height:100%;overflow:hidden;background:#1a1a1a;font-family:'Noto Sans SC',-apple-system,sans-serif}
+.nav{position:fixed;bottom:0;left:0;width:100%;z-index:100;background:rgba(0,0,0,0.85);backdrop-filter:blur(12px);padding:8px 0 max(8px,env(safe-area-inset-bottom));display:flex;overflow-x:auto;gap:0;-webkit-overflow-scrolling:touch}
+.nav button{flex-shrink:0;background:none;border:none;color:rgba(255,255,255,0.5);font-size:11px;padding:8px 14px;cursor:pointer;font-family:inherit;white-space:nowrap}
+.nav button.on{color:#daa520;font-weight:700}
+.screens{width:100%;height:100%;overflow:hidden;position:relative}
+.screen{position:absolute;top:0;left:0;width:100%;height:calc(100% - 56px);overflow-y:auto;-webkit-overflow-scrolling:touch;opacity:0;pointer-events:none;transition:opacity .3s}
+.screen.on{opacity:1;pointer-events:auto}
+.beer-bg{min-height:100%;background:linear-gradient(180deg,#faf6e8 0%,#f0e8cc 6%,#ecd98a 10%,#e8c84e 14%,#e2b830 18%,#daa520 25%,#d49a18 35%,#cc9012 45%,#c48810 55%,#bb7e0c 70%,#b0750a 85%,#a56c08 100%);padding:60px 28px 40px;display:flex;flex-direction:column;align-items:center}
+.w{color:rgba(255,255,255,0.95);text-shadow:0 2px 10px rgba(0,0,0,0.35)}
+.w2{color:rgba(255,255,255,0.7);text-shadow:0 1px 6px rgba(0,0,0,0.2)}
+.w3{color:rgba(255,255,255,0.45)}
+.glass{background:rgba(255,255,255,0.22);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,0.28);border-radius:22px;padding:18px;width:100%;box-shadow:0 4px 24px rgba(0,0,0,0.1)}
+.glass-sm{background:rgba(255,255,255,0.18);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.2);border-radius:18px;padding:14px 16px;width:100%}
+.glass-sm.sel{background:rgba(255,255,255,0.3);border:1.5px solid rgba(255,255,255,0.45)}
+.gold-btn{background:rgba(255,255,255,0.22);backdrop-filter:blur(10px);border:1.5px solid rgba(255,255,255,0.4);border-radius:999px;padding:15px 32px;font-size:15px;color:rgba(255,255,255,0.95);font-weight:600;text-align:center;text-shadow:0 1px 6px rgba(0,0,0,0.2);box-shadow:0 4px 20px rgba(0,0,0,0.12),inset 0 1px 1px rgba(255,255,255,0.2);width:100%}
+.tag{display:inline-block;background:rgba(255,255,255,0.15);color:rgba(255,255,255,0.85);font-size:11px;padding:4px 12px;border-radius:99px;border:1px solid rgba(255,255,255,0.2)}
+.bar-track{height:6px;background:rgba(255,255,255,0.1);border-radius:3px;width:100%}
+.bar-fill{height:100%;background:rgba(255,255,255,0.4);border-radius:3px}
+.sep{width:36px;height:1px;background:rgba(255,255,255,0.2);margin:0 auto}
+</style>
+</head>
+<body>
+
+<div class="screens" id="screens">
+
+<!-- 1. SPLASH -->
+<div class="screen on" data-idx="0">
+<div class="beer-bg" style="justify-content:center;text-align:center;min-height:100vh">
+  <div style="font-size:11px;letter-spacing:5px" class="w3">GÒNNIANG とも</div>
+  <div style="font-size:72px;font-weight:900;font-family:'Noto Serif SC',serif;letter-spacing:8px;margin-top:8px;text-shadow:0 3px 16px rgba(0,0,0,0.45)" class="w">共醸</div>
+  <div style="font-size:15px;margin-top:6px" class="w2">JAM · 即兴精酿</div>
+  <div style="width:160px;height:160px;border-radius:50%;border:2.5px solid rgba(255,255,255,0.4);display:flex;align-items:center;justify-content:center;margin:52px auto 0;background:rgba(255,255,255,0.22);backdrop-filter:blur(16px);box-shadow:0 6px 32px rgba(0,0,0,0.18),inset 0 1px 1px rgba(255,255,255,0.25)">
+    <div style="font-size:18px;font-weight:600;text-align:center" class="w">发现你的<br>味觉DNA</div>
+  </div>
+  <div style="font-size:14px;margin-top:32px" class="w2">90 秒 · 零门槛 · 发现你是谁</div>
+  <div style="font-size:13px;margin-top:12px" class="w3">已有 <b style="color:rgba(255,255,255,0.8);font-size:15px">2,847</b> 人发现了味觉DNA</div>
+  <div style="font-size:12px;margin-top:8px;display:flex;align-items:center;justify-content:center;gap:6px" class="w3"><span style="width:6px;height:6px;border-radius:50%;background:rgba(80,220,120,0.7);display:inline-block"></span>5 人正在发现自己</div>
+  <div style="font-size:12px;letter-spacing:5px;margin-top:32px;color:rgba(255,255,255,0.3)">像我们这样的人，不靠运气选酒</div>
+</div>
+</div>
+
+<!-- 2. GENDER -->
+<div class="screen" data-idx="1">
+<div class="beer-bg" style="justify-content:center;text-align:center;min-height:100vh">
+  <div style="font-size:24px;font-weight:700" class="w">先认识一下</div>
+  <div style="font-size:14px;margin-top:10px" class="w2">你的性别会微妙地影响味觉感知</div>
+  <div style="display:flex;gap:16px;margin-top:40px">
+    <div class="glass" style="width:120px;text-align:center;padding:28px 12px;cursor:pointer">
+      <div style="font-size:40px">♂</div>
+      <div style="font-size:15px;margin-top:8px" class="w2">男</div>
+    </div>
+    <div class="glass" style="width:120px;text-align:center;padding:28px 12px;cursor:pointer;border:1.5px solid rgba(255,255,255,0.5);background:rgba(255,255,255,0.32)">
+      <div style="font-size:40px">♀</div>
+      <div style="font-size:15px;margin-top:8px" class="w">女</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 3. QUESTION -->
+<div class="screen" data-idx="2">
+<div class="beer-bg" style="min-height:100vh;gap:14px">
+  <div style="display:flex;align-items:center;width:100%;gap:10px">
+    <div class="w3" style="font-size:12px;flex-shrink:0">Q3 / 8</div>
+    <div class="bar-track" style="flex:1"><div class="bar-fill" style="width:37%"></div></div>
+  </div>
+  <div class="glass" style="text-align:center;padding:22px 20px;margin-top:8px">
+    <div style="font-size:12px;margin-bottom:8px" class="w2">场景题</div>
+    <div class="w" style="font-size:17px;line-height:1.7;font-weight:600">朋友聚会点了一扎精酿，<br>你最先注意的是——</div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:10px;width:100%;margin-top:8px">
+    <div class="glass-sm" style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🍊</span><span class="w2" style="font-size:14px">跳出来的果香，像剥了一颗橘子</span></div>
+    <div class="glass-sm sel" style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🌿</span><span class="w" style="font-size:14px">清爽的气泡感，像薄荷碰到舌头</span></div>
+    <div class="glass-sm" style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🍫</span><span class="w2" style="font-size:14px">厚重的麦芽甜，像融化的焦糖</span></div>
+    <div class="glass-sm" style="display:flex;align-items:center;gap:12px"><span style="font-size:22px">🌶️</span><span class="w2" style="font-size:14px">挑衅的苦味，像黑咖啡里加了胡椒</span></div>
+  </div>
+</div>
+</div>
+
+<!-- 4. LOADING -->
+<div class="screen" data-idx="3">
+<div class="beer-bg" style="justify-content:center;text-align:center;min-height:100vh">
+  <div style="width:90px;height:90px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center">
+    <div style="width:56px;height:56px;border:2.5px solid rgba(255,255,255,0.12);border-top-color:rgba(255,255,255,0.7);border-radius:50%;animation:spin 1s linear infinite"></div>
+  </div>
+  <div class="w" style="font-size:16px;font-weight:600;margin-top:28px">正在分析你是什么样的人...</div>
+  <div class="w2" style="font-size:13px;margin-top:10px">对比 12 种味觉人格</div>
+  <div style="width:200px;margin-top:24px"><div class="bar-track"><div class="bar-fill" style="width:65%"></div></div></div>
+</div>
+<style>@keyframes spin{to{transform:rotate(360deg)}}</style>
+</div>
+
+<!-- 5. RESULT -->
+<div class="screen" data-idx="4">
+<div class="beer-bg" style="min-height:100vh;gap:14px;align-items:center">
+  <div class="tag">EDGE 象限 · 锋锐探索者</div>
+  <div style="font-size:60px;margin:8px 0">🐺</div>
+  <div class="w" style="font-size:26px;font-weight:900;font-family:'Noto Serif SC',serif">暗夜独狼</div>
+  <div class="w2" style="font-size:13px;line-height:1.7;text-align:center;padding:0 12px">你追求味觉的极限体验。苦涩是你的战场，复杂是你的勋章。别人觉得"太重"的酒，你称之为"刚好"。</div>
+  <div class="glass" style="padding:18px;text-align:center">
+    <div style="font-size:12px;margin-bottom:10px" class="w2">味觉DNA罗盘</div>
+    <svg viewBox="0 0 220 170" style="width:100%">
+      <polygon points="110,18 180,55 168,135 52,135 40,55" fill="none" stroke="rgba(255,255,255,0.1)" stroke-width="0.5"/>
+      <polygon points="110,30 165,55 158,122 62,122 55,55" fill="none" stroke="rgba(255,255,255,0.06)" stroke-width="0.5"/>
+      <polygon points="110,22 175,52 162,128 58,128 45,52" fill="rgba(255,255,255,0.08)" stroke="rgba(255,255,255,0.45)" stroke-width="1.5"/>
+      <circle cx="110" cy="22" r="2" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="175" cy="52" r="2" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="162" cy="128" r="2" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="58" cy="128" r="2" fill="rgba(255,255,255,0.5)"/>
+      <circle cx="45" cy="52" r="2" fill="rgba(255,255,255,0.5)"/>
+      <text x="110" y="12" text-anchor="middle" font-size="10" fill="rgba(255,255,255,0.5)">苦 88</text>
+      <text x="188" y="58" font-size="10" fill="rgba(255,255,255,0.5)">酸 72</text>
+      <text x="172" y="140" font-size="10" fill="rgba(255,255,255,0.5)">甜 18</text>
+      <text x="42" y="140" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.5)">鲜 65</text>
+      <text x="32" y="58" text-anchor="end" font-size="10" fill="rgba(255,255,255,0.5)">爽 20</text>
+    </svg>
+  </div>
+  <div style="display:flex;gap:10px;width:100%">
+    <div class="gold-btn" style="flex:1;font-size:13px">生成海报</div>
+    <div class="gold-btn" style="flex:1;font-size:13px;background:rgba(0,0,0,0.18)">🐺 进入暗夜狼群</div>
+  </div>
+</div>
+</div>
+
+<!-- 6. PROFILE -->
+<div class="screen" data-idx="5">
+<div class="beer-bg" style="min-height:100vh;gap:12px">
+  <div class="glass" style="display:flex;align-items:center;gap:14px">
+    <div style="width:52px;height:52px;border-radius:50%;background:rgba(255,255,255,0.15);display:flex;align-items:center;justify-content:center;font-size:28px">🐺</div>
+    <div style="flex:1">
+      <div class="w" style="font-size:17px;font-weight:700">暗夜独狼</div>
+      <div class="w3" style="font-size:12px">EDGE · Lv.1 品鉴力 32</div>
+    </div>
+    <div class="tag">♠7</div>
+  </div>
+  <div class="glass" style="padding:16px">
+    <div class="w2" style="font-size:12px;margin-bottom:8px">品鉴力成长</div>
+    <div class="bar-track"><div class="bar-fill" style="width:32%"></div></div>
+    <div class="w3" style="font-size:11px;text-align:right;margin-top:4px">32 / 100 → Lv.2</div>
+  </div>
+  <div class="glass" style="padding:16px">
+    <div class="w2" style="font-size:12px;margin-bottom:10px">你的徽章</div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap">
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">🎯</div>
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">🔥</div>
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.12);display:flex;align-items:center;justify-content:center;font-size:20px">🌙</div>
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:16px;color:rgba(255,255,255,0.2)">?</div>
+      <div style="width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:center;font-size:16px;color:rgba(255,255,255,0.2)">?</div>
+    </div>
+  </div>
+  <div class="glass" style="padding:16px">
+    <div class="w2" style="font-size:12px;margin-bottom:10px">签到日历</div>
+    <div style="display:grid;grid-template-columns:repeat(7,1fr);gap:4px;text-align:center">
+      <div style="font-size:10px" class="w3">一</div><div style="font-size:10px" class="w3">二</div><div style="font-size:10px" class="w3">三</div><div style="font-size:10px" class="w3">四</div><div style="font-size:10px" class="w3">五</div><div style="font-size:10px" class="w3">六</div><div style="font-size:10px" class="w3">日</div>
+      <div></div><div></div><div></div><div></div><div></div><div></div><div></div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.35);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;margin:0 auto">21</div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.35);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;margin:0 auto">22</div>
+      <div style="width:28px;height:28px;border-radius:50%;background:rgba(255,255,255,0.35);color:#fff;font-size:11px;display:flex;align-items:center;justify-content:center;margin:0 auto">23</div>
+      <div style="width:28px;height:28px;border-radius:50%;border:1.5px dashed rgba(255,255,255,0.4);color:rgba(255,255,255,0.6);font-size:11px;display:flex;align-items:center;justify-content:center;margin:0 auto">24</div>
+    </div>
+  </div>
+  <div class="glass" style="padding:16px">
+    <div class="w2" style="font-size:12px;margin-bottom:8px">罗盘进化</div>
+    <div class="glass-sm" style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+      <span class="w2" style="font-size:13px">子维度解锁</span>
+      <span class="w3" style="font-size:11px">2/5 已解锁</span>
+    </div>
+    <div class="glass-sm" style="display:flex;justify-content:space-between;align-items:center">
+      <span class="w2" style="font-size:13px">味觉漂移</span>
+      <span class="w3" style="font-size:11px">苦感知 +12%</span>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 7. TRIBE -->
+<div class="screen" data-idx="6">
+<div class="beer-bg" style="min-height:100vh;gap:12px;align-items:center">
+  <div style="font-size:36px">🐺</div>
+  <div class="w" style="font-size:22px;font-weight:700;font-family:'Noto Serif SC',serif">暗夜狼群</div>
+  <div class="w3" style="font-size:12px">EDGE 象限 · 38 位成员</div>
+  <div class="glass" style="padding:16px">
+    <div class="w2" style="font-size:12px;margin-bottom:8px">部落罗盘 vs 你</div>
+    <svg viewBox="0 0 220 140" style="width:100%">
+      <polygon points="110,16 172,48 160,118 60,118 48,48" fill="none" stroke="rgba(255,255,255,0.08)" stroke-width="0.5"/>
+      <polygon points="110,28 155,50 148,105 72,105 65,50" fill="rgba(255,255,255,0.04)" stroke="rgba(255,255,255,0.25)" stroke-width="1" stroke-dasharray="4,3"/>
+      <polygon points="110,20 170,46 158,116 62,116 50,46" fill="rgba(255,255,255,0.07)" stroke="rgba(255,255,255,0.4)" stroke-width="1.5"/>
+    </svg>
+    <div style="display:flex;gap:16px;justify-content:center;font-size:11px;margin-top:4px">
+      <span class="w2">━ 你</span><span class="w3">┅ 部落平均</span>
+    </div>
+  </div>
+  <div class="glass" style="padding:16px">
+    <div class="w2" style="font-size:12px;margin-bottom:10px">味觉漂移追踪</div>
+    <div style="display:flex;align-items:flex-end;gap:6px;height:60px">
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+        <div style="width:100%;height:30px;background:rgba(255,255,255,0.12);border-radius:4px 4px 0 0"></div>
+        <div style="font-size:9px" class="w3">4/17</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+        <div style="width:100%;height:40px;background:rgba(255,255,255,0.18);border-radius:4px 4px 0 0"></div>
+        <div style="font-size:9px" class="w3">4/19</div>
+      </div>
+      <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:3px">
+        <div style="width:100%;height:50px;background:rgba(255,255,255,0.35);border-radius:4px 4px 0 0"></div>
+        <div style="font-size:9px" class="w3">今天</div>
+      </div>
+    </div>
+    <div class="w3" style="font-size:11px;text-align:center;margin-top:8px">苦感知 +12%</div>
+  </div>
+  <div class="glass" style="padding:16px">
+    <div class="w2" style="font-size:12px;margin-bottom:10px">子维度解锁</div>
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span class="w2">花香苦</span><span class="w2">78</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:78%"></div></div>
+    </div>
+    <div style="margin-bottom:8px">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span class="w2">焦苦</span><span class="w2">65</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:65%"></div></div>
+    </div>
+    <div style="opacity:0.4">
+      <div style="display:flex;justify-content:space-between;font-size:12px;margin-bottom:3px"><span class="w3">药草苦</span><span class="w3" style="font-size:10px">品鉴力 50 解锁</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:0%"></div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- 8. VOTE -->
+<div class="screen" data-idx="7">
+<div class="beer-bg" style="min-height:100vh;gap:14px">
+  <div style="text-align:center">
+    <div class="w" style="font-size:20px;font-weight:700">赛日投票</div>
+    <div class="w2" style="font-size:13px;margin-top:6px">用味觉投票，决定下一批酒</div>
+  </div>
+  <div class="glass" style="padding:18px">
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
+      <div class="tag">本周赛日</div>
+      <div class="w3" style="font-size:11px">剩余 2天 14小时</div>
+    </div>
+    <div class="w" style="font-size:16px;font-weight:600;margin-bottom:4px">热带 vs 经典</div>
+    <div class="w2" style="font-size:13px;margin-bottom:14px">选择你更想喝到的风味方向</div>
+    <div style="display:flex;gap:10px">
+      <div class="glass-sm sel" style="flex:1;text-align:center;padding:18px 8px">
+        <div style="font-size:28px">🥭</div>
+        <div class="w" style="font-size:13px;font-weight:600;margin-top:6px">热带果香</div>
+        <div class="w3" style="font-size:11px;margin-top:3px">芒果·百香果·荔枝</div>
+        <div class="w" style="font-size:22px;font-weight:800;margin-top:10px">62%</div>
+      </div>
+      <div class="glass-sm" style="flex:1;text-align:center;padding:18px 8px">
+        <div style="font-size:28px">🍺</div>
+        <div class="w2" style="font-size:13px;font-weight:600;margin-top:6px">经典麦芽</div>
+        <div class="w3" style="font-size:11px;margin-top:3px">焦糖·太妃·坚果</div>
+        <div class="w3" style="font-size:22px;font-weight:800;margin-top:10px">38%</div>
+      </div>
+    </div>
+  </div>
+  <div class="glass" style="padding:16px;text-align:center">
+    <div class="w2" style="font-size:12px;margin-bottom:6px">你的投票奖励</div>
+    <div class="w" style="font-size:22px;font-weight:800">+5 品鉴力</div>
+    <div class="w3" style="font-size:11px;margin-top:4px">已投票 · 感谢你的味觉贡献</div>
+  </div>
+</div>
+</div>
+
+<!-- 9. COMPASS -->
+<div class="screen" data-idx="8">
+<div class="beer-bg" style="min-height:100vh;gap:14px">
+  <div style="text-align:center">
+    <div class="w" style="font-size:20px;font-weight:700">风味罗盘</div>
+    <div class="w2" style="font-size:13px;margin-top:6px">拖动滑块，调出你的理想口味</div>
+  </div>
+  <div class="glass" style="padding:18px">
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span class="w2">苦度</span><span class="w" style="font-weight:700">75</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span class="w2">甜度</span><span class="w" style="font-weight:700">20</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:20%"></div></div>
+    </div>
+    <div style="margin-bottom:16px">
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span class="w2">酸度</span><span class="w" style="font-weight:700">55</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:55%"></div></div>
+    </div>
+    <div>
+      <div style="display:flex;justify-content:space-between;font-size:13px;margin-bottom:6px"><span class="w2">酒体</span><span class="w" style="font-weight:700">80</span></div>
+      <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+    </div>
+  </div>
+  <div class="glass" style="padding:18px;text-align:center">
+    <div class="w2" style="font-size:12px;margin-bottom:8px">为你推荐</div>
+    <div style="font-size:28px">🍺</div>
+    <div class="w" style="font-size:17px;font-weight:700;margin-top:6px">Imperial Stout</div>
+    <div class="w2" style="font-size:13px;margin-top:6px">浓郁烘焙麦芽 · 巧克力与咖啡交织</div>
+    <div style="margin-top:10px;display:flex;gap:8px;justify-content:center">
+      <div class="tag">ABV 9.2%</div>
+      <div class="tag">IBU 65</div>
+    </div>
+  </div>
+  <div class="gold-btn">加入心愿单</div>
+</div>
+</div>
+
+</div>
+
+<div class="nav" id="nav">
+  <button data-i="0" class="on">首页</button>
+  <button data-i="1">性别</button>
+  <button data-i="2">答题</button>
+  <button data-i="3">加载</button>
+  <button data-i="4">结果</button>
+  <button data-i="5">档案</button>
+  <button data-i="6">部落</button>
+  <button data-i="7">投票</button>
+  <button data-i="8">罗盘</button>
+</div>
+
+<script>
+const btns = document.querySelectorAll('.nav button');
+const screens = document.querySelectorAll('.screen');
+btns.forEach(b => {
+  b.addEventListener('click', () => {
+    const i = parseInt(b.dataset.i);
+    btns.forEach(x => x.classList.toggle('on', x === b));
+    screens.forEach(s => s.classList.toggle('on', parseInt(s.dataset.idx) === i));
+  });
+});
+</script>
+</body>
+</html>

@@ -245,6 +245,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 .duiwei-desc{font-size:14px;color:var(--t3);margin-top:2px}
 .duiwei-price{font-size:15px;color:var(--gold);font-weight:700;font-family:var(--f-display)}
 .duiwei-match{display:inline-flex;align-items:center;gap:3px;font-size:14px;color:var(--gold);background:rgba(201,168,76,.08);border-radius:9999px;padding:2px 8px;margin-top:4px}
+.duiwei-top{border-color:var(--gold) !important;box-shadow:0 0 0 1px rgba(201,168,76,.25), var(--shadow) !important}
 
 /* 人格分布 */
 .persona-dist{margin:12px 0}
@@ -258,7 +259,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 .persona-dist .pd-num{font-size:14px;color:var(--t3);width:28px;font-family:var(--f-display)}
 
 /* 抖音购买按钮 */
-.btn-shop{display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#FE2C55,#25F4EE);border:none;border-radius:9999px;padding:14px 24px;font-size:15px;color:#fff;font-weight:700;cursor:pointer;width:100%;font-family:var(--f-body);transition:all .25s;text-decoration:none;letter-spacing:0.02em;box-shadow:0 4px 20px rgba(254,44,85,.2)}
+.btn-shop{display:flex;align-items:center;justify-content:center;gap:6px;background:linear-gradient(135deg,#FE2C55,#25F4EE);border:none;border-radius:9999px;padding:14px 24px;font-size:15px;color:#fff;font-weight:700;cursor:pointer;width:100%;font-family:var(--f-body);transition:all .25s;text-decoration:none;letter-spacing:0.02em;box-shadow:0 4px 20px rgba(254,44,85,.2);margin-top:20px}
 .btn-shop:hover{box-shadow:0 6px 28px rgba(254,44,85,.3);transform:translateY(-1px)}
 .btn-shop:active{transform:scale(.97)}
 .shop-hint{text-align:center;font-size:14px;color:var(--t3);margin-top:6px}
@@ -1032,44 +1033,61 @@ function pDesc(p){ return typeof p.desc==='string'?p.desc:(p.desc[userTier]||p.d
 function pFun(p){ return typeof p.funLine==='string'?p.funLine:(p.funLine[userTier]||p.funLine.craft); }
 
 // ============================================================
-//  对味推荐 SKU DATA (per quadrant)
+//  JAM 产品数据 — 8款 SKU + 四维味觉值 [苦度,甜度,清爽,复杂]
 // ============================================================
-const DUIWEI_SKU={
-  edge:[
-    {name:'Jam·烈奏',style:'双倍浑浊 IPA · ABV 9%',price:'¥40',icon:'🔥',match:95},
-    {name:'Jam·西风',style:'西海岸 IPA · ABV 7%',price:'¥35',icon:'🌊',match:88},
-    {name:'Jam·铁幕',style:'英式苦啤 ESB · ABV 5.5%',price:'¥35',icon:'⚔️',match:78},
-    {name:'Jam·黑潮',style:'燕麦世涛 · ABV 6%',price:'¥30',icon:'🖤',match:72}
-  ],
-  bloom:[
-    {name:'Jam·蜜浪',style:'芒果凤梨西打 · ABV 4%',price:'¥35',icon:'🥭',match:92},
-    {name:'Jam·绯语',style:'草莓杨梅石榴 · ABV 4%',price:'¥35',icon:'🍓',match:88},
-    {name:'Jam·青果',style:'原榨苹果西打 · ABV 4.5%',price:'¥25',icon:'🍏',match:82},
-    {name:'Jam·晨雾',style:'比利时小麦白啤 · ABV 4.5%',price:'¥18',icon:'🌾',match:70}
-  ],
-  easy:[
-    {name:'Jam·白噪',style:'日式零糖皮尔森 · ABV 4.5%',price:'¥18',icon:'🍃',match:94},
-    {name:'Jam·暗流',style:'零糖黑生 · ABV 4.5%',price:'¥18',icon:'🌑',match:85},
-    {name:'Jam·晨雾',style:'比利时小麦白啤 · ABV 4.5%',price:'¥18',icon:'🌾',match:78},
-    {name:'Jam·青果',style:'原榨苹果西打 · ABV 4.5%',price:'¥25',icon:'🍏',match:68}
-  ]
-};
+const JAM_PRODUCTS=[
+  {id:'liezou', name:'Jam·烈奏', style:'双倍浑浊 IPA · ABV 9%',   price:'¥40', priceNum:40, icon:'🔥', quad:'edge',  bars:[90,12,12,78], brief:'浓烈酒花风暴，层层叠叠的热带果香与松脂苦'},
+  {id:'xifeng',  name:'Jam·西风', style:'西海岸 IPA · ABV 7%',    price:'¥35', priceNum:35, icon:'🌊', quad:'edge',  bars:[80,25,22,80], brief:'经典美西苦，柚皮开场、松针收尾、干净利落'},
+  {id:'milang',  name:'Jam·蜜浪', style:'芒果凤梨西打 · ABV 4%',  price:'¥35', priceNum:35, icon:'🥭', quad:'bloom', bars:[12,85,55,30], brief:'热带水果炸弹，芒果凤梨的甜蜜拥抱'},
+  {id:'feiyu',   name:'Jam·绯语', style:'草莓杨梅石榴 · ABV 4%',  price:'¥35', priceNum:35, icon:'🍓', quad:'bloom', bars:[15,80,50,35], brief:'浆果三重奏，微酸回甘，社交场的开场白'},
+  {id:'qingguo', name:'Jam·青果', style:'原榨苹果西打 · ABV 4.5%', price:'¥25', priceNum:25, icon:'🍏', quad:'bloom', bars:[10,70,65,40], brief:'清冽苹果香，像咬了一口刚摘的青苹果'},
+  {id:'chenwu',  name:'Jam·晨雾', style:'比利时小麦白 · ABV 4.5%', price:'¥18', priceNum:18, icon:'🌾', quad:'bloom', bars:[12,85,60,20], brief:'温柔的麦香与橙皮，经典永远不会过时'},
+  {id:'baizao',  name:'Jam·白噪', style:'日式零糖皮尔森 · ABV 4.5%',price:'¥18',priceNum:18, icon:'🍃', quad:'easy', bars:[15,35,90,25], brief:'极致清爽零负担，最纯粹的"再来一杯"'},
+  {id:'anliu',   name:'Jam·暗流', style:'零糖黑生 · ABV 4.5%',    price:'¥18', priceNum:18, icon:'🌑', quad:'easy', bars:[32,22,82,38], brief:'黑色外表下的清爽灵魂，烘焙麦芽的低语'}
+];
 
-function getDuiweiHTML(quad){
-  const skus=DUIWEI_SKU[quad]||DUIWEI_SKU.easy;
+// 味觉匹配度算法 — 余弦相似度70% + 欧氏距离30%
+function calcTasteMatch(userBars, prodBars){
+  let dot=0, uMag=0, pMag=0, distSq=0;
+  for(let i=0;i<4;i++){
+    dot+=userBars[i]*prodBars[i];
+    uMag+=userBars[i]*userBars[i];
+    pMag+=prodBars[i]*prodBars[i];
+    distSq+=(userBars[i]-prodBars[i])*(userBars[i]-prodBars[i]);
+  }
+  if(uMag===0||pMag===0) return 50;
+  const cos=dot/(Math.sqrt(uMag)*Math.sqrt(pMag));
+  // 欧氏距离归一化 (max possible ~200)
+  const distNorm=1-Math.sqrt(distSq)/200;
+  const blend=cos*0.7+distNorm*0.3;
+  return Math.round(Math.max(40, Math.min(99, blend*65+34)));
+}
+
+// 获取按匹配度排序的推荐列表
+function getMatchedProducts(userBars, limit){
+  return JAM_PRODUCTS.map(p=>({
+    ...p,
+    match: calcTasteMatch(userBars, p.bars)
+  })).sort((a,b)=>b.match-a.match).slice(0, limit||8);
+}
+
+function getDuiweiHTML(quad, userBars){
+  // 如果有userBars，用动态匹配；否则按象限给固定推荐
+  const prods = userBars ? getMatchedProducts(userBars, 4) :
+    JAM_PRODUCTS.filter(p=>p.quad===quad).slice(0,4).map(p=>({...p, match:85}));
   const iconCls={edge:'di-edge',bloom:'di-bloom',easy:'di-easy'};
   return `<div class="duiwei-section">
-    <div class="duiwei-title">你的对味推荐 · ${quad==='edge'?'♠ EDGE':quad==='bloom'?'♥ BLOOM':'♦ EASY'} 系列</div>
-    <div class="duiwei-grid">${skus.map(s=>`<div class="duiwei-card">
-      <div class="duiwei-icon ${iconCls[quad]}">${s.icon}</div>
+    <div class="duiwei-title">你的对味之选</div>
+    <div class="duiwei-grid">${prods.map((s,i)=>`<div class="duiwei-card${i===0?' duiwei-top':''}">
+      <div class="duiwei-icon ${iconCls[s.quad]||'di-easy'}">${s.icon}</div>
       <div class="duiwei-info">
-        <div class="duiwei-name">${s.name}</div>
+        <div class="duiwei-name">${s.name}${i===0?' <span style="font-size:11px;color:var(--gold);font-weight:400">· 最佳匹配</span>':''}</div>
         <div class="duiwei-desc">${s.style}</div>
         <div class="duiwei-match">✦ ${s.match}% 对味</div>
       </div>
       <div class="duiwei-price">${s.price}</div>
     </div>`).join('')}</div>
-    <a class="btn-shop" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">🛒 去抖音店铺 · 下单尝鲜</a>
+    <a class="btn-shop" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">去抖音店铺 · 下单尝鲜</a>
     <div class="shop-hint">复制链接到抖音APP打开 · 共醸精酿官方店</div>
   </div>`;
 }
@@ -1707,7 +1725,7 @@ function showResult(){
     <div id="checkinSlot"></div>
 
     <div class="explore-hint">🔀 <span>你以为你不喜欢 ${p.explore}？</span> TOMO 觉得你有 ${Math.round(40+Math.random()*25)}% 概率会爱上它</div>
-    ${getDuiweiHTML(p.quad)}
+    ${getDuiweiHTML(p.quad, p.bars)}
 
     <!-- HOOK: 徽章解锁（收集癖 + 可变奖励） -->
     <div id="badgeSlot"></div>
@@ -2033,7 +2051,7 @@ async function renderProf(){
     <!-- 裂变二维码 -->
     <div style="background:rgba(201,168,76,.04);border:1px solid rgba(201,168,76,.12);border-radius:14px;padding:18px;margin-bottom:16px;text-align:center">
       <div style="font-size:14px;color:var(--t3);margin-bottom:10px">邀请朋友发现自己的味觉DNA</div>
-      <canvas id="qrRef" width="180" height="180" style="border-radius:8px;background:#fff;padding:8px;width:180px;height:180px"></canvas>
+      <canvas id="qrRef" width="300" height="300" style="border-radius:8px;background:#fff;padding:8px;width:240px;height:240px"></canvas>
       <div style="font-size:14px;color:var(--t3);margin-top:8px">发给那个你觉得会感兴趣的朋友</div>
       ${myRefCount>0?`<div style="font-size:14px;color:var(--gold);margin-top:6px">你已经帮 <b>${myRefCount}</b> 个朋友找到了味觉身份</div>`:''}
       <div style="display:flex;gap:8px;margin-top:10px;justify-content:center">
@@ -2549,23 +2567,8 @@ function drawQR(canvasId,text){
   img.crossOrigin='anonymous';
   img.onload=function(){
     ctx.fillStyle='#fff';ctx.fillRect(0,0,c.width,c.height);
-    const pad=12,s=Math.min(c.width,c.height)-pad*2;
+    const pad=6,s=Math.min(c.width,c.height)-pad*2;
     ctx.drawImage(img,pad,pad,s,s);
-    // Draw center avatar (square, no border)
-    const p=calcPersona();const avatarSrc=pImg(p);
-    const avatar=new Image();avatar.crossOrigin='anonymous';
-    avatar.onload=function(){
-      const as=56,ax=(c.width-as)/2,ay=(c.height-as)/2;
-      ctx.fillStyle='#fff';ctx.fillRect(ax-3,ay-3,as+6,as+6);
-      ctx.drawImage(avatar,ax,ay,as,as);
-    };
-    avatar.onerror=function(){
-      const ls=40;
-      ctx.fillStyle='#1a1a2e';ctx.fillRect((c.width-ls)/2,(c.height-ls)/2,ls,ls);
-      ctx.fillStyle='#c9a84c';ctx.font='bold 18px serif';ctx.textAlign='center';ctx.textBaseline='middle';
-      ctx.fillText('醸',c.width/2,c.height/2);
-    };
-    avatar.src=avatarSrc;
   };
   img.onerror=function(){
     // Fallback: show text link
@@ -2574,7 +2577,7 @@ function drawQR(canvasId,text){
     ctx.fillText('扫码加载失败',c.width/2,c.height/2-10);
     ctx.fillText('请复制链接分享',c.width/2,c.height/2+10);
   };
-  img.src='https://api.qrserver.com/v1/create-qr-code/?size=200x200&margin=0&data='+encodeURIComponent(text);
+  img.src='https://api.qrserver.com/v1/create-qr-code/?size=400x400&margin=0&data='+encodeURIComponent(text);
 }
 function saveQR(){
   const c=document.getElementById('qrRef');if(!c)return;
@@ -3247,6 +3250,13 @@ function renderCompass(){
       </div>
     </div>
 
+    <!-- 3.5 对味推荐 — Phase 1 -->
+    <div class="evo-card">
+      <div class="evo-title">🎯 你的对味之选</div>
+      <div style="font-size:14px;color:var(--t3);margin-bottom:12px;text-align:center">基于你的味觉 DNA，TOMO 为你匹配了最合拍的酒</div>
+      <div id="compassDuiweiSlot"></div>
+    </div>
+
     <!-- 4. 品鉴力成长轨迹 -->
     <div class="evo-card">
       <div class="evo-title">📈 品鉴力成长</div>
@@ -3323,6 +3333,31 @@ function renderCompass(){
   setTimeout(()=>{
     drawRadar('compassRadar',bars);
     updateCompassResult();
+    // Phase 1: 填充对味推荐
+    const dSlot=document.getElementById('compassDuiweiSlot');
+    if(dSlot){
+      const matched=getMatchedProducts(bars, 8);
+      dSlot.innerHTML=matched.map((s,i)=>{
+        const barW=s.bars.map(v=>Math.round(v*1.2));
+        return `<div class="duiwei-card${i===0?' duiwei-top':''}" style="margin-bottom:8px">
+          <div class="duiwei-icon ${({edge:'di-edge',bloom:'di-bloom',easy:'di-easy'})[s.quad]||'di-easy'}">${s.icon}</div>
+          <div class="duiwei-info">
+            <div class="duiwei-name">${s.name}${i===0?' <span style="font-size:11px;color:var(--gold)">· 最佳匹配</span>':''}</div>
+            <div class="duiwei-desc">${s.brief}</div>
+            <div style="display:flex;gap:4px;margin-top:6px;align-items:center">
+              <div class="duiwei-match">✦ ${s.match}% 对味</div>
+              <span style="font-size:12px;color:var(--t3);margin-left:4px">苦${s.bars[0]} 甜${s.bars[1]} 爽${s.bars[2]} 杂${s.bars[3]}</span>
+            </div>
+          </div>
+          <div style="text-align:right">
+            <div class="duiwei-price">${s.price}</div>
+            <div style="font-size:11px;color:var(--t3)">${s.style.split('·')[0].trim()}</div>
+          </div>
+        </div>`;
+      }).join('')+`
+        <a class="btn-shop" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">去抖音店铺 · 下单���鲜</a>
+        <div class="shop-hint">��制链接到抖音APP打开 · 共醸精酿官方店</div>`;
+    }
   },300);
 }
 
