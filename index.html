@@ -94,6 +94,14 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 .qb.d{background:var(--gold)}.qb.c{background:linear-gradient(90deg,var(--gold),rgba(255,255,255,0.08))}
 .q-progress-pct{font-family:var(--f-display);font-size:12px;color:var(--gold);text-align:right;margin-bottom:8px;letter-spacing:0.05em;opacity:.7}
 .q-sunk-cost{font-size:13px;color:var(--gold-l);text-align:center;margin-top:16px;padding:10px 16px;background:rgba(209,174,107,.06);border-radius:12px;border:1px solid rgba(209,174,107,.1);animation:fu .5s ease .2s both}
+/* 味觉灵兽解锁 */
+.animal-unlock{background:linear-gradient(135deg,rgba(209,174,107,.08),rgba(209,174,107,.02));border:1px solid rgba(209,174,107,.2);border-radius:20px;padding:20px;margin:16px 0;text-align:center;animation:fu .6s ease .3s both}
+.animal-img{width:160px;height:160px;border-radius:50%;object-fit:cover;border:3px solid rgba(209,174,107,.3);margin:12px auto;display:block;box-shadow:0 8px 32px rgba(0,0,0,.3)}
+.animal-locked{position:relative;cursor:pointer}
+.animal-locked .animal-img{filter:blur(12px) brightness(.5);transition:filter .6s}
+.animal-locked .lock-overlay{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);text-align:center;z-index:2}
+.animal-locked.revealed .animal-img{filter:none}
+.animal-locked.revealed .lock-overlay{display:none}
 /* 品鉴力衰减 Toast */
 .decay-toast{position:fixed;top:0;left:0;right:0;z-index:999;padding:env(safe-area-inset-top) 0 0;animation:decaySlide .5s ease both}
 .decay-inner{margin:12px 16px;padding:16px 20px;background:rgba(44,44,52,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(209,174,107,.25);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.4);text-align:center}
@@ -893,6 +901,7 @@ const PERSONAS=[
   { id:1, bio:'♠♥', pro:'深渊客', suit:'♠♥', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/黑锋男性Q版.png', imgF:'TOMO12位人格/黑锋女性Q版.png',
+    animal:'刺猬', animalEn:'Hedgehog', animalM:'animals/刺猬人格-男性Q版-黑锋.png', animalF:'animals/刺猬人格-女性Q版-黑锋.png', animalWhy:'外表扎手满身刺，内心却柔软温热 — 和你的味觉一样，苦到极致才见真情',
     motto:'「扎手，但温的。」',
     desc:{
       fresh:'恭喜，你的舌头比你的精酿经验早熟了十年。你天生就是吃苦的命——不对，是品苦的命。别人觉得难喝的东西，你觉得是人生真相。建议你直接跳过入门款，世界欠你一杯双倍IPA。',
@@ -906,6 +915,7 @@ const PERSONAS=[
   { id:2, bio:'♠♦', pro:'鉴味师', suit:'♠♦', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/铁饮男性Q版.png', imgF:'TOMO12位人格/铁饮女性Q版.png',
+    animal:'猫头鹰', animalEn:'Owl', animalM:'animals/铁饮猫头鹰人格-男性Q版-彩色版.png', animalF:'animals/铁饮猫头鹰人格-女性Q版-彩色版.png', animalWhy:'夜间猎手，在黑暗中看清每一层风味的结构 — 你的嘴就是精酿界最精密的仪器',
     motto:'「不动。」',
     desc:{
       fresh:'你还没喝几杯精酿，但你的味蕾已经在挑剔了。你不是不爱喝，你是在等一杯值得你认真对待的酒。慢慢来，你的品味会帮你找到的。',
@@ -919,6 +929,7 @@ const PERSONAS=[
   { id:3, bio:'♠♣', pro:'酒花徒', suit:'♠♣', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/猎浪男性Q版.jpg', imgF:'TOMO12位人格/猎浪女性Q版.png',
+    animal:'游隼', animalEn:'Peregrine', animalM:'animals/游隼人格-男性Q版-猎浪.png', animalF:'animals/游隼人格-女性Q版-猎浪.png', animalWhy:'地球最快的猎手，永远在追下一个猎物 — 你追酒花的热情，比追星还狂',
     motto:'「下一个。」',
     desc:{
       fresh:'你有一个特别的鼻子——不是说长得特别，而是它特别敏锐。你比大多数人更容易被香气吸引，这在精酿世界里是超能力。等你真的开始闻酒花，你会上瘾的。',
@@ -932,6 +943,7 @@ const PERSONAS=[
   { id:4, bio:'♥♦', pro:'蜜语者', suit:'♥♦', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/蜜语男性Q版.png', imgF:'TOMO12位人格/蜜语女性Q版.png',
+    animal:'兔子', animalEn:'Rabbit', animalM:'animals/兔子人格-男性Q版-蜜语.png', animalF:'animals/兔子人格-女性Q版-蜜语.png', animalWhy:'温柔、毛茸茸、天生被拥抱 — 你的味蕾有自己的温柔乡',
     motto:'「嗯。」',
     desc:{
       fresh:'你对甜的执着，连奶茶店都要致敬。不过别担心，精酿世界也有属于你的甜蜜领地——小麦白啤、蜂蜜艾尔、水果酸啤，甜而不腻，比奶茶有层次。',
@@ -945,6 +957,7 @@ const PERSONAS=[
   { id:5, bio:'♥♠', pro:'畅言家', suit:'♥♠', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/甜刺男性Q版.png', imgF:'TOMO12位人格/甜刺女性Q版.png',
+    animal:'狐狸', animalEn:'Fox', animalM:'animals/狐狸人格-男性Q版-甜刺.png', animalF:'animals/狐狸人格-女性Q版-甜刺.png', animalWhy:'聪明又迷人，是森林里的社交核心 — 你让所有人觉得喝精酿很酷',
     motto:'「别被我骗了。」',
     desc:{
       fresh:'你是天生的社交达人——有人的地方就有你，有你的地方就需要酒。精酿对你来说首先是一种氛围，一种和朋友共享的仪式。先来一杯果味的，保证你爱上。',
@@ -958,6 +971,7 @@ const PERSONAS=[
   { id:6, bio:'♥♣', pro:'清风使', suit:'♥♣', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/花信男性Q版.png', imgF:'TOMO12位人格/花信女性Q版.jpg',
+    animal:'蝴蝶', animalEn:'Butterfly', animalM:'animals/蝴蝶人格-男性Q版-花信.png', animalF:'animals/蝴蝶人格-女性Q版-花信.png', animalWhy:'翅膀本身就是一件艺术品 — 你追求的"刚刚好"，比极端更难',
     motto:'「看这里。」',
     desc:{
       fresh:'你天生对"美"有追求——一杯酒如果颜值过关，你就已经喜欢了一半。别觉得这肤浅，精酿世界里最好喝的酒往往也最好看。你的审美会带你去对的地方。',
@@ -971,6 +985,7 @@ const PERSONAS=[
   { id:7, bio:'♦♥', pro:'寻芳客', suit:'♦♥', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/清弦男性Q版.png', imgF:'TOMO12位人格/清弦女性Q版.png',
+    animal:'鹿', animalEn:'Deer', animalM:'animals/鹿人格-男性Q版-清弦.png', animalF:'animals/鹿人格-女性Q版-清弦.png', animalWhy:'林间自在穿行，天生寻找最好的水源 — 简单的好喝，才是真功夫',
     motto:'「轻。」',
     desc:{
       fresh:'你追求简单的快乐——不需要复杂，好喝就行。这种心态其实最接近日本的"日饮"文化，你天生适合每天来一杯轻松的精酿，像喝水一样自然。',
@@ -984,6 +999,7 @@ const PERSONAS=[
   { id:8, bio:'♦♠', pro:'精算师', suit:'♦♠', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/暗潮男性Q版.png', imgF:'TOMO12位人格/暗潮女性Q版.png',
+    animal:'章鱼', animalEn:'Octopus', animalM:'animals/暗潮章鱼人格-男性Q版-彩色版.png', animalF:'animals/暗潮章鱼人格-女性Q版-彩色版.png', animalWhy:'八只手同时思考，海底最聪明的研究者 — 你迟早会自己酿一批',
     motto:'「看到了吗。」',
     desc:{
       fresh:'你看起来随和，但其实你在悄悄观察一切。你可能还没喝过几款精酿，但你已经开始想"为什么这个味道"了。这种好奇心会让你进化得很快。',
@@ -997,6 +1013,7 @@ const PERSONAS=[
   { id:9, bio:'♦♦', pro:'重墨客', suit:'♦♦', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/恒频男性Q版.png', imgF:'TOMO12位人格/恒频女性Q版.png',
+    animal:'猫', animalEn:'Cat', animalM:'animals/猫人格-男性Q版-恒频.png', animalF:'animals/猫人格-女性Q版-恒频.png', animalWhy:'找到最舒服的位置就不走了 — 你的忠诚度比大多数人的爱情还稳定',
     motto:'「每天。」',
     desc:{
       fresh:'你是"找到就不换"的人。不管是餐厅、咖啡还是音乐，你追求的都是"确定性"。精酿世界有专门为你准备的酒——你会找到属于你的那一杯，然后天天喝。',
@@ -1010,6 +1027,7 @@ const PERSONAS=[
   { id:10, bio:'♥♥', pro:'守艺人', suit:'♥♥', quad:'bloom',
     cls:'rc-bloom', emoji:'♥',
     imgM:'TOMO12位人格/果心男性Q版.png', imgF:'TOMO12位人格/果心女性Q版.png',
+    animal:'考拉', animalEn:'Koala', animalM:'animals/考拉人格-男性Q版-果心.png', animalF:'animals/考拉人格-女性Q版-果心.png', animalWhy:'抱紧一棵树就不松手 — 认定了就不换，这是你的超能力',
     motto:'「就这样。」',
     desc:{
       fresh:'你知道自己喜欢什么——温暖的、熟悉的、不会出错的。在精酿世界里，你会很快找到属于你的"固定款"。经典永远不过时，你的选择说明你很有安全感。',
@@ -1023,6 +1041,7 @@ const PERSONAS=[
   { id:11, bio:'♠♠', pro:'微醺客', suit:'♠♠', quad:'edge',
     cls:'rc-edge', emoji:'♠',
     imgM:'TOMO12位人格/深渊男性Q版.png', imgF:'TOMO12位人格/深渊女性Q版.png',
+    animal:'鲸鱼', animalEn:'Whale', animalM:'animals/鲸鱼人格-男性Q版-深渊.png', animalF:'animals/鲸鱼人格-女性Q版-深渊.png', animalWhy:'深海独行，歌声只有自己听得见 — 你和酒的对话，不需要观众',
     motto:'「………」',
     desc:{
       fresh:'你不是不爱热闹，你只是更享受和自己相处的时间。一个人喝酒，对你来说不是孤独，是一种奢侈。精酿世界有很多为独处设计的好酒——你会找到的。',
@@ -1036,6 +1055,7 @@ const PERSONAS=[
   { id:12, bio:'♦♣', pro:'探趣人', suit:'♦♣', quad:'easy',
     cls:'rc-easy', emoji:'♦',
     imgM:'TOMO12位人格/浅渡男性Q版.png', imgF:'TOMO12位人格/浅渡女性Q版.png',
+    animal:'水獭', animalEn:'Otter', animalM:'animals/水獭人格-男性Q版-浅渡.png', animalF:'animals/水獭人格-女性Q版-浅渡.png', animalWhy:'什么都好奇、什么都要试一口 — 好奇心是你的超能力，别浪费',
     motto:'「嘶——」',
     desc:{
       fresh:'你是精酿世界最值钱的存在——一张白纸。你什么都没试过，所以什么都有可能。别急着给自己贴标签，先喝三次再说。你的人格还在成型中，而这本身就很酷。',
@@ -1053,6 +1073,49 @@ function pImg(p){ return userGender==='f' ? p.imgF : p.imgM; }
 // helper: get tier-specific text (desc/funLine are now objects {fresh,craft,nerd})
 function pDesc(p){ return typeof p.desc==='string'?p.desc:(p.desc[userTier]||p.desc.craft); }
 function pFun(p){ return typeof p.funLine==='string'?p.funLine:(p.funLine[userTier]||p.funLine.craft); }
+function pAnimalImg(p){ return userGender==='f' ? p.animalF : p.animalM; }
+
+// 检查是否回测（localStorage记录测试次数）
+function getTestCount(){ return parseInt(localStorage.getItem('tomo_test_count')||'0'); }
+function incTestCount(){ const c=getTestCount()+1; localStorage.setItem('tomo_test_count',c.toString()); return c; }
+function isRetest(){ return getTestCount()>=1; } // 当前测试前已有>=1次记录
+
+// 生成灵兽卡片HTML
+function getAnimalCardHTML(p){
+  const unlocked=isRetest();
+  const imgSrc=pAnimalImg(p);
+  if(unlocked){
+    return `<div class="animal-unlock">
+      <div style="font-size:12px;color:var(--gold);letter-spacing:3px;margin-bottom:4px">味觉灵兽 · 已解锁</div>
+      <div style="font-size:22px;font-weight:700;color:var(--t1);font-family:var(--f-serif)">${p.animal}</div>
+      <div style="font-size:13px;color:var(--gold-l);letter-spacing:1px;margin-bottom:4px">${p.animalEn}</div>
+      <img class="animal-img" src="${imgSrc}" alt="${p.animal}" onerror="this.style.display='none'">
+      <div style="font-size:14px;color:var(--t2);line-height:1.7;margin-top:12px;padding:0 8px">${p.animalWhy}</div>
+    </div>`;
+  }else{
+    return `<div class="animal-unlock">
+      <div style="font-size:12px;color:var(--gold);letter-spacing:3px;margin-bottom:8px">味觉灵兽 · 未解锁</div>
+      <div class="animal-locked" id="animalLocked" onclick="peekAnimal()">
+        <img class="animal-img" src="${imgSrc}" alt="locked">
+        <div class="lock-overlay">
+          <div style="font-size:36px;margin-bottom:8px">🔒</div>
+          <div style="font-size:15px;color:#fff;font-weight:600;text-shadow:0 2px 8px rgba(0,0,0,.5)">点击偷看一眼</div>
+        </div>
+      </div>
+      <div style="font-size:14px;color:var(--t2);margin-top:8px">完成第2次测试即可解锁你的味觉灵兽</div>
+      <div style="font-size:13px;color:var(--t3);margin-top:4px">看看哪种动物和你的味觉DNA最像</div>
+    </div>`;
+  }
+}
+
+// 偷看一眼（显示0.8秒后重新模糊）
+function peekAnimal(){
+  const el=document.getElementById('animalLocked');
+  if(!el)return;
+  el.classList.add('revealed');
+  if(navigator.vibrate)navigator.vibrate([30,50,30]);
+  setTimeout(()=>el.classList.remove('revealed'),800);
+}
 
 // ============================================================
 //  JAM 产品数据 — 8款 SKU + 四维味觉值 [苦度,甜度,清爽,复杂]
@@ -1673,6 +1736,7 @@ function calcScoresRaw(){
 //  SHOW RESULT — with gendered portrait
 // ============================================================
 function showResult(){
+  incTestCount();
   const p=calcPersona();
   const img=pImg(p);
   const gLabel=userGender==='f'?'女':'男';
@@ -1716,6 +1780,7 @@ function showResult(){
       你属于 <b style="color:var(--gold)">${TRIBES[p.quad]?.name||p.quad.toUpperCase()}</b> 族群<br>
       <span style="font-size:14px;color:var(--t3)">你的味觉轮廓，正在被 TOMO 记住</span>
     </div>
+    ${getAnimalCardHTML(p)}
     <div style="text-align:center;font-size:14px;color:var(--t3);letter-spacing:2px;margin-bottom:4px">味觉雷达</div>
     <div class="radar-wrap"><canvas id="radarResult" width="440" height="440"></canvas></div>
     <div class="flavor-grid">
