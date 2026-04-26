@@ -89,9 +89,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 .gc.sel .gc-label{color:var(--gold)}
 
 /* QUESTIONS */
-.qbar{display:flex;gap:4px;margin-bottom:24px}
-.qb{height:4px;flex:1;border-radius:9999px;background:rgba(0,0,0,0.06);transition:background .35s}
-.qb.d{background:var(--gold)}.qb.c{background:linear-gradient(90deg,var(--gold),rgba(0,0,0,0.06))}
+.qbar{display:flex;gap:4px;margin-bottom:12px}
+.qb{height:4px;flex:1;border-radius:9999px;background:rgba(255,255,255,0.08);transition:background .35s}
+.qb.d{background:var(--gold)}.qb.c{background:linear-gradient(90deg,var(--gold),rgba(255,255,255,0.08))}
+.q-progress-pct{font-family:var(--f-display);font-size:12px;color:var(--gold);text-align:right;margin-bottom:8px;letter-spacing:0.05em;opacity:.7}
+.q-sunk-cost{font-size:13px;color:var(--gold-l);text-align:center;margin-top:16px;padding:10px 16px;background:rgba(209,174,107,.06);border-radius:12px;border:1px solid rgba(209,174,107,.1);animation:fu .5s ease .2s both}
+/* 品鉴力衰减 Toast */
+.decay-toast{position:fixed;top:0;left:0;right:0;z-index:999;padding:env(safe-area-inset-top) 0 0;animation:decaySlide .5s ease both}
+.decay-inner{margin:12px 16px;padding:16px 20px;background:rgba(44,44,52,.96);backdrop-filter:blur(24px);-webkit-backdrop-filter:blur(24px);border:1px solid rgba(209,174,107,.25);border-radius:20px;box-shadow:0 8px 32px rgba(0,0,0,.4);text-align:center}
+@keyframes decaySlide{0%{opacity:0;transform:translateY(-40px)}100%{opacity:1;transform:translateY(0)}}
 .qn{font-family:var(--f-display);font-size:14px;color:var(--gold);letter-spacing:0.12em;margin-bottom:8px;text-transform:uppercase}
 .qt{font-family:var(--f-serif);font-size:22px;line-height:1.65;margin-bottom:24px}
 .qo{display:flex;flex-direction:column;gap:10px}
@@ -1255,15 +1261,23 @@ function renderQuestions(){
     const el=document.getElementById('s'+(qi+1));
     if(!el) return;
     const barHTML=Array.from({length:total},(_,i)=>`<div class="qb ${i<qi?'d':i===qi?'c':''}"></div>`).join('');
+    const pct=Math.round(((qi+1)/total)*100);
+    const pctHTML=`<div class="q-progress-pct">${pct}%</div>`;
     const multiNote=q.multi?`<div class="multi-hint">可多选，最多 ${q.maxSel} 个</div>`:'';
     const hintHTML=q.hint?`<div style="font-size:14px;color:var(--t3);margin-bottom:16px;text-align:center">${q.hint}</div>`:'';
+    // 沉没成本提示：过半后显示
+    const sunkCostMsgs=['','','已经过半了，别浪费前面的直觉','快了，你的味觉画像正在成形','最后冲刺，答案马上揭晓'];
+    const sunkIdx=Math.floor((qi/total)*5);
+    const sunkHTML=(qi>=Math.ceil(total/2)&&sunkCostMsgs[sunkIdx])?`<div class="q-sunk-cost">${sunkCostMsgs[sunkIdx]}</div>`:'';
     el.innerHTML=`<div class="pi">
       <div class="qbar">${barHTML}</div>
+      ${pctHTML}
       <div class="qn">问题 ${qi+1} / ${total}</div>
       <div class="qt serif">${q.title}</div>
       ${hintHTML}
       <div class="qo" id="qo${qi}">${q.o.map((o,oi)=>`<div class="qopt" data-qi="${qi}" data-oi="${oi}" onclick="pick(${qi},${oi},this)"><span class="em">${o.e}</span><span class="lb">${o.t}</span></div>`).join('')}</div>
       ${multiNote}
+      ${sunkHTML}
     </div>`;
   });
 }
@@ -1725,17 +1739,6 @@ function showResult(){
       <button class="btn btn-g" style="flex:1" onclick="shareCard('social')">社媒海报</button>
     </div>
 
-    <!-- 推荐酒款（转化核心） -->
-    <div class="reco-card" style="margin-top:16px">
-      <div class="reco-title">TOMO 认为你会爱上这杯 · ${matchPct}% 匹配</div>
-      <div class="reco-main">
-        <div class="reco-bottle"></div>
-        <div class="reco-info"><div class="reco-name">${p.reco}</div><div class="reco-style">${p.recoS}</div></div>
-        <div class="reco-price">${p.recoP}</div>
-      </div>
-      <div id="checkinSlot"></div>
-    </div>
-
     <!-- 味觉图谱完成度 -->
     <div style="margin:12px 0 4px;padding:12px 16px;background:var(--glass);border-radius:12px;border:1px solid var(--glass-b)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
@@ -1753,6 +1756,16 @@ function showResult(){
       <button onclick="document.getElementById('resultMore').style.display='block';this.style.display='none'" style="background:none;border:1px solid var(--glass-b);color:var(--t2);font-size:14px;padding:10px 24px;border-radius:99px;cursor:pointer;font-family:var(--f-body)">探索更多 ↓</button>
     </div>
     <div id="resultMore" style="display:none">
+      <!-- 推荐酒款（从首屏移至折叠区） -->
+      <div class="reco-card" style="margin-top:4px">
+        <div class="reco-title">TOMO 认为你会爱上这杯 · ${matchPct}% 匹配</div>
+        <div class="reco-main">
+          <div class="reco-bottle"></div>
+          <div class="reco-info"><div class="reco-name">${p.reco}</div><div class="reco-style">${p.recoS}</div></div>
+          <div class="reco-price">${p.recoP}</div>
+        </div>
+        <div id="checkinSlot"></div>
+      </div>
       <!-- 对味推荐 -->
       <div class="explore-hint">🔀 <span>你以为你不喜欢 ${p.explore}？</span> TOMO 觉得你有 ${Math.round(40+Math.random()*25)}% 概率会爱上它</div>
       ${getDuiweiHTML(p.quad, p.bars)}
@@ -3661,6 +3674,29 @@ async function loadMyRefCount(){
 trackReferral();
 
 // ============================================================
+//  普通推荐链接 — 个性化 Splash Banner
+// ============================================================
+(async function(){
+  // 只在有 ref 但不是挑战模式时触发
+  if(!window._referrer || window._challenge.active) return;
+  const el=document.getElementById('challengeBanner');
+  if(!el) return;
+  try{
+    const r=await fetch(SB_URL+'/test_results?tomo_uid=eq.'+window._referrer+'&order=created_at.desc&limit=1&select=persona_bio,persona_suit,persona_quad',
+      {headers:{'apikey':SB_KEY,'Authorization':'Bearer '+SB_KEY}});
+    const d=await r.json();
+    if(d&&d.length&&d[0].persona_bio){
+      const ref=d[0];
+      el.innerHTML=`<div style="background:rgba(209,174,107,.08);border:1px solid rgba(209,174,107,.15);border-radius:16px;padding:14px 18px;margin:12px 0;text-align:center;animation:fu .6s ease .3s both">
+        <div style="font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:4px">好友邀请</div>
+        <div style="font-size:16px;color:#fff;font-weight:600;margin-bottom:4px">${ref.persona_suit||''} ${ref.persona_bio}</div>
+        <div style="font-size:13px;color:var(--t2)">已经发现了TA的味觉DNA · 轮到你了</div>
+      </div>`;
+    }
+  }catch(e){}
+})();
+
+// ============================================================
 //  挑战好友 — Challenge System
 // ============================================================
 // Splash 页挑战 banner
@@ -3837,6 +3873,68 @@ function closePoster(e){
   document.getElementById('posterOverlay').classList.remove('show');
   document.body.style.overflow='';
 }
+
+// ============================================================
+//  品鉴力衰减系统 — Loss Aversion / Sunk Cost
+// ============================================================
+(function(){
+  const KEY_LAST='tomo_last_active';
+  const KEY_LEVEL='tomo_taste_level';
+  const DECAY_DAYS=7;
+
+  // 更新活跃时间
+  function touchActive(){
+    localStorage.setItem(KEY_LAST, Date.now().toString());
+  }
+
+  // 检查衰减
+  function checkDecay(){
+    const last=parseInt(localStorage.getItem(KEY_LAST)||'0');
+    if(!last){touchActive();return;}
+    const daysSince=Math.floor((Date.now()-last)/(1000*60*60*24));
+    if(daysSince<DECAY_DAYS) return;
+    // 计算衰减
+    const decayPct=Math.min(30, (daysSince-DECAY_DAYS+1)*5); // 每多一天衰减5%，最多30%
+    const oldLevel=parseInt(localStorage.getItem(KEY_LEVEL)||'60');
+    const newLevel=Math.max(20, oldLevel-decayPct);
+    localStorage.setItem(KEY_LEVEL, newLevel.toString());
+    // 显示衰减提示
+    showDecayToast(daysSince, oldLevel, newLevel);
+  }
+
+  function showDecayToast(days, oldLv, newLv){
+    const toast=document.createElement('div');
+    toast.className='decay-toast';
+    toast.id='decayToast';
+    toast.innerHTML=`<div class="decay-inner">
+      <div style="font-size:28px;margin-bottom:8px">📉</div>
+      <div style="font-size:15px;color:var(--t1);font-weight:600;margin-bottom:4px">你的品鉴力正在衰退</div>
+      <div style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:12px">${days}天没有训练，品鉴力从 <b style="color:var(--gold)">${oldLv}%</b> 降至 <b style="color:#E07070">${newLv}%</b><br>味觉记忆正在褪色，快来重新激活</div>
+      <div style="display:flex;gap:8px;justify-content:center">
+        <button onclick="document.getElementById('decayToast').remove()" style="padding:8px 16px;border-radius:99px;background:var(--glass);border:1px solid var(--glass-b);color:var(--t2);font-size:13px;cursor:pointer;font-family:var(--f-body)">下次再说</button>
+        <button onclick="document.getElementById('decayToast').remove();go('sGender')" style="padding:8px 16px;border-radius:99px;background:var(--gold);border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--f-body)">立即重测 →</button>
+      </div>
+    </div>`;
+    document.body.appendChild(toast);
+    // 10秒后自动消失
+    setTimeout(()=>{const t=document.getElementById('decayToast');if(t)t.remove();},10000);
+  }
+
+  // 每次页面加载检查衰减
+  checkDecay();
+  // 活跃行为更新时间戳
+  touchActive();
+  // 测试完成时更新品鉴力
+  const origShowResult=window.showResult;
+  if(origShowResult){
+    window.showResult=function(){
+      touchActive();
+      const curLv=parseInt(localStorage.getItem(KEY_LEVEL)||'60');
+      localStorage.setItem(KEY_LEVEL, Math.min(95, curLv+10).toString());
+      return origShowResult.apply(this,arguments);
+    };
+  }
+})();
 </script>
 </body>
 </html>
