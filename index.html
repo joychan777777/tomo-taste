@@ -389,6 +389,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
   <div class="logo-jam">JAM · 即兴精酿</div>
   <div class="ring" onclick="go('sGender')"><div class="ring-t">发现你的<br>味觉DNA</div></div>
   <div class="hint">90 秒 · 零门槛 · 发现你是谁</div>
+  <div id="challengeBanner"></div>
   <div class="test-count" id="testCount"></div>
   <div class="social-proof"><div class="social-dot"></div><span id="liveNow">3 人正在测试</span></div>
   <div class="tagline">像我们这样的人，不靠运气选酒</div>
@@ -523,10 +524,25 @@ const TOMO_UID=getTomoUID();
 // ============================================================
 const urlParams=new URLSearchParams(window.location.search);
 window._referrer=urlParams.get('ref')||'';
+// 挑战好友参数
+window._challenge={
+  active: !!urlParams.get('cname'),
+  name: decodeURIComponent(urlParams.get('cname')||''),
+  bars: (urlParams.get('cbars')||'').split(',').map(Number).filter(n=>!isNaN(n)),
+  suit: decodeURIComponent(urlParams.get('csuit')||'')
+};
+if(window._challenge.bars.length!==4) window._challenge.active=false;
+
 // 我的裂变链接 = 当前页面 + ?ref=我的tomo_uid
 function getMyRefURL(){
   const base=window.location.origin+window.location.pathname;
   return base+'?ref='+TOMO_UID;
+}
+// 挑战好友链接
+function getChallengeURL(){
+  const p=calcPersona();
+  const base=window.location.origin+window.location.pathname;
+  return base+'?ref='+TOMO_UID+'&cname='+encodeURIComponent(p.bio)+'&csuit='+encodeURIComponent(p.suit)+'&cbars='+p.bars.join(',');
 }
 
 // ============================================================
@@ -1696,7 +1712,31 @@ function showResult(){
     </div>
     <div class="persona-dist" id="personaDistResult"></div>
 
-    <!-- Godin: 未完成张力 (Zeigarnik Effect) — 味觉图谱完成度 -->
+    <!-- 挑战好友对比（仅挑战模式显示） -->
+    ${renderChallengeCompare(p)}
+
+    <!-- ═══ PRIMARY CTA ZONE ═══ -->
+    <!-- 挑战好友（病毒传播第一优先） -->
+    <button class="btn" style="margin:12px 0 4px;background:linear-gradient(135deg,rgba(201,168,76,.9),rgba(140,107,64,.9))" onclick="shareChallenge()">⚔️ 挑战好友 · 看你们有多合拍</button>
+
+    <!-- 分享海报 -->
+    <div style="display:flex;gap:10px;margin-top:8px">
+      <button class="btn btn-g" style="flex:1" onclick="shareCard('wechat')">朋友圈海报</button>
+      <button class="btn btn-g" style="flex:1" onclick="shareCard('social')">社媒海报</button>
+    </div>
+
+    <!-- 推荐酒款（转化核心） -->
+    <div class="reco-card" style="margin-top:16px">
+      <div class="reco-title">TOMO 认为你会爱上这杯 · ${matchPct}% 匹配</div>
+      <div class="reco-main">
+        <div class="reco-bottle"></div>
+        <div class="reco-info"><div class="reco-name">${p.reco}</div><div class="reco-style">${p.recoS}</div></div>
+        <div class="reco-price">${p.recoP}</div>
+      </div>
+      <div id="checkinSlot"></div>
+    </div>
+
+    <!-- 味觉图谱完成度 -->
     <div style="margin:12px 0 4px;padding:12px 16px;background:var(--glass);border-radius:12px;border:1px solid var(--glass-b)">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:6px">
         <span style="font-size:14px;color:var(--t2)">味觉图谱完成度</span>
@@ -1708,45 +1748,35 @@ function showResult(){
       <div style="font-size:14px;color:var(--t3);margin-top:5px;text-align:center">还有 ${4-Math.min(4,Math.floor(p.bars.filter(b=>b>=5).length))} 个风味区域等待你去探索</div>
     </div>
 
-    <!-- HOOK: 可变优惠券（Permission式 — 味觉礼物） -->
-    <div id="couponSlot"></div>
+    <!-- ═══ 展开更多 ═══ -->
+    <div style="text-align:center;margin:16px 0 8px">
+      <button onclick="document.getElementById('resultMore').style.display='block';this.style.display='none'" style="background:none;border:1px solid var(--glass-b);color:var(--t2);font-size:14px;padding:10px 24px;border-radius:99px;cursor:pointer;font-family:var(--f-body)">探索更多 ↓</button>
+    </div>
+    <div id="resultMore" style="display:none">
+      <!-- 对味推荐 -->
+      <div class="explore-hint">🔀 <span>你以为你不喜欢 ${p.explore}？</span> TOMO 觉得你有 ${Math.round(40+Math.random()*25)}% 概率会爱上它</div>
+      ${getDuiweiHTML(p.quad, p.bars)}
 
-    <!-- HOOK: 推荐酒款 + Check-in 评分（数据飞轮） -->
-    <div class="reco-card">
-      <div class="reco-title">TOMO 认为你会爱上这杯 · ${matchPct}% 匹配</div>
-      <div class="reco-main">
-        <div class="reco-bottle"></div>
-        <div class="reco-info"><div class="reco-name">${p.reco}</div><div class="reco-style">${p.recoS}</div></div>
-        <div class="reco-price">${p.recoP}</div>
+      <!-- HOOK: 可变优惠券 -->
+      <div id="couponSlot"></div>
+
+      <!-- HOOK: 徽章解锁 -->
+      <div id="badgeSlot"></div>
+
+      ${getUpgradeBannerHTML()}
+
+      <!-- 功能入口（精简） -->
+      <button class="btn" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));margin-bottom:8px" onclick="renderTribePage();go('sTribe')">${TRIBES[p.quad]?.icon||'🍺'} 进入${TRIBES[p.quad]?.name||'你的部落'} →</button>
+      <button class="btn" style="margin-bottom:8px" onclick="renderVote();go('sVote')">🗳 你的一票，决定下月大家喝什么 →</button>
+      <button class="btn btn-g" style="margin-bottom:8px" onclick="renderCompass();go('sCompass')">🧭 亲手调一杯 · 只有你能创造的酒</button>
+
+      <!-- 公众号留人触点 -->
+      <div style="margin-top:16px;padding:16px;background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;text-align:center">
+        <div style="font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:6px">关注共醸</div>
+        <div style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:10px">第一时间获得新品速报、味觉活动<br>和专属 Dealer 权益</div>
+        <div style="font-size:14px;color:var(--t3)">微信搜索公众号「<b style="color:var(--gold)">共醸</b>」关注</div>
       </div>
-      <a class="btn-shop" style="margin-top:12px" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">🍺 尝尝 TOMO 懂不懂你</a>
-      <div class="shop-hint">复制链接到抖音APP打开</div>
     </div>
-    <div id="checkinSlot"></div>
-
-    <div class="explore-hint">🔀 <span>你以为你不喜欢 ${p.explore}？</span> TOMO 觉得你有 ${Math.round(40+Math.random()*25)}% 概率会爱上它</div>
-    ${getDuiweiHTML(p.quad, p.bars)}
-
-    <!-- HOOK: 徽章解锁（收集癖 + 可变奖励） -->
-    <div id="badgeSlot"></div>
-
-    ${getUpgradeBannerHTML()}
-
-    <!-- Godin: 部落入口 — Affiliation驱动 -->
-    <button class="btn" style="background:linear-gradient(135deg,var(--gold),var(--gold-d))" onclick="renderTribePage();go('sTribe')">${TRIBES[p.quad]?.icon||'🍺'} 进入${TRIBES[p.quad]?.name||'你的部落'} →</button>
-    <div style="height:8px"></div>
-
-    <!-- 行动按钮（Godin: enrollment式邀请，非推销） -->
-    <button class="btn" onclick="renderVote();go('sVote')">🗳 你的一票，决定下月大家喝什么 →</button>
-    <div style="height:8px"></div>
-    <button class="btn btn-g" onclick="renderCompass();go('sCompass')">🧭 亲手调一杯 · 只有你能创造的酒</button>
-    <div style="height:8px"></div>
-    <div style="display:flex;gap:10px">
-      <button class="btn btn-g" style="flex:1" onclick="shareCard('wechat')">朋友圈海报</button>
-      <button class="btn btn-g" style="flex:1" onclick="shareCard('social')">社媒海报</button>
-    </div>
-    <div style="height:8px"></div>
-    <button class="btn btn-g" onclick="renderProf();go('sProf')">查看我的 TOMO 主页 →</button>
   </div>`;
   go('sResult');
   preCacheQR();
@@ -1756,6 +1786,10 @@ function showResult(){
     renderCoupon('couponSlot');        // Hook: 可变优惠券
     renderCheckin(p,'checkinSlot');     // Hook: 品鉴评分
     renderBadgeGrid(p,'badgeSlot');    // Hook: 徽章解锁
+    // 挑战模式：渲染对比雷达图
+    if(window._challenge.active){
+      drawChallengeRadar('challengeRadar', p.bars, window._challenge.bars);
+    }
   },400);
   loadGlobalStats().then(()=>renderPersonaDist(p.bio));
 }
@@ -2087,6 +2121,16 @@ async function renderProf(){
       <div class="ti"><div class="td">${today}</div><div class="tt">加入 TOMO · ID <span style="color:var(--gold)">${TOMO_UID}</span></div></div>
     </div>
     <div class="fm">「你在这里喝的每一口酒，都让 AI 更懂你。」</div>
+
+    <!-- 公众号留人触点 -->
+    <div style="padding:16px;background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;text-align:center;margin-bottom:14px">
+      <div style="font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:6px">关注共醸</div>
+      <div style="font-size:14px;color:var(--t2);line-height:1.7;margin-bottom:6px">新品速报 · 味觉活动 · Dealer 权益</div>
+      <div style="font-size:14px;color:var(--t3)">微信搜索「<b style="color:var(--gold)">共醸</b>」关注</div>
+    </div>
+
+    <!-- 挑战好友 -->
+    <button class="btn" style="margin-bottom:10px;background:linear-gradient(135deg,rgba(201,168,76,.9),rgba(140,107,64,.9))" onclick="shareChallenge()">⚔️ 挑战好友 · 看你们有多合拍</button>
     <button class="btn btn-g" style="margin-bottom:10px" onclick="renderCompass();go('sCompass')">🧭 风味罗盘 · 调一杯你的酒</button>
     <div class="share-row">
       <button class="btn btn-s" onclick="restart()">↺ 重来</button>
@@ -2811,47 +2855,24 @@ function renderBadgeGrid(p,containerId){
 }
 
 // ============================================================
-//  HOOK MODEL: 可变优惠券 — 多巴胺可变奖励回路
+//  首单暗号折扣 — 可核销的真实优惠
 // ============================================================
-function generateCoupon(){
-  // 可变金额：¥3/¥5/¥8/¥10/¥15，概率加权（中间最常见）
-  const pool=[3,3,5,5,5,5,8,8,8,10,10,15];
-  const amount=pool[Math.floor(Math.random()*pool.length)];
-  const expiry=Date.now()+72*60*60*1000; // 72小时
-  const coupon={amount,expiry,id:'C'+Date.now().toString(36)};
-  // 存储（不覆盖未过期的）
-  const saved=JSON.parse(localStorage.getItem('tomo_coupon')||'null');
-  if(!saved||saved.expiry<Date.now()){
-    localStorage.setItem('tomo_coupon',JSON.stringify(coupon));
-    return coupon;
-  }
-  return saved;
-}
-
 function renderCoupon(containerId){
-  const coupon=generateCoupon();
   const el=document.getElementById(containerId);
   if(!el)return;
-  const updateTimer=()=>{
-    const left=Math.max(0,coupon.expiry-Date.now());
-    if(left<=0){el.querySelector('.coupon-timer').innerHTML='<span style="color:#ff6b6b">已过期</span>';return;}
-    const h=Math.floor(left/3600000);
-    const m=Math.floor((left%3600000)/60000);
-    const s=Math.floor((left%60000)/1000);
-    const timerEl=el.querySelector('.ct-time');
-    if(timerEl)timerEl.textContent=h+'h '+m+'m '+s+'s';
-  };
+  const p=calcPersona();
+  const code='TOMO'+p.bio.replace(/[^a-zA-Z一-鿿]/g,'');
   el.innerHTML=`<div class="coupon-card">
-    <div style="font-size:14px;color:var(--t3);letter-spacing:2px;margin-bottom:4px">🎁 TOMO 为你准备了一份味觉礼物</div>
-    <div><span class="coupon-unit">¥</span><span class="coupon-amount">${coupon.amount}</span></div>
-    <div class="coupon-label">用它体验 TOMO 为你挑的第一杯</div>
-    <div class="coupon-timer"><div class="ct-dot"></div><span class="ct-time"></span> 内有效</div>
+    <div style="font-size:14px;color:var(--t3);letter-spacing:2px;margin-bottom:6px">首单专属暗号</div>
+    <div style="font-size:24px;font-weight:700;color:var(--gold);font-family:var(--f-display);letter-spacing:2px;margin:8px 0;user-select:all;cursor:pointer" onclick="navigator.clipboard.writeText('${code}').then(()=>this.nextElementSibling.textContent='已复制!')">${code}</div>
+    <div style="font-size:13px;color:var(--t3);transition:all .3s">点击复制暗号</div>
+    <div style="font-size:14px;color:var(--t2);margin-top:10px;line-height:1.7">
+      下单时备注此暗号<br>享首单 <b style="color:var(--gold)">9 折</b> 优惠
+    </div>
     <div style="margin-top:10px">
-      <a class="btn-shop" style="font-size:14px;padding:12px 20px" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">去尝尝 TOMO 的推荐</a>
+      <a class="btn-shop" style="font-size:14px;padding:12px 20px" href="https://v.douyin.com/gongniang/" target="_blank" rel="noopener">去抖音店铺下单</a>
     </div>
   </div>`;
-  updateTimer();
-  setInterval(updateTimer,1000);
 }
 
 // ============================================================
@@ -3490,8 +3511,8 @@ async function loadTestCount(){
 // 预缓存QR码（结果页加载时就开始）
 var _qrCache={};
 function preCacheQR(){
-  const url='https://joychan777777.github.io/tomo-taste/?ref='+TOMO_UID;
-  const qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=200x200&color=c9a84c&bgcolor=08080f&data='+encodeURIComponent(url);
+  const url=getMyRefURL();
+  const qrUrl='https://api.qrserver.com/v1/create-qr-code/?size=400x400&color=c9a84c&bgcolor=08080f&data='+encodeURIComponent(url);
   const img=new Image();
   img.crossOrigin='anonymous';
   img.onload=()=>{_qrCache.img=img;};
@@ -3638,6 +3659,153 @@ async function loadMyRefCount(){
 }
 
 trackReferral();
+
+// ============================================================
+//  挑战好友 — Challenge System
+// ============================================================
+// Splash 页挑战 banner
+(function(){
+  if(!window._challenge.active) return;
+  const ch=window._challenge;
+  const el=document.getElementById('challengeBanner');
+  if(!el) return;
+  el.innerHTML=`<div style="background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:16px;padding:14px 18px;margin:12px 0;text-align:center;animation:fu .6s ease .3s both">
+    <div style="font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:4px">好友挑战</div>
+    <div style="font-size:18px;color:#fff;font-weight:600">${ch.suit} ${ch.name}</div>
+    <div style="font-size:13px;color:var(--t2);margin-top:4px">发起了味觉挑战 · 测完看你们有多合拍</div>
+  </div>`;
+})();
+
+// 挑战好友分享
+function shareChallenge(){
+  const p=calcPersona();
+  const url=getChallengeURL();
+  const txt=`我是 ${p.suit} ${p.bio}，你敢来测测我们有多合拍吗？\n${url}\n#TOMO味觉挑战 #共醸`;
+  if(navigator.share){
+    navigator.share({title:'TOMO味觉挑战',text:txt,url:url}).catch(()=>{});
+  }else{
+    navigator.clipboard.writeText(txt).then(()=>{
+      alert('挑战链接已复制！发给你的朋友吧');
+    }).catch(()=>alert(txt));
+  }
+}
+
+// 测完后展示好友对比（如果是挑战模式）
+function renderChallengeCompare(myP){
+  if(!window._challenge.active) return '';
+  const ch=window._challenge;
+  const myBars=myP.bars;
+  const frBars=ch.bars;
+  // 计算味觉匹配度
+  const match=calcTasteMatch(myBars, frBars);
+  // 差异描述
+  const dims=['苦度','甜度','清爽','复杂'];
+  let maxDiff=0, maxDiffDim='';
+  dims.forEach((d,i)=>{
+    const diff=Math.abs(myBars[i]-frBars[i]);
+    if(diff>maxDiff){maxDiff=diff;maxDiffDim=d;}
+  });
+  let minDiff=100, minDiffDim='';
+  dims.forEach((d,i)=>{
+    const diff=Math.abs(myBars[i]-frBars[i]);
+    if(diff<minDiff){minDiff=diff;minDiffDim=d;}
+  });
+  const matchMsg=match>=85?'你们简直是味觉灵魂伴侣！':match>=70?'你们的口味很合拍，一起喝酒不会吵架。':match>=55?'有共鸣也有差异，互相推荐新酒会很有趣。':'口味差异不小，但这恰好是互相打开新世界的机会。';
+
+  return `<div class="evo-card" style="border-color:rgba(201,168,76,.3);margin:16px 0">
+    <div style="text-align:center;font-size:13px;color:var(--gold);letter-spacing:3px;margin-bottom:4px">好友味觉对比</div>
+    <div style="text-align:center;margin-bottom:12px">
+      <span style="font-size:16px;font-weight:600;color:var(--t1)">${myP.bio}</span>
+      <span style="font-size:14px;color:var(--t3);margin:0 8px">vs</span>
+      <span style="font-size:16px;font-weight:600;color:var(--t1)">${ch.name}</span>
+    </div>
+    <div class="radar-wrap"><canvas id="challengeRadar" width="440" height="440"></canvas></div>
+    <div style="display:flex;justify-content:center;gap:16px;margin:8px 0;font-size:13px">
+      <span style="color:var(--gold)">● 你</span>
+      <span style="color:rgba(138,154,181,.8)">● ${ch.name}</span>
+    </div>
+    <div style="text-align:center;margin:12px 0">
+      <div style="font-family:var(--f-display);font-size:48px;font-weight:700;color:var(--gold)">${match}%</div>
+      <div style="font-size:14px;color:var(--t2)">味觉默契度</div>
+    </div>
+    <div style="font-size:14px;color:var(--t2);text-align:center;line-height:1.8;margin:8px 0">
+      ${matchMsg}<br>
+      <span style="color:var(--gold)">${minDiffDim}</span> 最合拍 ·
+      <span style="color:rgba(138,154,181,.8)">${maxDiffDim}</span> 差异最大
+    </div>
+    <button class="btn" style="margin-top:12px;background:linear-gradient(135deg,var(--gold),var(--gold-d))" onclick="shareChallenge()">换我挑战别人 →</button>
+  </div>`;
+}
+
+// 双人雷达图（我 vs 好友）
+function drawChallengeRadar(canvasId, myBars, frBars){
+  const canvas=document.getElementById(canvasId);
+  if(!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const W=canvas.width, H=canvas.height;
+  const cx=W/2, cy=H/2, R=W*0.35;
+  ctx.clearRect(0,0,W,H);
+
+  const labels=['苦度','甜度','清爽','复杂'];
+  const angles=labels.map((_,i)=>Math.PI*2*i/4 - Math.PI/2);
+
+  // Grid
+  [0.25,0.5,0.75,1].forEach(s=>{
+    ctx.beginPath();
+    angles.forEach((a,i)=>{
+      const x=cx+Math.cos(a)*R*s, y=cy+Math.sin(a)*R*s;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    ctx.strokeStyle='rgba(242,235,222,'+(s===1?0.2:0.1)+')';
+    ctx.lineWidth=1;ctx.stroke();
+  });
+
+  // Axes
+  angles.forEach(a=>{
+    ctx.beginPath();ctx.moveTo(cx,cy);
+    ctx.lineTo(cx+Math.cos(a)*R, cy+Math.sin(a)*R);
+    ctx.strokeStyle='rgba(242,235,222,0.12)';ctx.lineWidth=1;ctx.stroke();
+  });
+
+  // Labels
+  ctx.font='bold 20px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillStyle='rgba(242,235,222,0.7)';
+  const labelR=R+28;
+  angles.forEach((a,i)=>{
+    ctx.fillText(labels[i], cx+Math.cos(a)*labelR, cy+Math.sin(a)*labelR);
+  });
+
+  // Draw filled area helper
+  function drawArea(bars, fillColor, strokeColor){
+    ctx.beginPath();
+    angles.forEach((a,i)=>{
+      const v=bars[i]/100;
+      const x=cx+Math.cos(a)*R*v, y=cy+Math.sin(a)*R*v;
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    });
+    ctx.closePath();
+    ctx.fillStyle=fillColor;ctx.fill();
+    ctx.strokeStyle=strokeColor;ctx.lineWidth=2.5;ctx.stroke();
+  }
+
+  // Friend's area (draw first, behind)
+  drawArea(frBars, 'rgba(138,154,181,0.15)', 'rgba(138,154,181,0.6)');
+  // My area (on top)
+  drawArea(myBars, 'rgba(209,174,107,0.2)', 'rgba(209,174,107,0.85)');
+
+  // Data points
+  [myBars,frBars].forEach((bars,bi)=>{
+    const color=bi===0?'rgba(209,174,107,0.9)':'rgba(138,154,181,0.7)';
+    angles.forEach((a,i)=>{
+      const v=bars[i]/100;
+      const x=cx+Math.cos(a)*R*v, y=cy+Math.sin(a)*R*v;
+      ctx.beginPath();ctx.arc(x,y,4,0,Math.PI*2);
+      ctx.fillStyle=color;ctx.fill();
+      ctx.strokeStyle='rgba(255,255,255,0.5)';ctx.lineWidth=1.5;ctx.stroke();
+    });
+  });
+}
 
 // ============================================================
 //  INIT
