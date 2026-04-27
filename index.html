@@ -389,6 +389,73 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 
 /* When tab bar is visible, add bottom padding to pages */
 .has-tabbar .p .pi{padding-bottom:90px}
+
+/* ═══ MODULE 3: TRAINING (感官训练) ═══ */
+.train-hero{text-align:center;margin-bottom:20px}
+.train-lv-badge{display:inline-flex;align-items:center;gap:8px;background:linear-gradient(135deg,rgba(209,174,107,.12),rgba(209,174,107,.04));border:1px solid rgba(209,174,107,.25);border-radius:99px;padding:8px 20px;margin-bottom:12px}
+.train-lv-icon{font-size:24px}
+.train-lv-name{font-size:16px;color:var(--gold);font-weight:700;letter-spacing:2px}
+.train-lv-sub{font-size:14px;color:var(--t3);letter-spacing:1px}
+.train-progress{width:100%;height:6px;background:rgba(255,255,255,.06);border-radius:99px;margin:8px 0;overflow:hidden}
+.train-progress-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold-d),var(--gold));transition:width .6s cubic-bezier(.22,1,.36,1)}
+.train-section{margin-bottom:20px}
+.train-section-title{font-size:14px;color:var(--gold);letter-spacing:3px;margin-bottom:10px;font-weight:600}
+.train-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;padding:16px;margin-bottom:10px;cursor:pointer;transition:all .25s ease}
+.train-card:active{transform:scale(.97);background:var(--glass-h)}
+.train-card-head{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.train-card-icon{width:40px;height:40px;border-radius:12px;display:flex;align-items:center;justify-content:center;font-size:20px}
+.train-card-info{flex:1}
+.train-card-name{font-size:15px;font-weight:600;color:var(--t1)}
+.train-card-desc{font-size:13px;color:var(--t3);margin-top:2px}
+.train-card-meta{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--t3)}
+.train-card-tag{padding:2px 8px;border-radius:99px;font-size:11px;font-weight:600}
+.train-locked{opacity:.5;pointer-events:none}
+.train-quiz{padding:20px}
+.train-q-text{font-size:16px;color:var(--t1);line-height:1.6;margin-bottom:16px;font-weight:500}
+.train-q-opts{display:flex;flex-direction:column;gap:8px}
+.train-q-opt{background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:14px 16px;font-size:14px;color:var(--t2);cursor:pointer;transition:all .2s}
+.train-q-opt:active{transform:scale(.97)}
+.train-q-opt.correct{background:rgba(16,185,129,.15);border-color:rgba(16,185,129,.4);color:#10B981}
+.train-q-opt.wrong{background:rgba(239,68,68,.1);border-color:rgba(239,68,68,.3);color:#EF4444}
+.train-q-opt.sel{border-color:rgba(209,174,107,.4);background:rgba(209,174,107,.1);color:var(--gold)}
+.train-q-feedback{margin-top:12px;padding:12px;border-radius:12px;font-size:14px;line-height:1.6;color:var(--t2);animation:fu .3s ease}
+.train-q-counter{font-size:13px;color:var(--t3);text-align:center;margin-bottom:12px}
+
+/* ═══ MODULE 4: TASTING (品鉴挑战) ═══ */
+.taste-hero{text-align:center;margin-bottom:16px}
+.taste-daily-label{font-size:12px;color:var(--gold);letter-spacing:4px;margin-bottom:4px}
+.taste-beer-card{background:linear-gradient(135deg,rgba(209,174,107,.08),rgba(209,174,107,.02));border:1px solid rgba(209,174,107,.15);border-radius:20px;padding:20px;text-align:center;margin-bottom:16px}
+.taste-beer-name{font-size:20px;font-weight:700;color:var(--t1);margin-bottom:4px;font-family:var(--f-serif)}
+.taste-beer-style{font-size:14px;color:var(--gold);margin-bottom:8px}
+.taste-beer-stats{display:flex;justify-content:center;gap:16px;font-size:13px;color:var(--t3)}
+.taste-score-section{margin-bottom:14px}
+.taste-score-label{display:flex;justify-content:space-between;align-items:center;font-size:14px;color:var(--t2);margin-bottom:6px}
+.taste-score-val{font-weight:700;color:var(--gold);font-family:var(--f-display)}
+.taste-slider-wrap{position:relative;width:100%;height:32px;display:flex;align-items:center}
+.taste-slider{-webkit-appearance:none;width:100%;height:6px;border-radius:99px;background:rgba(255,255,255,.08);outline:none}
+.taste-slider::-webkit-slider-thumb{-webkit-appearance:none;width:24px;height:24px;border-radius:50%;background:var(--gold);cursor:pointer;box-shadow:0 2px 8px rgba(0,0,0,.3)}
+.taste-note{width:100%;background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:12px;font-size:14px;color:var(--t1);font-family:var(--f-body);resize:vertical;min-height:80px;outline:none}
+.taste-note::placeholder{color:var(--t3)}
+.taste-note:focus{border-color:rgba(209,174,107,.3)}
+.taste-history-item{background:var(--glass);border:1px solid var(--glass-b);border-radius:14px;padding:14px;margin-bottom:8px;display:flex;align-items:center;gap:12px}
+.taste-history-score{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--gold-d),var(--gold));display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;font-family:var(--f-display)}
+.taste-history-info{flex:1}
+.taste-history-name{font-size:14px;font-weight:600;color:var(--t1)}
+.taste-history-date{font-size:12px;color:var(--t3);margin-top:2px}
+.taste-scene-tags{display:flex;gap:8px;justify-content:center;margin:12px 0;flex-wrap:wrap}
+.taste-scene-tag{padding:8px 16px;border-radius:99px;background:var(--glass);border:1px solid var(--glass-b);font-size:14px;color:var(--t2);cursor:pointer;transition:all .2s}
+.taste-scene-tag:active{transform:scale(.95)}
+.taste-scene-tag.sel{background:rgba(209,174,107,.1);border-color:rgba(209,174,107,.3);color:var(--gold)}
+
+/* ═══ EXPLORE MAP (探索地图) ═══ */
+.explore-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:8px;margin-bottom:16px}
+.explore-item{background:var(--glass);border:1px solid var(--glass-b);border-radius:12px;padding:12px;text-align:center;position:relative;overflow:hidden}
+.explore-item.unlocked{border-color:rgba(209,174,107,.2)}
+.explore-item.locked{opacity:.4}
+.explore-item-icon{font-size:20px;margin-bottom:4px}
+.explore-item-name{font-size:13px;color:var(--t2);font-weight:500}
+.explore-item-bar{width:100%;height:3px;background:rgba(255,255,255,.06);border-radius:99px;margin-top:6px;overflow:hidden}
+.explore-item-fill{height:100%;border-radius:99px;background:var(--gold);transition:width .4s}
 </style>
 </head>
 <body>
@@ -487,6 +554,15 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 <div class="p" id="sCompass"></div>
 <!-- Tribe -->
 <div class="p" id="sTribe"></div>
+<!-- Training (感官训练) -->
+<div class="p" id="sTrain"></div>
+
+<!-- Tasting (品鉴挑战) -->
+<div class="p" id="sTaste"></div>
+
+<!-- Training Quiz (训练答题页) -->
+<div class="p" id="sTrainQuiz"></div>
+
 <!-- Profile -->
 <div class="p" id="sProf"></div>
 
@@ -496,17 +572,17 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
     <div class="tab-icon">🧬</div>
     <div class="tab-label">结果</div>
   </div>
-  <div class="tab-item" data-page="sVote" onclick="tabGo('sVote')">
-    <div class="tab-icon">🗳️</div>
-    <div class="tab-label">投票</div>
+  <div class="tab-item" data-page="sTaste" onclick="tabGo('sTaste')">
+    <div class="tab-icon">🍺</div>
+    <div class="tab-label">品鉴</div>
   </div>
   <div class="tab-item" data-page="sCompass" onclick="tabGo('sCompass')">
     <div class="tab-icon">🧭</div>
-    <div class="tab-label">指南针</div>
+    <div class="tab-label">罗盘</div>
   </div>
-  <div class="tab-item" data-page="sTribe" onclick="tabGo('sTribe')">
-    <div class="tab-icon">👥</div>
-    <div class="tab-label">族群</div>
+  <div class="tab-item" data-page="sTrain" onclick="tabGo('sTrain')">
+    <div class="tab-icon">📚</div>
+    <div class="tab-label">训练</div>
   </div>
   <div class="tab-item" data-page="sProf" onclick="tabGo('sProf')">
     <div class="tab-icon">👤</div>
@@ -2701,7 +2777,7 @@ function share(){
 // ============================================================
 //  NAVIGATION
 // ============================================================
-const TAB_PAGES=['sResult','sVote','sVoted','sCompass','sTribe','sProf'];
+const TAB_PAGES=['sResult','sVote','sVoted','sCompass','sTribe','sProf','sTaste','sTrain','sTrainQuiz'];
 var _tabBarVisible=false;
 
 function showTabBar(){
@@ -2716,8 +2792,8 @@ function hideTabBar(){
   document.getElementById('app').classList.remove('has-tabbar');
 }
 function updateTabActive(pageId){
-  // Map sVoted to sVote tab
-  const mapped=pageId==='sVoted'?'sVote':pageId;
+  // Map child pages to parent tabs
+  const mapped=pageId==='sVoted'?'sTaste':pageId==='sVote'?'sTaste':pageId==='sTrainQuiz'?'sTrain':pageId==='sTribe'?'sProf':pageId;
   document.querySelectorAll('.tab-item').forEach(t=>{
     t.classList.toggle('active',t.dataset.page===mapped);
   });
@@ -2728,6 +2804,8 @@ function tabGo(id){
   if(id==='sCompass') renderCompass();
   if(id==='sTribe') renderTribePage();
   if(id==='sProf') renderProf();
+  if(id==='sTaste') renderTastePage();
+  if(id==='sTrain') renderTrainPage();
   // sResult is already rendered by showResult(), no re-render needed
   go(id);
 }
@@ -3367,6 +3445,9 @@ function renderCompass(){
         </div>`).join('')}
     </div>
 
+    <!-- 5.5 风味探索地图 (Module 2 enhancement) -->
+    ${renderExploreMap()}
+
     <!-- 6. 味觉时间线 -->
     <div class="evo-card">
       <div class="evo-title">⏱ 味觉时间线</div>
@@ -3890,6 +3971,611 @@ function drawChallengeRadar(canvasId, myBars, frBars){
 }
 
 // ============================================================
+//  MODULE 4: TASTING (品鉴挑战) — Daily beer tasting challenge
+// ============================================================
+const TASTING_BEERS=[
+  {id:'haze1',name:'HAZE 薄雾',style:'Hazy IPA',abv:'6.2%',ibu:35,desc:'热带果香炸裂，柔滑如丝绒',img:'🌫️'},
+  {id:'amber1',name:'AMBER 琥珀',style:'Amber Ale',abv:'5.1%',ibu:28,desc:'焦糖太妃，温暖的麦芽拥抱',img:'🍯'},
+  {id:'stout1',name:'DARK 深渊',style:'Oatmeal Stout',abv:'5.8%',ibu:32,desc:'巧克力咖啡，丝滑燕麦收尾',img:'🌑'},
+  {id:'wheat1',name:'CLOUD 浮云',style:'Belgian Witbier',abv:'4.5%',ibu:15,desc:'橙皮芫荽，清晨的第一口气泡',img:'☁️'},
+  {id:'pale1',name:'SPARK 火花',style:'American Pale Ale',abv:'5.4%',ibu:40,desc:'柑橘松脂，利落苦收',img:'✨'},
+  {id:'sour1',name:'TANG 酸趣',style:'Berliner Weisse',abv:'3.8%',ibu:8,desc:'柠檬酸爽，果酱甜尾',img:'🍋'},
+  {id:'ipa1',name:'BITE 锋芒',style:'West Coast IPA',abv:'6.8%',ibu:65,desc:'松脂葡萄柚，干脆利落的苦',img:'⚡'}
+];
+const TASTE_DIMS=[
+  {key:'appearance',name:'外观',max:3,desc:'色泽·泡沫·清澈度'},
+  {key:'aroma',name:'香气',max:12,desc:'闻起来有什么？强度如何？'},
+  {key:'flavor',name:'风味',max:20,desc:'入口的味道·层次·余味'},
+  {key:'mouthfeel',name:'口感',max:5,desc:'酒体·碳酸·顺滑度'},
+  {key:'overall',name:'整体',max:10,desc:'综合印象·愉悦度'}
+];
+
+function getTodayBeer(){
+  const dayIdx=Math.floor(Date.now()/(1000*60*60*24));
+  return TASTING_BEERS[dayIdx%TASTING_BEERS.length];
+}
+function getTasteHistory(){
+  try{return JSON.parse(localStorage.getItem('tomo_taste_history')||'[]');}catch(e){return[];}
+}
+function saveTasteRecord(record){
+  const h=getTasteHistory();
+  h.unshift(record);
+  if(h.length>30)h.length=30;
+  localStorage.setItem('tomo_taste_history',JSON.stringify(h));
+}
+function hasTastedToday(){
+  const h=getTasteHistory();
+  if(!h.length)return false;
+  const today=new Date().toISOString().slice(0,10);
+  return h[0].date===today;
+}
+
+function renderTastePage(){
+  const beer=getTodayBeer();
+  const history=getTasteHistory();
+  const doneToday=hasTastedToday();
+  const streak=calcTasteStreak();
+
+  // Scene tag state
+  const sceneIcons=[{id:'home',icon:'🏠',label:'在家'},{id:'bar',icon:'🍺',label:'门店'},{id:'outdoor',icon:'🌳',label:'户外'}];
+  const moodIcons=[{id:'celebrate',icon:'🎉',label:'庆祝'},{id:'relax',icon:'😌',label:'放松'},{id:'explore',icon:'🔍',label:'探索'},{id:'social',icon:'💬',label:'社交'}];
+
+  document.getElementById('sTaste').innerHTML=`<div class="pi">
+    <div class="taste-hero">
+      <div style="font-size:14px;color:var(--gold);letter-spacing:4px;margin-bottom:4px">TOMO TASTING</div>
+      <div class="serif" style="font-size:22px;margin-bottom:8px">每日品鉴挑战</div>
+      ${streak>1?`<div style="font-size:13px;color:var(--t3)">🔥 连续品鉴 ${streak} 天</div>`:''}
+    </div>
+
+    <div class="taste-beer-card">
+      <div style="font-size:48px;margin-bottom:8px">${beer.img}</div>
+      <div class="taste-beer-name">${beer.name}</div>
+      <div class="taste-beer-style">${beer.style}</div>
+      <div style="font-size:14px;color:var(--t3);margin-bottom:8px;line-height:1.5">${beer.desc}</div>
+      <div class="taste-beer-stats">
+        <span>ABV ${beer.abv}</span><span>·</span><span>IBU ${beer.ibu}</span>
+      </div>
+    </div>
+
+    ${doneToday?`
+      <div class="evo-card" style="text-align:center">
+        <div style="font-size:28px;margin-bottom:8px">✅</div>
+        <div style="font-size:15px;color:var(--gold);font-weight:600;margin-bottom:4px">今日品鉴已完成</div>
+        <div style="font-size:14px;color:var(--t3)">你给了 ${history[0].total}/50 分 · 明天再来挑战新酒款</div>
+      </div>
+    `:`
+      <div class="evo-card" id="tasteFormCard">
+        <div class="evo-title">📝 BJCP 简化评分</div>
+        <div style="font-size:13px;color:var(--t3);margin-bottom:14px">对照实物品尝，滑动打分 · 满分50</div>
+        ${TASTE_DIMS.map(d=>`
+          <div class="taste-score-section">
+            <div class="taste-score-label">
+              <span>${d.name} <span style="font-size:12px;color:var(--t3)">${d.desc}</span></span>
+              <span class="taste-score-val" id="tsv_${d.key}">${Math.round(d.max*0.6)}</span>/<span style="font-size:12px;color:var(--t3)">${d.max}</span>
+            </div>
+            <div class="taste-slider-wrap">
+              <input type="range" class="taste-slider" id="ts_${d.key}" min="0" max="${d.max}" value="${Math.round(d.max*0.6)}" step="1"
+                oninput="document.getElementById('tsv_${d.key}').textContent=this.value;updateTasteTotal()">
+            </div>
+          </div>
+        `).join('')}
+        <div style="text-align:center;margin:12px 0">
+          <div style="font-size:14px;color:var(--t3)">总分</div>
+          <div id="tasteTotalScore" style="font-size:36px;font-weight:700;color:var(--gold);font-family:var(--f-display)">30</div>
+          <div style="font-size:13px;color:var(--t3)">/50</div>
+        </div>
+
+        <div style="margin-top:14px">
+          <div style="font-size:14px;color:var(--t2);margin-bottom:6px">品鉴笔记 <span style="font-size:12px;color:var(--t3)">（可选）</span></div>
+          <textarea class="taste-note" id="tasteNote" placeholder="这款酒让你想到了什么？闻到什么？余味如何？"></textarea>
+        </div>
+
+        <div style="margin-top:14px">
+          <div style="font-size:14px;color:var(--t2);margin-bottom:8px">品鉴场景</div>
+          <div class="taste-scene-tags" id="tasteSceneTags">
+            ${sceneIcons.map(s=>`<div class="taste-scene-tag" data-scene="${s.id}" onclick="toggleSceneTag(this)">${s.icon} ${s.label}</div>`).join('')}
+          </div>
+        </div>
+        <div style="margin-top:8px">
+          <div style="font-size:14px;color:var(--t2);margin-bottom:8px">此刻心情</div>
+          <div class="taste-scene-tags" id="tasteMoodTags">
+            ${moodIcons.map(m=>`<div class="taste-scene-tag" data-mood="${m.id}" onclick="toggleMoodTag(this)">${m.icon} ${m.label}</div>`).join('')}
+          </div>
+        </div>
+
+        <button class="btn" style="margin-top:16px" onclick="submitTasting()">提交品鉴 →</button>
+      </div>
+    `}
+
+    ${history.length>0?`
+      <div style="margin-top:20px">
+        <div style="font-size:14px;color:var(--gold);letter-spacing:3px;margin-bottom:10px;font-weight:600">品鉴历史</div>
+        ${history.slice(0,10).map(h=>`
+          <div class="taste-history-item">
+            <div class="taste-history-score">${h.total}</div>
+            <div class="taste-history-info">
+              <div class="taste-history-name">${h.beerName}</div>
+              <div class="taste-history-date">${h.date}${h.scene?' · '+h.scene:''}${h.mood?' · '+h.mood:''}</div>
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    `:''}
+  </div>`;
+}
+
+function updateTasteTotal(){
+  let total=0;
+  TASTE_DIMS.forEach(d=>{
+    total+=parseInt(document.getElementById('ts_'+d.key)?.value||'0');
+  });
+  const el=document.getElementById('tasteTotalScore');
+  if(el) el.textContent=total;
+}
+
+function toggleSceneTag(el){
+  el.parentElement.querySelectorAll('.taste-scene-tag').forEach(t=>t.classList.remove('sel'));
+  el.classList.add('sel');
+}
+function toggleMoodTag(el){
+  el.parentElement.querySelectorAll('.taste-scene-tag').forEach(t=>t.classList.remove('sel'));
+  el.classList.add('sel');
+}
+
+function submitTasting(){
+  const beer=getTodayBeer();
+  const scores={};
+  let total=0;
+  TASTE_DIMS.forEach(d=>{
+    const v=parseInt(document.getElementById('ts_'+d.key)?.value||'0');
+    scores[d.key]=v;
+    total+=v;
+  });
+  const note=document.getElementById('tasteNote')?.value||'';
+  const sceneEl=document.querySelector('#tasteSceneTags .taste-scene-tag.sel');
+  const moodEl=document.querySelector('#tasteMoodTags .taste-scene-tag.sel');
+  const scene=sceneEl?sceneEl.textContent.trim():'';
+  const mood=moodEl?moodEl.textContent.trim():'';
+
+  const record={
+    date:new Date().toISOString().slice(0,10),
+    beerId:beer.id,
+    beerName:beer.name,
+    style:beer.style,
+    scores,
+    total,
+    note,
+    scene,
+    mood,
+    ts:Date.now()
+  };
+  saveTasteRecord(record);
+
+  // 更新品鉴力
+  const curLv=parseInt(localStorage.getItem('tomo_taste_level')||'60');
+  localStorage.setItem('tomo_taste_level', Math.min(95,curLv+5).toString());
+  localStorage.setItem('tomo_last_active', Date.now().toString());
+
+  // 更新训练进度
+  addTrainXP(15,'daily_taste');
+
+  if(navigator.vibrate) navigator.vibrate([20,50,20]);
+  renderTastePage();
+}
+
+function calcTasteStreak(){
+  const h=getTasteHistory();
+  if(!h.length)return 0;
+  let streak=0;
+  const today=new Date();
+  for(let i=0;i<h.length;i++){
+    const d=new Date(h[i].date);
+    const diff=Math.floor((today-d)/(1000*60*60*24));
+    if(diff===i) streak++;
+    else break;
+  }
+  return streak;
+}
+
+// ============================================================
+//  MODULE 3: TRAINING (感官训练) — L1 test + M1-M3 modules
+// ============================================================
+const TRAIN_LEVELS=[
+  {lv:1,name:'尝',full:'Palate Rookie · 初尝者',icon:'🌱',xp:0,desc:'开始你的味觉觉醒之旅'},
+  {lv:2,name:'知',full:'Flavor Hunter · 知味者',icon:'📖',xp:100,desc:'能辨别基础风味维度'},
+  {lv:3,name:'品',full:'Palate Detective · 品鉴师',icon:'🍷',xp:350,desc:'精准描述复杂风味'},
+  {lv:4,name:'鉴',full:'Brew Master · 鉴赏家',icon:'👁',xp:800,desc:'♠K专属 · Phase 2'},
+  {lv:5,name:'醸',full:'Grand Palate · 共醸大师',icon:'🔥',xp:2000,desc:'♠A专属 · Phase 2'}
+];
+
+const TRAIN_MODULES=[
+  {id:'m1',name:'风格辨别',nameEn:'Style ID',icon:'🎯',color:'rgba(16,185,129,.15)',
+   desc:'学会区分IPA、Stout、Wheat等主流风格',
+   questions:[
+     {q:'以下哪种啤酒风格通常颜色最深？',opts:['Pilsner','Stout','Wheat','Pale Ale'],ans:1,explain:'Stout使用深烘焙麦芽，颜色从深棕到漆黑'},
+     {q:'Hazy IPA最显著的感官特征是？',opts:['高苦度干收','浑浊外观+果香爆发','焦糖甜味','酸爽口感'],ans:1,explain:'Hazy IPA标志性特征是蛋白质/酵母造成的浑浊和热带果香'},
+     {q:'Belgian Witbier常用的两种辅料是？',opts:['巧克力+咖啡','橙皮+芫荽籽','松脂+葡萄柚','蜂蜜+肉桂'],ans:1,explain:'Witbier（白啤）经典配方使用橙皮和芫荽籽调味'},
+     {q:'IBU数值代表什么？',opts:['酒精浓度','颜色深浅','苦度单位','麦汁浓度'],ans:2,explain:'IBU = International Bitterness Units，国际苦度单位，数字越高越苦'},
+     {q:'West Coast IPA与East Coast IPA的最大区别？',opts:['酒精度','干苦vs柔滑果香','颜色','杯型'],ans:1,explain:'West Coast追求干脆利落的苦味，East Coast(Hazy)追求果汁般的柔滑口感'}
+   ]},
+  {id:'m2',name:'苦度校准',nameEn:'Bitterness Calibration',icon:'📊',color:'rgba(209,174,107,.15)',
+   desc:'训练你的苦度感知阈值和描述能力',
+   questions:[
+     {q:'以下哪个IBU范围属于"中等苦度"？',opts:['0-10','15-30','40-60','70+'],ans:1,explain:'15-30 IBU是大多数人感觉"恰好有点苦"的区间，Pale Ale常在此范围'},
+     {q:'苦度感知会受什么因素影响最大？',opts:['杯子形状','残糖量（甜度）','室温','倒酒速度'],ans:1,explain:'甜度是苦度最大的平衡因素——高残糖能"掩盖"苦味，让同IBU的酒喝起来不那么苦'},
+     {q:'酒花带来的苦味和烘焙麦芽带来的苦味有何不同？',opts:['没有区别','酒花苦更清爽锐利，烘焙苦更深沉持久','烘焙苦更清爽','酒花苦更甜'],ans:1,explain:'酒花苦来自α酸，口感锐利；烘焙苦来自美拉德反应，类似咖啡/黑巧的深沉苦'},
+     {q:'为什么冰镇后的IPA喝起来没那么苦？',opts:['酒花挥发了','低温抑制苦味感知','酒精度降低了','碳酸消失了'],ans:1,explain:'低温会降低味蕾对苦味的敏感度。这就是为什么过于冰冷会"杀死"精酿的风味层次'},
+     {q:'Double IPA的IBU通常在什么范围？',opts:['10-20','25-40','60-100+','120+'],ans:2,explain:'DIPA通常60-100+ IBU，但高残糖平衡让它不会过于苦涩'}
+   ]},
+  {id:'m3',name:'风味词汇',nameEn:'Flavor Vocabulary',icon:'📝',color:'rgba(155,138,224,.15)',
+   desc:'建立你的感官描述词库，从"好喝"到精准表达',
+   questions:[
+     {q:'"Diacetyl"缺陷闻起来像什么？',opts:['臭鸡蛋','黄油/奶油爆米花','纸板','醋'],ans:1,explain:'双乙酰(Diacetyl)是常见发酵缺陷，产生黄油/奶油爆米花的气味'},
+     {q:'描述啤酒"干净收尾"(Clean Finish)的正确说法是？',opts:['没有任何味道','余味短促，不留杂味','非常苦','非常甜'],ans:1,explain:'Clean Finish指余味消退迅速，没有不愉快的残留味道，Pilsner/Lager常有此特征'},
+     {q:'"Mouthfeel"(口感)最不包括以下哪个？',opts:['酒体轻重','碳酸刺激感','涩感','颜色深浅'],ans:3,explain:'口感是味觉+触觉的综合体验——酒体、碳酸、温度、涩度都算，但颜色是视觉'},
+     {q:'形容一款酒"有层次感"是什么意思？',opts:['颜色分层','随时间推移感受到不同风味变化','泡沫很厚','酒精度高'],ans:1,explain:'层次感指入口→中段→余味呈现不同的风味变化，是好酒的标志之一'},
+     {q:'以下哪个是形容啤酒香气的正确Meilgaard分类？',opts:['温度','果香/花香/酒花/麦芽','品牌','包装'],ans:1,explain:'Meilgaard风味轮将啤酒香气分为14大类，其中果香/花香/酒花/麦芽是最常见的前4类'}
+   ]}
+];
+
+function getTrainXP(){return parseInt(localStorage.getItem('tomo_train_xp')||'0');}
+function addTrainXP(pts,source){
+  const xp=getTrainXP()+pts;
+  localStorage.setItem('tomo_train_xp',xp.toString());
+  // Log source for analytics
+  const log=JSON.parse(localStorage.getItem('tomo_train_log')||'[]');
+  log.push({pts,source,ts:Date.now()});
+  if(log.length>100)log.length=100;
+  localStorage.setItem('tomo_train_log',JSON.stringify(log));
+  return xp;
+}
+function getTrainLevel(){
+  const xp=getTrainXP();
+  let lv=TRAIN_LEVELS[0];
+  for(const l of TRAIN_LEVELS){
+    if(xp>=l.xp) lv=l;
+    else break;
+  }
+  return lv;
+}
+function getModuleProgress(moduleId){
+  try{return JSON.parse(localStorage.getItem('tomo_train_'+moduleId)||'{}');}catch(e){return{};}
+}
+function saveModuleProgress(moduleId,data){
+  localStorage.setItem('tomo_train_'+moduleId,JSON.stringify(data));
+}
+
+function renderTrainPage(){
+  const xp=getTrainXP();
+  const lv=getTrainLevel();
+  const nextLv=TRAIN_LEVELS.find(l=>l.xp>xp);
+  const progressPct=nextLv?Math.round((xp-lv.xp)/(nextLv.xp-lv.xp)*100):100;
+  const tasteHistory=getTasteHistory();
+
+  document.getElementById('sTrain').innerHTML=`<div class="pi">
+    <div class="train-hero">
+      <div style="font-size:14px;color:var(--gold);letter-spacing:4px;margin-bottom:4px">TOMO PALATE ACADEMY</div>
+      <div class="serif" style="font-size:22px;margin-bottom:12px">感官训练营</div>
+      <div class="train-lv-badge">
+        <span class="train-lv-icon">${lv.icon}</span>
+        <span class="train-lv-name">${lv.full}</span>
+      </div>
+      <div style="font-size:13px;color:var(--t3);margin-top:6px">XP ${xp}${nextLv?' / '+nextLv.xp+' → '+nextLv.full:' · MAX'}</div>
+      <div class="train-progress"><div class="train-progress-fill" style="width:${progressPct}%"></div></div>
+    </div>
+
+    <!-- 等级路径 -->
+    <div class="evo-card">
+      <div class="evo-title">🏆 品鉴力等级</div>
+      <div style="display:flex;gap:4px;margin-top:8px">
+        ${TRAIN_LEVELS.map((l,i)=>`
+          <div style="flex:1;text-align:center;padding:8px 0;border-radius:10px;${xp>=l.xp?'background:rgba(209,174,107,.1);border:1px solid rgba(209,174,107,.2)':'background:var(--glass);border:1px solid var(--glass-b);opacity:.4'}">
+            <div style="font-size:18px">${l.icon}</div>
+            <div style="font-size:16px;font-weight:700;color:${xp>=l.xp?'var(--gold)':'var(--t3)'};margin:2px 0">${l.name}</div>
+            <div style="font-size:10px;color:var(--t3)">${l.xp}xp</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <!-- L1 入门测试 -->
+    <div class="train-section">
+      <div class="train-section-title">入门测试</div>
+      <div class="train-card" onclick="startTrainQuiz('l1')">
+        <div class="train-card-head">
+          <div class="train-card-icon" style="background:rgba(209,174,107,.15)">🎓</div>
+          <div class="train-card-info">
+            <div class="train-card-name">L1 味觉入门测试</div>
+            <div class="train-card-desc">15题综合测试 · 涵盖三大训练模块</div>
+          </div>
+          <div class="train-card-meta">
+            <span class="train-card-tag" style="background:rgba(209,174,107,.1);color:var(--gold)">+50 XP</span>
+          </div>
+        </div>
+        ${getModuleProgress('l1').completed?'<div style="font-size:13px;color:#10B981">✓ 已完成 · 得分 '+getModuleProgress('l1').score+'/15</div>':'<div style="font-size:13px;color:var(--t3)">约8分钟 · 随时可重测</div>'}
+      </div>
+    </div>
+
+    <!-- 训练模块 M1-M3 -->
+    <div class="train-section">
+      <div class="train-section-title">训练模块</div>
+      ${TRAIN_MODULES.map((m,i)=>{
+        const prog=getModuleProgress(m.id);
+        const done=prog.completed;
+        return `
+        <div class="train-card" onclick="startTrainQuiz('${m.id}')">
+          <div class="train-card-head">
+            <div class="train-card-icon" style="background:${m.color}">${m.icon}</div>
+            <div class="train-card-info">
+              <div class="train-card-name">M${i+1} ${m.name}</div>
+              <div class="train-card-desc">${m.desc}</div>
+            </div>
+            <div class="train-card-meta">
+              <span class="train-card-tag" style="background:${m.color};color:var(--t1)">+30 XP</span>
+            </div>
+          </div>
+          ${done?'<div style="font-size:13px;color:#10B981">✓ 已完成 · 得分 '+prog.score+'/5</div>':'<div style="font-size:13px;color:var(--t3)">5题 · 约3分钟</div>'}
+        </div>`;
+      }).join('')}
+    </div>
+
+    <!-- 品鉴统计 -->
+    <div class="evo-card">
+      <div class="evo-title">📊 你的训练数据</div>
+      <div style="display:flex;gap:12px;text-align:center;margin-top:8px">
+        <div style="flex:1">
+          <div style="font-size:24px;font-weight:700;color:var(--gold);font-family:var(--f-display)">${tasteHistory.length}</div>
+          <div style="font-size:12px;color:var(--t3)">品鉴次数</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:24px;font-weight:700;color:var(--gold);font-family:var(--f-display)">${calcTasteStreak()}</div>
+          <div style="font-size:12px;color:var(--t3)">连续天数</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:24px;font-weight:700;color:var(--gold);font-family:var(--f-display)">${xp}</div>
+          <div style="font-size:12px;color:var(--t3)">训练XP</div>
+        </div>
+        <div style="flex:1">
+          <div style="font-size:24px;font-weight:700;color:var(--gold);font-family:var(--f-display)">${lv.name}</div>
+          <div style="font-size:12px;color:var(--t3)">当前段位</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Phase 2 预告 -->
+    <div class="evo-card" style="opacity:.5">
+      <div class="evo-title">🔒 Phase 2 即将解锁</div>
+      <div style="font-size:14px;color:var(--t3);line-height:1.6">
+        M4 缺陷识别 · M5 产区风土 · M6 配方逻辑<br>
+        L2 进阶测试 · 月度品鉴赛 · 虚拟调酒台
+      </div>
+    </div>
+  </div>`;
+}
+
+// Training Quiz Engine
+var _quizState={module:null,questions:[],current:0,score:0,answers:[]};
+
+function startTrainQuiz(moduleId){
+  let questions=[];
+  if(moduleId==='l1'){
+    // L1 = 从所有模块各抽5题 = 15题
+    TRAIN_MODULES.forEach(m=>{
+      questions=questions.concat(m.questions.map(q=>({...q,module:m.name})));
+    });
+    // Shuffle
+    for(let i=questions.length-1;i>0;i--){
+      const j=Math.floor(Math.random()*(i+1));
+      [questions[i],questions[j]]=[questions[j],questions[i]];
+    }
+  }else{
+    const mod=TRAIN_MODULES.find(m=>m.id===moduleId);
+    if(!mod)return;
+    questions=mod.questions.map(q=>({...q,module:mod.name}));
+  }
+
+  _quizState={module:moduleId,questions,current:0,score:0,answers:[]};
+  renderQuizQuestion();
+  go('sTrainQuiz');
+}
+
+function renderQuizQuestion(){
+  const s=_quizState;
+  if(s.current>=s.questions.length){
+    renderQuizResult();
+    return;
+  }
+  const q=s.questions[s.current];
+  const total=s.questions.length;
+  const modLabel=s.module==='l1'?'L1 入门测试':TRAIN_MODULES.find(m=>m.id===s.module)?.name||'训练';
+
+  document.getElementById('sTrainQuiz').innerHTML=`<div class="pi">
+    <div style="display:flex;align-items:center;gap:8px;margin-bottom:16px">
+      <div onclick="go('sTrain')" style="cursor:pointer;font-size:20px;color:var(--t2)">←</div>
+      <div style="flex:1;font-size:14px;color:var(--gold);font-weight:600">${modLabel}</div>
+    </div>
+    <div class="train-q-counter">${s.current+1} / ${total}</div>
+    <div class="train-progress" style="margin-bottom:20px"><div class="train-progress-fill" style="width:${Math.round(s.current/total*100)}%"></div></div>
+
+    ${q.module&&s.module==='l1'?`<div style="font-size:12px;color:var(--t3);margin-bottom:8px;letter-spacing:1px">${q.module}</div>`:''}
+    <div class="train-q-text">${q.q}</div>
+    <div class="train-q-opts" id="quizOpts">
+      ${q.opts.map((o,i)=>`
+        <div class="train-q-opt" data-idx="${i}" onclick="answerQuiz(${i})">${o}</div>
+      `).join('')}
+    </div>
+    <div id="quizFeedback"></div>
+  </div>`;
+}
+
+function answerQuiz(idx){
+  const s=_quizState;
+  const q=s.questions[s.current];
+  const opts=document.querySelectorAll('#quizOpts .train-q-opt');
+  const isCorrect=idx===q.ans;
+
+  // Disable all options
+  opts.forEach((o,i)=>{
+    o.style.pointerEvents='none';
+    if(i===q.ans) o.classList.add('correct');
+    if(i===idx && !isCorrect) o.classList.add('wrong');
+  });
+
+  if(isCorrect) s.score++;
+  s.answers.push({idx,correct:isCorrect});
+
+  const fb=document.getElementById('quizFeedback');
+  fb.innerHTML=`<div class="train-q-feedback" style="background:${isCorrect?'rgba(16,185,129,.08)':'rgba(239,68,68,.06)'}">
+    <div style="font-weight:600;color:${isCorrect?'#10B981':'#EF4444'};margin-bottom:4px">${isCorrect?'✓ 正确！':'✗ 答错了'}</div>
+    <div style="color:var(--t2)">${q.explain}</div>
+  </div>
+  <button class="btn btn-g" style="margin-top:12px" onclick="nextQuizQ()">
+    ${s.current<s.questions.length-1?'下一题 →':'查看结果 →'}
+  </button>`;
+
+  if(navigator.vibrate) navigator.vibrate(isCorrect?20:[30,20,30]);
+}
+
+function nextQuizQ(){
+  _quizState.current++;
+  renderQuizQuestion();
+  // Scroll to top
+  document.getElementById('sTrainQuiz').scrollTop=0;
+}
+
+function renderQuizResult(){
+  const s=_quizState;
+  const total=s.questions.length;
+  const pct=Math.round(s.score/total*100);
+  const xpGain=s.module==='l1'?50:30;
+  const newXP=addTrainXP(xpGain,s.module);
+  const lv=getTrainLevel();
+
+  // Save module progress
+  saveModuleProgress(s.module,{completed:true,score:s.score,total,pct,ts:Date.now()});
+
+  let verdict='继续加油！';
+  if(pct>=90) verdict='太强了！味觉天赋异禀 🔥';
+  else if(pct>=70) verdict='不错！基础扎实 👍';
+  else if(pct>=50) verdict='还可以，多喝多练 📈';
+
+  document.getElementById('sTrainQuiz').innerHTML=`<div class="pi" style="text-align:center">
+    <div style="font-size:48px;margin:32px 0 16px">${pct>=70?'🎉':'📚'}</div>
+    <div class="serif" style="font-size:24px;margin-bottom:8px">${s.module==='l1'?'L1 测试完成':'训练完成'}</div>
+    <div style="font-size:14px;color:var(--t3);margin-bottom:24px">${verdict}</div>
+
+    <div style="display:flex;gap:16px;justify-content:center;margin-bottom:24px">
+      <div>
+        <div style="font-size:36px;font-weight:700;color:var(--gold);font-family:var(--f-display)">${s.score}/${total}</div>
+        <div style="font-size:13px;color:var(--t3)">正确题数</div>
+      </div>
+      <div>
+        <div style="font-size:36px;font-weight:700;color:var(--gold);font-family:var(--f-display)">${pct}%</div>
+        <div style="font-size:13px;color:var(--t3)">正确率</div>
+      </div>
+    </div>
+
+    <div class="evo-card" style="text-align:left">
+      <div style="font-size:14px;color:var(--gold);font-weight:600;margin-bottom:8px">获得奖励</div>
+      <div style="font-size:14px;color:var(--t2)">+${xpGain} XP → 当前 ${newXP} XP</div>
+      <div style="font-size:14px;color:var(--t2);margin-top:4px">品鉴力等级：${lv.icon} ${lv.full}</div>
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:24px">
+      <button class="btn btn-g" style="flex:1" onclick="startTrainQuiz('${s.module}')">重新挑战</button>
+      <button class="btn" style="flex:1" onclick="tabGo('sTrain')">返回训练营</button>
+    </div>
+  </div>`;
+}
+
+// ============================================================
+//  MODULE 2 ENHANCEMENT: Compass page — Explore Map
+// ============================================================
+const FLAVOR_14=[
+  {id:'fruity',name:'果香',icon:'🍊',color:'#D4578B'},
+  {id:'floral',name:'花香',icon:'🌸',color:'#E8A0BF'},
+  {id:'hoppy',name:'酒花',icon:'🌿',color:'#0D9488'},
+  {id:'malty',name:'麦芽',icon:'🌾',color:'#C9A84C'},
+  {id:'caramel',name:'焦糖',icon:'🍯',color:'#D4943A'},
+  {id:'roasted',name:'烘焙',icon:'☕',color:'#6B4C9A'},
+  {id:'sour',name:'酸度',icon:'🍋',color:'#E8D44D'},
+  {id:'bitter',name:'苦度',icon:'🌿',color:'#2E7D32'},
+  {id:'spicy',name:'辛香',icon:'🌶️',color:'#8B4513'},
+  {id:'yeasty',name:'酵母',icon:'🍞',color:'#B8860B'},
+  {id:'body',name:'酒体',icon:'🫧',color:'#4A90D9'},
+  {id:'carbonation',name:'碳酸',icon:'💧',color:'#90CAF9'},
+  {id:'sweet',name:'甜度',icon:'🍬',color:'#FFB74D'},
+  {id:'clean',name:'干净度',icon:'✨',color:'#F5EDD6'}
+];
+
+function getExploreProgress(){
+  try{return JSON.parse(localStorage.getItem('tomo_explore')||'{}');}catch(e){return{};}
+}
+function updateExploreFromTaste(){
+  // Mark flavors as "explored" based on tasting history
+  const history=getTasteHistory();
+  const progress=getExploreProgress();
+  // Each tasting explores some flavor dimensions based on the beer style
+  const styleMap={
+    'Hazy IPA':['fruity','hoppy','body'],
+    'Amber Ale':['malty','caramel','body'],
+    'Oatmeal Stout':['roasted','malty','body','sweet'],
+    'Belgian Witbier':['spicy','floral','carbonation'],
+    'American Pale Ale':['hoppy','bitter','clean'],
+    'Berliner Weisse':['sour','fruity','carbonation'],
+    'West Coast IPA':['bitter','hoppy','clean']
+  };
+  history.forEach(h=>{
+    const flavors=styleMap[h.style]||['fruity','malty'];
+    flavors.forEach(f=>{
+      progress[f]=(progress[f]||0)+1;
+    });
+  });
+  // Also count taste test results
+  const testCount=parseInt(localStorage.getItem('tomo_test_count')||'0');
+  if(testCount>0){
+    ['fruity','floral','malty','caramel','sour','bitter'].forEach(f=>{
+      progress[f]=Math.max(progress[f]||0,testCount);
+    });
+  }
+  localStorage.setItem('tomo_explore',JSON.stringify(progress));
+  return progress;
+}
+
+function renderExploreMap(){
+  const progress=updateExploreFromTaste();
+  const explored=Object.keys(progress).filter(k=>progress[k]>0).length;
+  const total=FLAVOR_14.length;
+
+  return `
+    <div class="evo-card">
+      <div class="evo-title">🗺️ 风味探索地图</div>
+      <div style="font-size:14px;color:var(--t2);margin-bottom:10px">
+        已探索 <span style="color:var(--gold);font-weight:700">${explored}</span> / ${total} 种风味维度
+        ${explored>=total?'<span style="color:#10B981"> · 完全觉醒者 🏆</span>':''}
+      </div>
+      <div class="explore-grid">
+        ${FLAVOR_14.map(f=>{
+          const count=progress[f.id]||0;
+          const unlocked=count>0;
+          const pct=Math.min(100,count*20);
+          return `
+            <div class="explore-item ${unlocked?'unlocked':'locked'}">
+              <div class="explore-item-icon">${f.icon}</div>
+              <div class="explore-item-name" style="${unlocked?'color:'+f.color:''}">${f.name}</div>
+              <div class="explore-item-bar"><div class="explore-item-fill" style="width:${pct}%;background:${f.color}"></div></div>
+              <div style="font-size:10px;color:var(--t3);margin-top:2px">${unlocked?count+'次':'🔒'}</div>
+            </div>`;
+        }).join('')}
+      </div>
+      <div style="font-size:13px;color:var(--t3);text-align:center">
+        ${explored<total?`还有 ${total-explored} 种风味等你探索 · 多品鉴不同风格的酒`:
+        '恭喜！你已经探索了所有14种风味维度'}
+      </div>
+    </div>`;
+}
+
+// ============================================================
 //  INIT
 // ============================================================
 initParticles();
@@ -3958,7 +4644,7 @@ function closePoster(e){
       <div style="font-size:13px;color:var(--t2);line-height:1.6;margin-bottom:12px">${days}天没有训练，品鉴力从 <b style="color:var(--gold)">${oldLv}%</b> 降至 <b style="color:#E07070">${newLv}%</b><br>味觉记忆正在褪色，快来重新激活</div>
       <div style="display:flex;gap:8px;justify-content:center">
         <button onclick="document.getElementById('decayToast').remove()" style="padding:8px 16px;border-radius:99px;background:var(--glass);border:1px solid var(--glass-b);color:var(--t2);font-size:13px;cursor:pointer;font-family:var(--f-body)">下次再说</button>
-        <button onclick="document.getElementById('decayToast').remove();go('sGender')" style="padding:8px 16px;border-radius:99px;background:var(--gold);border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--f-body)">立即重测 →</button>
+        <button onclick="document.getElementById('decayToast').remove();tabGo('sTaste')" style="padding:8px 16px;border-radius:99px;background:var(--gold);border:none;color:#fff;font-size:13px;font-weight:600;cursor:pointer;font-family:var(--f-body)">今日品鉴 →</button>
       </div>
     </div>`;
     document.body.appendChild(toast);
