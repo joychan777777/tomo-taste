@@ -456,6 +456,108 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 .explore-item-name{font-size:13px;color:var(--t2);font-weight:500}
 .explore-item-bar{width:100%;height:3px;background:rgba(255,255,255,.06);border-radius:99px;margin-top:6px;overflow:hidden}
 .explore-item-fill{height:100%;border-radius:99px;background:var(--gold);transition:width .4s}
+
+/* ═══ MODULE: BREW (酿造 — 配方调配器) ═══ */
+.brew-hero{text-align:center;margin-bottom:16px}
+.brew-step{font-size:12px;color:var(--gold);letter-spacing:4px;margin-bottom:4px}
+.brew-title{font-family:var(--f-serif);font-size:22px;margin-bottom:4px}
+.brew-sub{font-size:13px;color:var(--t3)}
+.style-grid{display:flex;flex-direction:column;gap:8px;margin-bottom:16px}
+.style-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;padding:14px 16px;display:flex;align-items:center;gap:12px;cursor:pointer;transition:all .25s}
+.style-card:active{transform:scale(.97)}
+.style-card.sel{border-color:rgba(209,174,107,.4);background:rgba(209,174,107,.08)}
+.style-icon{width:36px;height:36px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;background:rgba(209,174,107,.1);border:1px solid rgba(209,174,107,.15);flex-shrink:0}
+.style-info{flex:1}
+.style-name{font-size:15px;font-weight:600;color:var(--t1)}
+.style-meta{font-size:12px;color:var(--t3);margin-top:2px}
+.style-quad{font-size:11px;padding:2px 8px;border-radius:99px;font-weight:600}
+.brew-radar-wrap{position:relative;width:min(280px,75vw);height:min(280px,75vw);margin:0 auto 12px;touch-action:none}
+.brew-radar-wrap canvas{width:100%;height:100%}
+.brew-stats{display:flex;justify-content:center;gap:12px;margin:8px 0;flex-wrap:wrap}
+.brew-stat{text-align:center;min-width:52px}
+.brew-stat-val{font-family:var(--f-display);font-size:18px;font-weight:700}
+.brew-stat-val.in-range{color:#10B981}
+.brew-stat-val.out-range{color:#F59E0B}
+.brew-stat-val.far-range{color:#EF4444}
+.brew-stat-lbl{font-size:10px;color:var(--t3);letter-spacing:1px}
+.brew-zone-hint{text-align:center;font-size:12px;padding:6px 12px;border-radius:99px;margin:4px auto 12px;display:inline-block}
+.brew-zone-hint.safe{color:#10B981;background:rgba(16,185,129,.08);border:1px solid rgba(16,185,129,.15)}
+.brew-zone-hint.bold{color:#F59E0B;background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.15)}
+.brew-zone-hint.wild{color:#EF4444;background:rgba(239,68,68,.08);border:1px solid rgba(239,68,68,.15)}
+.ingr-section{margin-bottom:14px}
+.ingr-title{font-size:13px;color:var(--gold);font-weight:600;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.ingr-grid{display:flex;flex-wrap:wrap;gap:6px}
+.ingr-chip{padding:8px 14px;border-radius:99px;background:var(--glass);border:1px solid var(--glass-b);font-size:13px;color:var(--t2);cursor:pointer;transition:all .2s}
+.ingr-chip:active{transform:scale(.95)}
+.ingr-chip.sel{background:rgba(209,174,107,.12);border-color:rgba(209,174,107,.35);color:var(--gold)}
+.ingr-tip{font-size:11px;color:var(--t3);margin-top:4px;font-style:italic}
+.brew-name-input{width:100%;background:var(--glass);border:1px solid var(--glass-b);border-radius:14px;padding:14px 16px;font-size:16px;color:var(--t1);font-family:var(--f-body);outline:none;transition:border-color .2s}
+.brew-name-input::placeholder{color:var(--t3)}
+.brew-name-input:focus{border-color:rgba(209,174,107,.4)}
+.brew-glass{width:60px;margin:0 auto 8px;position:relative}
+.brew-glass-body{width:50px;height:70px;border-radius:4px 4px 8px 8px;margin:0 auto;position:relative;overflow:hidden;border:2px solid rgba(255,255,255,.15)}
+.brew-glass-liquid{position:absolute;bottom:0;left:0;right:0;transition:all .3s}
+.brew-glass-foam{position:absolute;top:0;left:0;right:0;height:8px;background:rgba(255,255,255,.7);border-radius:2px 2px 0 0}
+.brew-glass-stem{width:8px;height:12px;background:rgba(255,255,255,.1);margin:0 auto;border-radius:0 0 4px 4px}
+.brew-radar-canvas{display:block;margin:0 auto;touch-action:none;cursor:grab}
+.brew-radar-canvas:active{cursor:grabbing}
+.brew-sliders-toggle{text-align:center;font-size:12px;color:var(--t3);cursor:pointer;padding:6px 0;margin-bottom:8px}
+.brew-sliders-fold{overflow:hidden;max-height:0;transition:max-height .3s ease}
+.brew-sliders-fold.open{max-height:400px}
+
+/* ═══ SCORECARD (评分卡) ═══ */
+.scorecard{background:var(--glass);border:1px solid rgba(209,174,107,.2);border-radius:20px;padding:20px;margin-bottom:16px;box-shadow:var(--shadow-lg)}
+.scorecard-header{text-align:center;margin-bottom:16px;padding-bottom:14px;border-bottom:1px solid rgba(209,174,107,.1)}
+.scorecard-title{font-size:12px;color:var(--gold);letter-spacing:4px;margin-bottom:8px}
+.scorecard-recipe{font-family:var(--f-serif);font-size:20px;color:var(--t1);margin-bottom:4px}
+.scorecard-style{font-size:13px;color:var(--t3)}
+.scorecard-total{text-align:center;margin:16px 0;padding:16px;background:rgba(209,174,107,.06);border-radius:14px;border:1px solid rgba(209,174,107,.15)}
+.scorecard-score{font-family:var(--f-display);font-size:48px;font-weight:700;color:var(--gold);line-height:1}
+.scorecard-max{font-size:16px;color:var(--t3);font-weight:400}
+.scorecard-grade{font-size:16px;font-weight:700;margin-top:4px;letter-spacing:2px}
+.scorecard-dim{margin-bottom:12px}
+.scorecard-dim-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
+.scorecard-dim-name{font-size:14px;font-weight:600;color:var(--t2)}
+.scorecard-dim-score{font-family:var(--f-display);font-size:16px;font-weight:700;color:var(--gold)}
+.scorecard-dim-bar{height:6px;background:rgba(255,255,255,.06);border-radius:99px;overflow:hidden}
+.scorecard-dim-fill{height:100%;border-radius:99px;background:linear-gradient(90deg,var(--gold-d),var(--gold));transition:width .6s ease}
+.scorecard-comment{font-size:13px;color:var(--t3);line-height:1.6;margin-top:6px}
+.scorecard-vitals{display:flex;justify-content:center;gap:8px;flex-wrap:wrap;margin:12px 0}
+.scorecard-vital{padding:4px 10px;border-radius:99px;font-size:12px;font-family:var(--f-display);font-weight:600}
+.scorecard-vital.pass{background:rgba(16,185,129,.1);color:#10B981;border:1px solid rgba(16,185,129,.2)}
+.scorecard-vital.fail{background:rgba(239,68,68,.08);color:#EF4444;border:1px solid rgba(239,68,68,.2)}
+
+/* ═══ MODULE: ARENA (竞技场) ═══ */
+.arena-hero{text-align:center;margin-bottom:16px}
+.arena-daily{background:linear-gradient(135deg,rgba(209,174,107,.1),rgba(209,174,107,.03));border:1px solid rgba(209,174,107,.2);border-radius:20px;padding:20px;text-align:center;margin-bottom:16px}
+.arena-daily-label{font-size:12px;color:var(--gold);letter-spacing:4px;margin-bottom:6px}
+.arena-daily-style{font-family:var(--f-serif);font-size:20px;color:var(--t1);margin-bottom:4px}
+.arena-daily-desc{font-size:13px;color:var(--t3);margin-bottom:12px}
+.arena-countdown{font-family:var(--f-display);font-size:14px;color:var(--gold);opacity:.7}
+.arena-tab-row{display:flex;gap:4px;margin-bottom:14px;background:var(--glass);border-radius:12px;padding:3px;border:1px solid var(--glass-b)}
+.arena-tab{flex:1;padding:8px;text-align:center;border-radius:10px;font-size:13px;color:var(--t3);cursor:pointer;transition:all .2s;font-weight:500}
+.arena-tab.active{background:rgba(209,174,107,.12);color:var(--gold);font-weight:700}
+.arena-tab:active{transform:scale(.97)}
+.lb-item{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--glass);border:1px solid var(--glass-b);border-radius:14px;margin-bottom:6px}
+.lb-item.me{border-color:rgba(209,174,107,.3);background:rgba(209,174,107,.06)}
+.lb-rank{font-family:var(--f-display);font-size:18px;font-weight:700;width:28px;text-align:center;flex-shrink:0}
+.lb-rank.gold{color:var(--gold)}
+.lb-name{flex:1;font-size:14px;color:var(--t2)}
+.lb-name b{color:var(--t1);font-weight:600}
+.lb-score{font-family:var(--f-display);font-size:16px;font-weight:700;color:var(--gold)}
+.quad-battle{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px}
+.quad-battle-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:14px;padding:14px;text-align:center}
+.quad-battle-card.winner{border-color:rgba(209,174,107,.3);background:rgba(209,174,107,.06)}
+.quad-battle-name{font-size:15px;font-weight:700;margin-bottom:4px}
+.quad-battle-score{font-family:var(--f-display);font-size:24px;font-weight:700;color:var(--gold)}
+.quad-battle-count{font-size:11px;color:var(--t3);margin-top:2px}
+.my-recipes{margin-top:16px}
+.recipe-card{background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;padding:14px;margin-bottom:8px;cursor:pointer;transition:all .25s}
+.recipe-card:active{transform:scale(.97)}
+.recipe-card-head{display:flex;align-items:center;justify-content:space-between}
+.recipe-card-name{font-size:15px;font-weight:600;color:var(--t1)}
+.recipe-card-score{font-family:var(--f-display);font-size:20px;font-weight:700;color:var(--gold)}
+.recipe-card-meta{font-size:12px;color:var(--t3);margin-top:4px}
 </style>
 </head>
 <body>
@@ -551,6 +653,7 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 <!-- Delivery -->
 <div class="p" id="sDeliv"></div>
 <!-- Flavor Compass -->
+<div class="p" id="sFlavor"></div>
 <div class="p" id="sCompass"></div>
 <!-- Tribe -->
 <div class="p" id="sTribe"></div>
@@ -559,6 +662,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
 
 <!-- Tasting (品鉴挑战) -->
 <div class="p" id="sTaste"></div>
+
+<!-- Brew (酿造 — 配方调配器) -->
+<div class="p" id="sBrew"></div>
+
+<!-- Brew Radar (调配雷达) -->
+<div class="p" id="sBrewRadar"></div>
+
+<!-- Brew Ingredients (选原料) -->
+<div class="p" id="sBrewIngr"></div>
+
+<!-- Scorecard (评分卡) -->
+<div class="p" id="sScorecard"></div>
+
+<!-- Arena (竞技场) -->
+<div class="p" id="sArena"></div>
 
 <!-- Training Quiz (训练答题页) -->
 <div class="p" id="sTrainQuiz"></div>
@@ -576,17 +694,21 @@ html,body{width:100%;height:100%;overflow:hidden;background:#1E1E28;color:var(--
     <div class="tab-icon">🍺</div>
     <div class="tab-label">品鉴</div>
   </div>
+  <div class="tab-item" data-page="sFlavor" onclick="tabGo('sFlavor')">
+    <div class="tab-icon">👅</div>
+    <div class="tab-label">味觉</div>
+  </div>
   <div class="tab-item" data-page="sCompass" onclick="tabGo('sCompass')">
     <div class="tab-icon">🧭</div>
     <div class="tab-label">罗盘</div>
   </div>
-  <div class="tab-item" data-page="sTrain" onclick="tabGo('sTrain')">
-    <div class="tab-icon">📚</div>
-    <div class="tab-label">训练</div>
+  <div class="tab-item" data-page="sBrew" onclick="tabGo('sBrew')">
+    <div class="tab-icon">⚗️</div>
+    <div class="tab-label">酿造</div>
   </div>
-  <div class="tab-item" data-page="sProf" onclick="tabGo('sProf')">
-    <div class="tab-icon">👤</div>
-    <div class="tab-label">我的</div>
+  <div class="tab-item" data-page="sArena" onclick="tabGo('sArena')">
+    <div class="tab-icon">⚔️</div>
+    <div class="tab-label">竞技</div>
   </div>
 </div>
 
@@ -1922,7 +2044,7 @@ function showResult(){
       <!-- 功能入口（精简） -->
       <button class="btn" style="background:linear-gradient(135deg,var(--gold),var(--gold-d));margin-bottom:8px" onclick="renderTribePage();go('sTribe')">${TRIBES[p.quad]?.icon||'🍺'} 进入${TRIBES[p.quad]?.name||'你的部落'} →</button>
       <button class="btn" style="margin-bottom:8px" onclick="renderVote();go('sVote')">🗳 你的一票，决定下月大家喝什么 →</button>
-      <button class="btn btn-g" style="margin-bottom:8px" onclick="renderCompass();go('sCompass')">🧭 亲手调一杯 · 只有你能创造的酒</button>
+      <button class="btn btn-g" style="margin-bottom:8px" onclick="tabGo('sFlavor')">👅 你的味觉档案 · 风味实验室</button>
 
       <!-- 公众号留人触点 -->
       <div style="margin-top:16px;padding:16px;background:var(--glass);border:1px solid var(--glass-b);border-radius:16px;text-align:center">
@@ -2285,7 +2407,7 @@ async function renderProf(){
 
     <!-- 挑战好友 -->
     <button class="btn" style="margin-bottom:10px;background:linear-gradient(135deg,rgba(201,168,76,.9),rgba(140,107,64,.9))" onclick="shareChallenge()">⚔️ 挑战好友 · 看你们有多合拍</button>
-    <button class="btn btn-g" style="margin-bottom:10px" onclick="renderCompass();go('sCompass')">🧭 风味罗盘 · 调一杯你的酒</button>
+    <button class="btn btn-g" style="margin-bottom:10px" onclick="tabGo('sCompass')">🧭 风味罗盘 · 你的象限定位</button>
     <div class="share-row">
       <button class="btn btn-s" onclick="restart()">↺ 重来</button>
       <button class="btn btn-s btn-g" onclick="shareCard('wechat')">朋友圈</button>
@@ -2777,7 +2899,7 @@ function share(){
 // ============================================================
 //  NAVIGATION
 // ============================================================
-const TAB_PAGES=['sResult','sVote','sVoted','sCompass','sTribe','sProf','sTaste','sTrain','sTrainQuiz'];
+const TAB_PAGES=['sResult','sVote','sVoted','sFlavor','sCompass','sTribe','sProf','sTaste','sTrain','sTrainQuiz','sBrew','sBrewRadar','sBrewIngr','sScorecard','sArena'];
 var _tabBarVisible=false;
 
 function showTabBar(){
@@ -2793,7 +2915,7 @@ function hideTabBar(){
 }
 function updateTabActive(pageId){
   // Map child pages to parent tabs
-  const mapped=pageId==='sVoted'?'sTaste':pageId==='sVote'?'sTaste':pageId==='sTrainQuiz'?'sTrain':pageId==='sTribe'?'sProf':pageId;
+  const mapped=pageId==='sVoted'?'sTaste':pageId==='sVote'?'sTaste':pageId==='sTrainQuiz'?'sTrain':pageId==='sTribe'?'sProf':pageId==='sBrewRadar'?'sBrew':pageId==='sBrewIngr'?'sBrew':pageId==='sScorecard'?'sBrew':pageId;
   document.querySelectorAll('.tab-item').forEach(t=>{
     t.classList.toggle('active',t.dataset.page===mapped);
   });
@@ -2801,11 +2923,14 @@ function updateTabActive(pageId){
 function tabGo(id){
   // Ensure content is rendered before navigating
   if(id==='sVote') renderVote();
+  if(id==='sFlavor') renderFlavorPage();
   if(id==='sCompass') renderCompass();
   if(id==='sTribe') renderTribePage();
   if(id==='sProf') renderProf();
   if(id==='sTaste') renderTastePage();
   if(id==='sTrain') renderTrainPage();
+  if(id==='sBrew') renderBrewPage();
+  if(id==='sArena') renderArenaPage();
   // sResult is already rendered by showResult(), no re-render needed
   go(id);
 }
@@ -3291,52 +3416,18 @@ function submitCompassBeer(){
   if(navigator.vibrate)navigator.vibrate(20);
 }
 
-function renderCompass(){
+// --- 味觉页 (sFlavor) — 个人味觉雷达 + 风味实验室 + 时间线 ---
+function renderFlavorPage(){
   const p=calcPersona();
-  const bars=p.bars; // [苦度,甜度,清爽,复杂]
-  const sc=calcScoresRaw();
+  const bars=p.bars;
 
-  // 象限坐标（-100 to 100 mapped to percentage for CSS positioning）
-  const qX=Math.round((sc.easy-sc.edge)/(Math.abs(sc.easy)+Math.abs(sc.edge)+1)*45+50);
-  const qY=Math.round((sc.bloom-sc.edge)/(Math.abs(sc.bloom)+Math.abs(sc.edge)+1)*45+50);
-
-  // 品鉴力成长（基于测试次数+投票+品鉴评分）
-  const testCount=parseInt(localStorage.getItem('tomo_test_count')||'1');
-  const voteCount=hasVotedDuel()?1:0;
-  const rateCount=window._hasRated?1:0;
-  const growthPts=testCount*30+voteCount*20+rateCount*15;
-  const growthLevels=['尝','知','品','鉴','醸'];
-  const growthIdx=Math.min(4,Math.floor(growthPts/50));
-  const growthPct=Math.min(100,growthPts%50*2);
-
-  // 探索边界（相邻象限解锁进度）
-  const myQuad=p.quad;
-  const adjacentQuads={
-    edge:[{q:'bloom',name:'♥ BLOOM',icon:'🌸'},{q:'easy',name:'♦ EASY',icon:'✨'}],
-    bloom:[{q:'edge',name:'♠ EDGE',icon:'⚔️'},{q:'easy',name:'♦ EASY',icon:'✨'}],
-    easy:[{q:'bloom',name:'♥ BLOOM',icon:'🌸'},{q:'edge',name:'♠ EDGE',icon:'⚔️'}]
-  };
-  const adjList=adjacentQuads[myQuad]||adjacentQuads.easy;
-  const adjProgress=adjList.map(a=>{
-    const val=sc[a.q]||0;
-    const total=(sc.edge+sc.bloom+sc.easy)||1;
-    return {...a, pct:Math.round(val/total*100)};
-  });
-
-  // 味觉时间线（from localStorage drift data）
+  // 味觉时间线
   const driftData=JSON.parse(localStorage.getItem('tomo_drift')||'[]');
   const timelineHTML=driftData.length>0?driftData.slice(-5).map((d,i)=>`
     <div class="ti">
       <div class="td">${new Date(d.ts).toLocaleDateString('zh-CN',{month:'short',day:'numeric'})}</div>
       <div class="tt">苦${d.bars[0]} · 甜${d.bars[1]} · 爽${d.bars[2]} · 杂${d.bars[3]}</div>
     </div>`).join(''):'<div style="font-size:14px;color:var(--t3);text-align:center;padding:12px">完成更多测试，你的味觉时间线将在这里展开</div>';
-
-  // 对味率（模拟同族用户味觉重合度）
-  const matchRate=Math.round(55+Math.random()*30);
-
-  // 今日对味推荐
-  const todayReco=p.reco;
-  const todayRecoStyle=p.recoS;
 
   // Flavor compass values
   _compassVals=[
@@ -3350,14 +3441,14 @@ function renderCompass(){
     Math.min(100,Math.round(bars[3]*0.5+bars[0]*0.3))
   ];
 
-  document.getElementById('sCompass').innerHTML=`<div class="pi">
-    <div style="text-align:center;font-size:14px;color:var(--gold);letter-spacing:4px;margin-bottom:4px">COMPASS</div>
-    <div class="serif" style="font-size:22px;text-align:center;margin-bottom:16px">你的味觉指南针</div>
+  document.getElementById('sFlavor').innerHTML=`<div class="pi">
+    <div style="text-align:center;font-size:14px;color:var(--gold);letter-spacing:4px;margin-bottom:4px">FLAVOR</div>
+    <div class="serif" style="font-size:22px;text-align:center;margin-bottom:16px">你的味觉档案</div>
 
     <!-- 1. 味觉雷达图 -->
     <div class="evo-card">
       <div class="evo-title">🎯 个人味觉雷达</div>
-      <div class="radar-wrap"><canvas id="compassRadar" width="440" height="440"></canvas></div>
+      <div class="radar-wrap"><canvas id="flavorRadar" width="440" height="440"></canvas></div>
       <div class="flavor-grid">
         <div class="flavor-item"><div class="flavor-val">${bars[0]}</div><div class="flavor-lbl">苦度</div></div>
         <div class="flavor-item"><div class="flavor-val">${bars[1]}</div><div class="flavor-lbl">甜度</div></div>
@@ -3366,107 +3457,7 @@ function renderCompass(){
       </div>
     </div>
 
-    <!-- 2. 象限地图定位 -->
-    <div class="evo-card">
-      <div class="evo-title">🗺️ 象限定位</div>
-      <div style="position:relative;width:100%;padding-bottom:100%;background:rgba(0,0,0,.03);border-radius:16px;overflow:hidden">
-        <!-- Grid lines -->
-        <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(201,168,76,.15)"></div>
-        <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(201,168,76,.15)"></div>
-        <!-- Quadrant labels -->
-        <div style="position:absolute;top:8px;left:12px;font-size:14px;color:var(--edge);font-weight:600">♠ EDGE</div>
-        <div style="position:absolute;top:8px;right:12px;font-size:14px;color:var(--bloom);font-weight:600">♥ BLOOM</div>
-        <div style="position:absolute;bottom:8px;left:12px;font-size:14px;color:var(--t3);font-weight:600">♦ EASY</div>
-        <div style="position:absolute;bottom:8px;right:12px;font-size:14px;color:var(--drop);font-weight:600">♦ DROP</div>
-        <!-- Simulated user dots -->
-        ${Array.from({length:15},()=>{
-          const dx=Math.random()*80+10,dy=Math.random()*80+10;
-          return '<div style="position:absolute;left:'+dx+'%;top:'+dy+'%;width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,.15)"></div>';
-        }).join('')}
-        <!-- My position (highlighted) -->
-        <div style="position:absolute;left:${qX}%;top:${qY}%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(201,168,76,.4);z-index:2"></div>
-        <div style="position:absolute;left:${qX}%;top:${Math.max(8,qY-10)}%;transform:translateX(-50%);font-size:14px;color:var(--gold);font-weight:600;z-index:2">你在这里</div>
-      </div>
-      <div style="text-align:center;font-size:14px;color:var(--t2);margin-top:8px">
-        你位于 <b style="color:var(--gold)">${{edge:'♠ EDGE 锋芒',bloom:'♥ BLOOM 绽放',easy:'♦ EASY 自在'}[myQuad]||myQuad}</b> 象限
-      </div>
-    </div>
-
-    <!-- 3. 今日对味推荐 -->
-    <div class="evo-card">
-      <div class="evo-title">🍺 今日对味</div>
-      <div class="reco-main" style="margin-bottom:8px">
-        <div class="reco-bottle"></div>
-        <div class="reco-info">
-          <div class="reco-name">${todayReco}</div>
-          <div class="reco-style">${todayRecoStyle}</div>
-        </div>
-        <div class="reco-price">${p.recoP}</div>
-      </div>
-      <div style="font-size:14px;color:var(--t2);line-height:1.7">
-        基于你的味觉人格「${p.bio}」和历史偏好，<br>TOMO 认为这杯最适合今天的你。
-      </div>
-    </div>
-
-    <!-- 3.5 对味推荐 — Phase 1 -->
-    <div class="evo-card">
-      <div class="evo-title">🎯 你的对味之选</div>
-      <div style="font-size:14px;color:var(--t3);margin-bottom:12px;text-align:center">基于你的味觉 DNA，TOMO 为你匹配了最合拍的酒</div>
-      <div id="compassDuiweiSlot"></div>
-    </div>
-
-    <!-- 4. 品鉴力成长轨迹 -->
-    <div class="evo-card">
-      <div class="evo-title">📈 品鉴力成长</div>
-      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
-        ${growthLevels.map((l,i)=>`<div style="flex:1;text-align:center;padding:6px 0;border-radius:12px;font-size:${i===growthIdx?'16px':'12px'};font-weight:${i===growthIdx?'700':'400'};color:${i<growthIdx?'var(--gold)':i===growthIdx?'#fff':'var(--t3)'};background:${i===growthIdx?'var(--gold)':i<growthIdx?'rgba(201,168,76,.1)':'rgba(0,0,0,.03)'};transition:all .3s">${l}</div>`).join('<div style="color:var(--t3);font-size:14px">→</div>')}
-      </div>
-      <div class="level-bar"><div class="level-fill" style="width:${growthPct}%"></div></div>
-      <div class="level-info">
-        <span>Lv.${growthIdx+1} ${growthLevels[growthIdx]}</span>
-        <span>${growthPts} / ${(growthIdx+1)*50} pts</span>
-      </div>
-      <div style="font-size:14px;color:var(--t3);margin-top:6px">测试+${testCount*30}  投票+${voteCount*20}  品鉴+${rateCount*15}</div>
-    </div>
-
-    <!-- 5. 探索边界 -->
-    <div class="evo-card">
-      <div class="evo-title">🔮 探索边界</div>
-      <div style="font-size:14px;color:var(--t2);margin-bottom:10px">尝试相邻象限的风味，解锁更多味觉维度</div>
-      ${adjProgress.map(a=>`
-        <div style="margin-bottom:10px">
-          <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px">
-            <span>${a.icon} ${a.name}</span>
-            <span style="color:var(--gold);font-weight:600">${a.pct}%</span>
-          </div>
-          <div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden">
-            <div style="height:100%;width:${a.pct}%;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:3px;transition:width .8s ease"></div>
-          </div>
-        </div>`).join('')}
-    </div>
-
-    <!-- 5.5 风味探索地图 (Module 2 enhancement) -->
-    ${renderExploreMap()}
-
-    <!-- 6. 味觉时间线 -->
-    <div class="evo-card">
-      <div class="evo-title">⏱ 味觉时间线</div>
-      <div class="tl">${timelineHTML}</div>
-    </div>
-
-    <!-- 7. 对味率 -->
-    <div class="evo-card">
-      <div class="evo-title">🤝 对味率</div>
-      <div style="text-align:center">
-        <div style="font-family:var(--f-display);font-size:48px;font-weight:700;color:var(--gold)">${matchRate}%</div>
-        <div style="font-size:14px;color:var(--t2);margin-top:4px">与同族群用户的味觉重合度</div>
-        <div style="font-size:14px;color:var(--t3);margin-top:8px">
-          ${{edge:'♠ EDGE族',bloom:'♥ BLOOM族',easy:'♦ EASY族'}[myQuad]} 共 ${STATS.quadDist[myQuad]||'--'} 人
-        </div>
-      </div>
-    </div>
-
-    <!-- 8. 风味实验室（原调酒器，保留为子功能） -->
+    <!-- 2. 风味实验室 -->
     <div class="evo-card">
       <div class="evo-title">🧪 风味实验室 · 调一杯你的酒</div>
       <div style="font-size:14px;color:var(--t3);margin-bottom:10px">拖动滑块 · 实时生成你的专属配方</div>
@@ -3487,13 +3478,155 @@ function renderCompass(){
       <div class="cps-result" id="cpsResult"></div>
     </div>
 
+    <!-- 3. 味觉时间线 -->
+    <div class="evo-card">
+      <div class="evo-title">⏱ 味觉时间线</div>
+      <div class="tl">${timelineHTML}</div>
+    </div>
+
     <div style="height:14px"></div>
-    <button class="btn btn-g" onclick="go('sResult')">← 返回结果</button>
+    <button class="btn btn-g" onclick="tabGo('sCompass')">🧭 查看罗盘定位 →</button>
   </div>`;
 
   setTimeout(()=>{
-    drawRadar('compassRadar',bars);
+    drawRadar('flavorRadar',bars);
     updateCompassResult();
+  },300);
+}
+
+// --- 罗盘页 (sCompass) — 象限定位 + 对味 + 成长 + 探索 ---
+function renderCompass(){
+  const p=calcPersona();
+  const bars=p.bars;
+  const sc=calcScoresRaw();
+
+  const qX=Math.round((sc.easy-sc.edge)/(Math.abs(sc.easy)+Math.abs(sc.edge)+1)*45+50);
+  const qY=Math.round((sc.bloom-sc.edge)/(Math.abs(sc.bloom)+Math.abs(sc.edge)+1)*45+50);
+
+  const testCount=parseInt(localStorage.getItem('tomo_test_count')||'1');
+  const voteCount=hasVotedDuel()?1:0;
+  const rateCount=window._hasRated?1:0;
+  const growthPts=testCount*30+voteCount*20+rateCount*15;
+  const growthLevels=['尝','知','品','鉴','醸'];
+  const growthIdx=Math.min(4,Math.floor(growthPts/50));
+  const growthPct=Math.min(100,growthPts%50*2);
+
+  const myQuad=p.quad;
+  const adjacentQuads={
+    edge:[{q:'bloom',name:'♥ BLOOM',icon:'🌸'},{q:'easy',name:'♦ EASY',icon:'✨'}],
+    bloom:[{q:'edge',name:'♠ EDGE',icon:'⚔️'},{q:'easy',name:'♦ EASY',icon:'✨'}],
+    easy:[{q:'bloom',name:'♥ BLOOM',icon:'🌸'},{q:'edge',name:'♠ EDGE',icon:'⚔️'}]
+  };
+  const adjList=adjacentQuads[myQuad]||adjacentQuads.easy;
+  const adjProgress=adjList.map(a=>{
+    const val=sc[a.q]||0;
+    const total=(sc.edge+sc.bloom+sc.easy)||1;
+    return {...a, pct:Math.round(val/total*100)};
+  });
+
+  const matchRate=Math.round(55+Math.random()*30);
+  const todayReco=p.reco;
+  const todayRecoStyle=p.recoS;
+
+  document.getElementById('sCompass').innerHTML=`<div class="pi">
+    <div style="text-align:center;font-size:14px;color:var(--gold);letter-spacing:4px;margin-bottom:4px">COMPASS</div>
+    <div class="serif" style="font-size:22px;text-align:center;margin-bottom:16px">你的味觉罗盘</div>
+
+    <!-- 1. 象限地图定位 -->
+    <div class="evo-card">
+      <div class="evo-title">🗺️ 象限定位</div>
+      <div style="position:relative;width:100%;padding-bottom:100%;background:rgba(0,0,0,.03);border-radius:16px;overflow:hidden">
+        <div style="position:absolute;top:50%;left:0;right:0;height:1px;background:rgba(201,168,76,.15)"></div>
+        <div style="position:absolute;left:50%;top:0;bottom:0;width:1px;background:rgba(201,168,76,.15)"></div>
+        <div style="position:absolute;top:8px;left:12px;font-size:14px;color:var(--edge);font-weight:600">♠ EDGE</div>
+        <div style="position:absolute;top:8px;right:12px;font-size:14px;color:var(--bloom);font-weight:600">♥ BLOOM</div>
+        <div style="position:absolute;bottom:8px;left:12px;font-size:14px;color:var(--t3);font-weight:600">♦ EASY</div>
+        <div style="position:absolute;bottom:8px;right:12px;font-size:14px;color:var(--drop);font-weight:600">♦ DROP</div>
+        ${Array.from({length:15},()=>{
+          const dx=Math.random()*80+10,dy=Math.random()*80+10;
+          return '<div style="position:absolute;left:'+dx+'%;top:'+dy+'%;width:6px;height:6px;border-radius:50%;background:rgba(201,168,76,.15)"></div>';
+        }).join('')}
+        <div style="position:absolute;left:${qX}%;top:${qY}%;transform:translate(-50%,-50%);width:16px;height:16px;border-radius:50%;background:var(--gold);box-shadow:0 0 12px rgba(201,168,76,.4);z-index:2"></div>
+        <div style="position:absolute;left:${qX}%;top:${Math.max(8,qY-10)}%;transform:translateX(-50%);font-size:14px;color:var(--gold);font-weight:600;z-index:2">你在这里</div>
+      </div>
+      <div style="text-align:center;font-size:14px;color:var(--t2);margin-top:8px">
+        你位于 <b style="color:var(--gold)">${{edge:'♠ EDGE 锋芒',bloom:'♥ BLOOM 绽放',easy:'♦ EASY 自在'}[myQuad]||myQuad}</b> 象限
+      </div>
+    </div>
+
+    <!-- 2. 今日对味推荐 -->
+    <div class="evo-card">
+      <div class="evo-title">🍺 今日对味</div>
+      <div class="reco-main" style="margin-bottom:8px">
+        <div class="reco-bottle"></div>
+        <div class="reco-info">
+          <div class="reco-name">${todayReco}</div>
+          <div class="reco-style">${todayRecoStyle}</div>
+        </div>
+        <div class="reco-price">${p.recoP}</div>
+      </div>
+      <div style="font-size:14px;color:var(--t2);line-height:1.7">
+        基于你的味觉人格「${p.bio}」和历史偏好，<br>TOMO 认为这杯最适合今天的你。
+      </div>
+    </div>
+
+    <!-- 2.5 对味推荐列表 -->
+    <div class="evo-card">
+      <div class="evo-title">🎯 你的对味之选</div>
+      <div style="font-size:14px;color:var(--t3);margin-bottom:12px;text-align:center">基于你的味觉 DNA，TOMO 为你匹配了最合拍的酒</div>
+      <div id="compassDuiweiSlot"></div>
+    </div>
+
+    <!-- 3. 品鉴力成长 -->
+    <div class="evo-card">
+      <div class="evo-title">📈 品鉴力成长</div>
+      <div style="display:flex;align-items:center;gap:8px;margin-bottom:12px">
+        ${growthLevels.map((l,i)=>`<div style="flex:1;text-align:center;padding:6px 0;border-radius:12px;font-size:${i===growthIdx?'16px':'12px'};font-weight:${i===growthIdx?'700':'400'};color:${i<growthIdx?'var(--gold)':i===growthIdx?'#fff':'var(--t3)'};background:${i===growthIdx?'var(--gold)':i<growthIdx?'rgba(201,168,76,.1)':'rgba(0,0,0,.03)'};transition:all .3s">${l}</div>`).join('<div style="color:var(--t3);font-size:14px">→</div>')}
+      </div>
+      <div class="level-bar"><div class="level-fill" style="width:${growthPct}%"></div></div>
+      <div class="level-info">
+        <span>Lv.${growthIdx+1} ${growthLevels[growthIdx]}</span>
+        <span>${growthPts} / ${(growthIdx+1)*50} pts</span>
+      </div>
+      <div style="font-size:14px;color:var(--t3);margin-top:6px">测试+${testCount*30}  投票+${voteCount*20}  品鉴+${rateCount*15}</div>
+    </div>
+
+    <!-- 4. 探索边界 -->
+    <div class="evo-card">
+      <div class="evo-title">🔮 探索边界</div>
+      <div style="font-size:14px;color:var(--t2);margin-bottom:10px">尝试相邻象限的风味，解锁更多味觉维度</div>
+      ${adjProgress.map(a=>`
+        <div style="margin-bottom:10px">
+          <div style="display:flex;justify-content:space-between;font-size:14px;margin-bottom:4px">
+            <span>${a.icon} ${a.name}</span>
+            <span style="color:var(--gold);font-weight:600">${a.pct}%</span>
+          </div>
+          <div style="height:6px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden">
+            <div style="height:100%;width:${a.pct}%;background:linear-gradient(90deg,var(--gold-d),var(--gold));border-radius:3px;transition:width .8s ease"></div>
+          </div>
+        </div>`).join('')}
+    </div>
+
+    <!-- 4.5 探索地图 -->
+    ${renderExploreMap()}
+
+    <!-- 5. 对味率 -->
+    <div class="evo-card">
+      <div class="evo-title">🤝 对味率</div>
+      <div style="text-align:center">
+        <div style="font-family:var(--f-display);font-size:48px;font-weight:700;color:var(--gold)">${matchRate}%</div>
+        <div style="font-size:14px;color:var(--t2);margin-top:4px">与同族群用户的味觉重合度</div>
+        <div style="font-size:14px;color:var(--t3);margin-top:8px">
+          ${{edge:'♠ EDGE族',bloom:'♥ BLOOM族',easy:'♦ EASY族'}[myQuad]} 共 ${STATS.quadDist[myQuad]||'--'} 人
+        </div>
+      </div>
+    </div>
+
+    <div style="height:14px"></div>
+    <button class="btn btn-g" onclick="tabGo('sFlavor')">👅 查看味觉档案 →</button>
+  </div>`;
+
+  setTimeout(()=>{
     // Phase 1: 填充对味推荐
     const dSlot=document.getElementById('compassDuiweiSlot');
     if(dSlot){
@@ -4573,6 +4706,1136 @@ function renderExploreMap(){
         '恭喜！你已经探索了所有14种风味维度'}
       </div>
     </div>`;
+}
+
+// ============================================================
+//  MODULE: BREW (味觉学校 — 配方调配器 + BJCP评分)
+// ============================================================
+
+// --- BJCP Style Database ---
+const BJCP_STYLES=[
+  {id:'21A',name:'American IPA',nameCN:'美式IPA',quad:'EDGE',
+   og:[1.056,1.070],fg:[1.008,1.014],ibu:[40,70],srm:[6,14],abv:[5.5,7.5],
+   balance:'bitter',clarity:'clear',body:'medium',carb:'medium-high',
+   maltAroma:'low',hopAroma:'high',fermentChar:'clean',
+   desc:'柑橘、花香、松脂酒花主导，干苦收尾'},
+  {id:'21C',name:'Hazy IPA',nameCN:'浑浊IPA',quad:'BLOOM',
+   og:[1.060,1.085],fg:[1.010,1.015],ibu:[25,60],srm:[3,7],abv:[6.0,9.0],
+   balance:'balanced',clarity:'hazy',body:'medium-full',carb:'medium',
+   maltAroma:'low',hopAroma:'high',fermentChar:'fruity',
+   desc:'热带水果炸弹，柔滑浑浊，低苦度'},
+  {id:'1D',name:'American Wheat',nameCN:'美式小麦',quad:'EASY',
+   og:[1.040,1.055],fg:[1.008,1.013],ibu:[15,30],srm:[3,6],abv:[4.0,5.5],
+   balance:'balanced',clarity:'slight-haze',body:'light-medium',carb:'medium-high',
+   maltAroma:'medium',hopAroma:'low-medium',fermentChar:'clean',
+   desc:'清爽易饮，轻麦香，夏日之选'},
+  {id:'20B',name:'American Stout',nameCN:'美式世涛',quad:'DROP',
+   og:[1.050,1.075],fg:[1.010,1.022],ibu:[35,75],srm:[30,40],abv:[5.0,7.0],
+   balance:'bitter',clarity:'opaque',body:'medium-full',carb:'medium',
+   maltAroma:'high',hopAroma:'medium',fermentChar:'clean',
+   desc:'咖啡、巧克力、烘烤深色风味'},
+  {id:'24A',name:'Belgian Witbier',nameCN:'比利时白啤',quad:'EASY',
+   og:[1.044,1.052],fg:[1.008,1.012],ibu:[8,20],srm:[2,4],abv:[4.5,5.5],
+   balance:'sweet',clarity:'hazy',body:'light-medium',carb:'high',
+   maltAroma:'low',hopAroma:'low',fermentChar:'spicy',
+   desc:'橙皮、芫荽籽、清爽微甜'},
+  {id:'10A',name:'German Weizen',nameCN:'德式小麦',quad:'BLOOM',
+   og:[1.044,1.053],fg:[1.010,1.014],ibu:[8,15],srm:[2,6],abv:[4.3,5.6],
+   balance:'balanced',clarity:'hazy',body:'medium',carb:'high',
+   maltAroma:'medium',hopAroma:'low',fermentChar:'banana-clove',
+   desc:'香蕉、丁香、小麦面包香'},
+  {id:'13C',name:'English Porter',nameCN:'英式波特',quad:'DROP',
+   og:[1.040,1.052],fg:[1.008,1.014],ibu:[18,35],srm:[20,30],abv:[4.0,5.4],
+   balance:'balanced',clarity:'clear',body:'medium',carb:'medium',
+   maltAroma:'high',hopAroma:'low',fermentChar:'mild-ester',
+   desc:'焦糖、太妃、面包壳的温柔深色'},
+  {id:'3B',name:'Czech Pils',nameCN:'捷克皮尔森',quad:'EDGE',
+   og:[1.044,1.060],fg:[1.013,1.017],ibu:[30,45],srm:[3.5,6],abv:[4.2,5.8],
+   balance:'bitter',clarity:'brilliant',body:'medium',carb:'medium',
+   maltAroma:'medium',hopAroma:'medium',fermentChar:'clean',
+   desc:'花香酒花+面包麦芽，干苦优雅'},
+  {id:'26B',name:'Belgian Dubbel',nameCN:'比利时双料',quad:'DROP',
+   og:[1.062,1.075],fg:[1.008,1.018],ibu:[15,25],srm:[10,17],abv:[6.0,7.6],
+   balance:'sweet',clarity:'clear',body:'medium-full',carb:'high',
+   maltAroma:'high',hopAroma:'low',fermentChar:'fruity-spicy',
+   desc:'深色水果、焦糖、修道院酵母'},
+  {id:'18B',name:'American Pale Ale',nameCN:'美式淡色艾尔',quad:'EDGE',
+   og:[1.045,1.060],fg:[1.010,1.015],ibu:[30,50],srm:[5,10],abv:[4.5,6.2],
+   balance:'balanced',clarity:'clear',body:'medium',carb:'medium',
+   maltAroma:'medium',hopAroma:'medium-high',fermentChar:'clean',
+   desc:'柑橘酒花+饼干麦芽的经典平衡'},
+  {id:'25B',name:'Saison',nameCN:'赛松',quad:'BLOOM',
+   og:[1.048,1.065],fg:[1.002,1.008],ibu:[20,35],srm:[5,14],abv:[5.0,7.0],
+   balance:'dry',clarity:'slight-haze',body:'light-medium',carb:'very-high',
+   maltAroma:'low',hopAroma:'low-medium',fermentChar:'fruity-spicy',
+   desc:'极干、辛香、果香、农场气息'},
+  {id:'12C',name:'English IPA',nameCN:'英式IPA',quad:'EDGE',
+   og:[1.050,1.075],fg:[1.010,1.018],ibu:[40,60],srm:[6,14],abv:[5.0,7.5],
+   balance:'bitter',clarity:'clear',body:'medium',carb:'medium',
+   maltAroma:'medium',hopAroma:'medium-high',fermentChar:'mild-ester',
+   desc:'英式花香酒花，饼干麦芽，柔和苦底'}
+];
+
+const QUAD_COLORS={EDGE:'var(--edge)',BLOOM:'var(--bloom)',EASY:'var(--easy)',DROP:'var(--drop)'};
+
+// --- Ingredient Database ---
+const MALTS=[
+  {id:'pilsner',name:'皮尔森麦芽',en:'Pilsner',ppg:37,color:1.5,flavor:'bread',tip:'最浅色基麦，面包香'},
+  {id:'paleale',name:'淡色艾尔麦芽',en:'Pale Ale',ppg:36,color:3,flavor:'biscuit',tip:'饼干、轻烤面包'},
+  {id:'vienna',name:'维也纳麦芽',en:'Vienna',ppg:35,color:4,flavor:'toast',tip:'烤面包、轻蜂蜜'},
+  {id:'munich',name:'慕尼黑麦芽',en:'Munich',ppg:34,color:10,flavor:'caramel',tip:'焦糖、面包壳'},
+  {id:'wheat',name:'小麦麦芽',en:'Wheat',ppg:37,color:2,flavor:'bread',tip:'增厚酒体，蛋白浑浊'},
+  {id:'crystal60',name:'水晶麦芽60L',en:'Crystal 60',ppg:33,color:60,flavor:'caramel',tip:'太妃糖、焦糖甜'},
+  {id:'chocolate',name:'巧克力麦芽',en:'Chocolate',ppg:28,color:350,flavor:'chocolate',tip:'巧克力、咖啡'},
+  {id:'roasted',name:'烘焙大麦',en:'Roasted Barley',ppg:25,color:500,flavor:'coffee',tip:'浓缩咖啡、焦苦'}
+];
+
+const HOPS=[
+  {id:'citra',name:'Citra',alpha:12,aroma:'citrus-tropical',tip:'柑橘炸弹：柚子+芒果+百香果'},
+  {id:'mosaic',name:'Mosaic',alpha:11.5,aroma:'berry-tropical',tip:'浆果+芒果+松脂复合层次'},
+  {id:'cascade',name:'Cascade',alpha:6,aroma:'citrus-floral',tip:'经典美式：葡萄柚+花香'},
+  {id:'simcoe',name:'Simcoe',alpha:13,aroma:'pine-citrus',tip:'松脂+柑橘，苦香双修'},
+  {id:'galaxy',name:'Galaxy',alpha:14,aroma:'tropical-passionfruit',tip:'百香果+桃子，澳洲之星'},
+  {id:'saaz',name:'Saaz',alpha:3.5,aroma:'herbal-spicy',tip:'草药+泥土，皮尔森灵魂'},
+  {id:'hallertau',name:'Hallertau',alpha:4,aroma:'floral-herbal',tip:'花香+草药，德式经典'},
+  {id:'centennial',name:'Centennial',alpha:10,aroma:'citrus-floral',tip:'超级Cascade，柑橘+花'},
+  {id:'elDorado',name:'El Dorado',alpha:15,aroma:'tropical-candy',tip:'水果糖+西瓜+梨'}
+];
+
+const YEASTS=[
+  {id:'usClean',name:'美式干净',en:'US-05',attenuation:0.77,flavor:'clean',tip:'干净中性，让酒花唱主角'},
+  {id:'belgFruity',name:'比利时果香',en:'WLP500',attenuation:0.76,flavor:'fruity-spicy',tip:'香蕉+丁香+水果酯'},
+  {id:'deWeizen',name:'德式小麦',en:'WB-06',attenuation:0.73,flavor:'banana-clove',tip:'经典香蕉+丁香'},
+  {id:'enEster',name:'英式酯香',en:'WLP002',attenuation:0.68,flavor:'mild-ester',tip:'轻水果酯，突出麦芽'},
+  {id:'saison',name:'赛松酵母',en:'WLP565',attenuation:0.85,flavor:'dry-spicy',tip:'极干，辛香+果香'}
+];
+
+// --- Membership Gate (♠K) ---
+// TEST_MODE=true → open to all; set false when launching to require ♠K
+const TASTE_SCHOOL_TEST_MODE=true;
+function getMemberLevel(){
+  // Future: read from backend/auth. For now: localStorage stub
+  return localStorage.getItem('tomo_member_level')||'L0'; // L0|♠7|♠K|♠A
+}
+function isSpadeKOrAbove(){
+  if(TASTE_SCHOOL_TEST_MODE) return true;
+  const lvl=getMemberLevel();
+  return ['♠K','♠A'].includes(lvl);
+}
+function renderGateBlock(featureName){
+  return `<div style="text-align:center;padding:60px 24px">
+    <div style="font-size:48px;margin-bottom:16px">♠</div>
+    <div style="font-size:18px;color:var(--t1);margin-bottom:8px">需要 ♠K 会员解锁</div>
+    <div style="font-size:14px;color:var(--t3);margin-bottom:20px">「${esc(featureName)}」为 ♠K 及以上会员专属功能</div>
+    <button class="btn" onclick="tabGo('sProf')">了解会员体系 →</button>
+  </div>`;
+}
+
+// --- Sanitize (prevent XSS in user input) ---
+function esc(s){if(!s)return'';return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;').replace(/'/g,'&#39;');}
+
+// --- Brew State ---
+var _brewState={
+  step:'style', // style | radar | ingredients | name | score
+  styleId:null,
+  radar:{bitter:50,sweet:50,hopAroma:50,body:50,sour:20,abv:50},
+  malts:[],hops:[],yeast:null,
+  recipeName:'',
+  scores:null
+};
+
+// --- Vital Stats Calculations (real brewing formulas) ---
+function calcVitalStats(recipe){
+  const style=BJCP_STYLES.find(s=>s.id===recipe.styleId);
+  if(!style) return {og:1.050,fg:1.012,ibu:35,srm:8,abv:5.0};
+
+  // Map radar to real values
+  const r=recipe.radar;
+  const ogRange=style.og[1]-style.og[0];
+  const og=style.og[0]+ogRange*(r.sweet/100*0.5+r.body/100*0.3+r.abv/100*0.2);
+
+  const yeast=YEASTS.find(y=>y.id===recipe.yeast)||YEASTS[0];
+  const fg=1+(og-1)*(1-yeast.attenuation);
+
+  const abv=(og-fg)*131.25;
+
+  // IBU from radar bitter + hop selection
+  const hopAlpha=recipe.hops.length>0?
+    recipe.hops.reduce((sum,hId)=>{const h=HOPS.find(x=>x.id===hId);return sum+(h?h.alpha:5);},0)/recipe.hops.length:6;
+  const ibuBase=r.bitter/100*(style.ibu[1]-style.ibu[0])+style.ibu[0];
+  const ibu=Math.round(ibuBase*(hopAlpha/10));
+
+  // SRM from malt selection (Morey formula simplified)
+  const maltColors=recipe.malts.length>0?
+    recipe.malts.reduce((sum,mId)=>{const m=MALTS.find(x=>x.id===mId);return sum+(m?m.color:3);},0)/recipe.malts.length:3;
+  const srm=Math.round(1.4922*Math.pow(maltColors*0.5,0.6859)*10)/10;
+
+  return {
+    og:Math.round(og*1000)/1000,
+    fg:Math.round(fg*1000)/1000,
+    ibu:Math.max(1,Math.min(120,ibu)),
+    srm:Math.max(1,Math.min(50,Math.round(srm*10)/10)),
+    abv:Math.round(abv*10)/10
+  };
+}
+
+// --- Parameter Fit (0-1, how well value fits in range) ---
+function paramFit(val,min,max){
+  if(val>=min&&val<=max) return 1;
+  const mid=(min+max)/2;
+  const range=max-min;
+  const delta=val<min?min-val:val-max;
+  return Math.max(0,1-delta/(range||1));
+}
+
+// --- Off-flavor / Flaw Detection ---
+function detectFlaws(recipe,vs,style){
+  const flaws=[];const r=recipe.radar;
+  // High ABV + light body = hot alcohol burn
+  if(vs.abv>9&&r.body<30) flaws.push({name:'酒精刺喉',penalty:3,dim:'mouthfeel',msg:'高酒精度('+vs.abv+'%)配低酒体，口感会有明显灼烧感'});
+  // Extreme bitter+sweet = unresolvable clash
+  if(r.bitter>80&&r.sweet>80) flaws.push({name:'苦甜冲突',penalty:4,dim:'flavor',msg:'极高苦度+极高甜度同时出现，风味互相打架'});
+  // Dark roast malt + high hop aroma on light style
+  const darkMalts=['chocolate','blackPatent','roastedBarley'];
+  const hasDark=recipe.malts.some(m=>darkMalts.includes(m));
+  if(hasDark&&r.hopAroma>70&&style.srm[1]<10) flaws.push({name:'原料冲突',penalty:3,dim:'aroma',msg:'深色烘焙麦芽+高酒花香在浅色风格中产生不协调风味'});
+  // Extreme sour on non-sour style
+  if(r.sour>70&&!['sour','wild','gose','berliner'].some(k=>style.id.toLowerCase().includes(k))&&style.balance!=='dry')
+    flaws.push({name:'意外酸味',penalty:2,dim:'flavor',msg:'高酸度在'+style.nameCN+'中不合风格预期'});
+  // Very high ABV on session style
+  if(vs.abv>8&&style.abv[1]<6) flaws.push({name:'酒精过高',penalty:3,dim:'overall',msg:'ABV '+vs.abv+'%远超'+style.nameCN+'的风格上限'+style.abv[1]+'%'});
+  // Too many hop varieties (>3) = muddled aroma
+  if(recipe.hops.length>3) flaws.push({name:'酒花杂乱',penalty:1,dim:'aroma',msg:'超过3种酒花可能导致香气层次混乱'});
+  return flaws;
+}
+
+// --- BJCP Scoring Engine ---
+function scoreBJCP(recipe){
+  const style=BJCP_STYLES.find(s=>s.id===recipe.styleId);
+  if(!style) return null;
+  const vs=calcVitalStats(recipe);
+  const r=recipe.radar;
+
+  // Aroma (12)
+  let aroma=12;
+  const maltAromaMap={low:20,medium:50,high:80};
+  const maltAromaTarget=maltAromaMap[style.maltAroma]||50;
+  aroma-=(1-paramFit(r.sweet,maltAromaTarget-20,maltAromaTarget+20))*3;
+  const hopAromaMap={low:20,'low-medium':35,medium:50,'medium-high':70,high:85};
+  const hopAromaTarget=hopAromaMap[style.hopAroma]||50;
+  aroma-=(1-paramFit(r.hopAroma,hopAromaTarget-20,hopAromaTarget+20))*4;
+  const yeast=YEASTS.find(y=>y.id===recipe.yeast);
+  const yeastFit=yeast&&style.fermentChar.includes(yeast.flavor.split('-')[0])?1:
+    yeast&&yeast.flavor==='clean'?0.8:0.5;
+  aroma-=(1-yeastFit)*3;
+  aroma=Math.max(0,Math.round(aroma*10)/10);
+
+  // Appearance (3)
+  let appearance=3;
+  const srmMid=(style.srm[0]+style.srm[1])/2;
+  const srmRange=style.srm[1]-style.srm[0];
+  appearance-=Math.min(1.5,Math.abs(vs.srm-srmMid)/(srmRange||1)*1.5);
+  const clarityFit=style.clarity==='hazy'?1:(r.hopAroma<70?1:0.7);
+  appearance-=(1-clarityFit)*0.75;
+  appearance=Math.max(0,Math.round(appearance*10)/10);
+
+  // Flavor (20)
+  let flavor=20;
+  flavor-=(1-paramFit(vs.ibu,style.ibu[0],style.ibu[1]))*5;
+  const balanceMap={bitter:65,balanced:50,sweet:35,dry:60};
+  const balTarget=balanceMap[style.balance]||50;
+  const balActual=r.bitter/(r.bitter+r.sweet+0.01)*100;
+  flavor-=(1-paramFit(balActual,balTarget-20,balTarget+20))*5;
+  const finishFit=paramFit(r.bitter,30,80);
+  flavor-=(1-finishFit)*3;
+  const complexity=Math.min(1,(recipe.hops.length+recipe.malts.length)/5);
+  flavor-=(1-complexity)*3;
+  flavor=Math.max(0,Math.round(flavor*10)/10);
+
+  // Mouthfeel (5)
+  let mouthfeel=5;
+  const bodyMap={'light':25,'light-medium':37,medium:50,'medium-full':65,full:80};
+  const bodyTarget=bodyMap[style.body]||50;
+  mouthfeel-=(1-paramFit(r.body,bodyTarget-20,bodyTarget+20))*2;
+  const carbMap={low:25,medium:50,'medium-high':65,high:80,'very-high':90};
+  const carbTarget=carbMap[style.carb]||50;
+  mouthfeel-=(1-paramFit(50,carbTarget-20,carbTarget+20))*1.5;
+  const warmthFit=paramFit(vs.abv,(style.abv[0]+style.abv[1])/2-1,(style.abv[0]+style.abv[1])/2+1);
+  mouthfeel-=(1-warmthFit)*1;
+  mouthfeel=Math.max(0,Math.round(mouthfeel*10)/10);
+
+  // Overall (10)
+  const dimScores=[aroma/12,appearance/3,flavor/20,mouthfeel/5];
+  const avgRate=dimScores.reduce((a,b)=>a+b)/4;
+  const styleFit=(paramFit(vs.og,style.og[0],style.og[1])+paramFit(vs.fg,style.fg[0],style.fg[1])+
+    paramFit(vs.ibu,style.ibu[0],style.ibu[1])+paramFit(vs.abv,style.abv[0],style.abv[1]))/4;
+  const variance=dimScores.reduce((s,v)=>s+Math.pow(v-avgRate,2),0)/4;
+  const balance=Math.max(0,1-variance*4);
+  const innovation=r.hopAroma>60&&r.hopAroma<85?0.8:r.bitter>60&&r.bitter<85?0.7:0.5;
+  let overall=10*(avgRate*0.4+styleFit*0.3+balance*0.2+innovation*0.1);
+  overall=Math.max(0,Math.round(overall*10)/10);
+
+  // --- R5 Fix: Flaw detection & penalties ---
+  const flaws=detectFlaws(recipe,vs,style);
+  for(const f of flaws){
+    if(f.dim==='aroma') aroma=Math.max(0,aroma-f.penalty);
+    else if(f.dim==='flavor') flavor=Math.max(0,flavor-f.penalty);
+    else if(f.dim==='mouthfeel') mouthfeel=Math.max(0,mouthfeel-f.penalty);
+    else if(f.dim==='overall') overall=Math.max(0,overall-f.penalty);
+  }
+
+  // --- R4 Fix: Scoring ceiling adjustments ---
+  // 1. High-score tightening: above 42, diminishing returns
+  if(aroma>10) aroma=10+((aroma-10)*0.6);
+  if(flavor>17) flavor=17+((flavor-17)*0.5);
+  if(overall>8.5) overall=8.5+((overall-8.5)*0.5);
+  // 2. Ingredient conflict penalty (simple recipes too easy)
+  const ingrCount=recipe.malts.length+recipe.hops.length;
+  if(ingrCount<=2) overall*=0.85; // too simple = lower overall
+  // 3. Judge strictness noise (±0.5-1.5 per dimension, seeded by recipe name for consistency)
+  const noiseSeed=(recipe.recipeName||'x').split('').reduce((a,c)=>a+c.charCodeAt(0),0);
+  function jitterDim(val,max,idx){const j=((Math.sin(noiseSeed*137.03+idx*7.19)*10000)%1)*0.6-0.3;return Math.max(0,Math.min(max,Math.round((val+j)*10)/10));}
+  aroma=jitterDim(aroma,12,0);appearance=jitterDim(appearance,3,1);flavor=jitterDim(flavor,20,2);mouthfeel=jitterDim(mouthfeel,5,3);overall=jitterDim(overall,10,4);
+
+  const total=Math.round((aroma+appearance+flavor+mouthfeel+overall)*10)/10;
+  const grade=total>=45?'Outstanding · 卓越':total>=38?'Excellent · 优秀':
+    total>=30?'Very Good · 很好':total>=21?'Good · 良好':total>=14?'Fair · 一般':'Problematic';
+  const gradeIcon=total>=45?'🏆':total>=38?'🥇':total>=30?'🥈':total>=21?'📋':total>=14?'⚠️':'❌';
+
+  return {aroma,appearance,flavor,mouthfeel,overall,total,grade,gradeIcon,vitalStats:vs,style,flaws,
+    ogFit:paramFit(vs.og,style.og[0],style.og[1])>=0.7,
+    fgFit:paramFit(vs.fg,style.fg[0],style.fg[1])>=0.7,
+    ibuFit:paramFit(vs.ibu,style.ibu[0],style.ibu[1])>=0.7,
+    srmFit:vs.srm>=style.srm[0]&&vs.srm<=style.srm[1],
+    abvFit:paramFit(vs.abv,style.abv[0],style.abv[1])>=0.7
+  };
+}
+
+// --- Generate Comment ---
+function genComment(scores,recipe){
+  const s=scores;const st=s.style;const vs=s.vitalStats;
+  const hopNames=recipe.hops.map(hId=>{const h=HOPS.find(x=>x.id===hId);return h?h.name:'';}).filter(Boolean);
+  const maltNames=recipe.malts.map(mId=>{const m=MALTS.find(x=>x.id===mId);return m?m.name:'';}).filter(Boolean);
+  const yeast=YEASTS.find(y=>y.id===recipe.yeast);
+
+  // Variation seed from recipe name for comment diversity
+  const cSeed=(recipe.recipeName||'').length%3;
+  let comments={};
+
+  // Aroma comments (3 variants)
+  const aromaIntros=[
+    hopNames.length>0?`${hopNames.join('与')}酒花构建了${recipe.radar.hopAroma>60?'鲜明':'含蓄'}的香气骨架`:'',
+    hopNames.length>0?`${recipe.radar.hopAroma>60?'奔放':'内敛'}的酒花香气来自${hopNames.join('、')}`:'',
+    hopNames.length>0?`${hopNames[0]}${hopNames.length>1?'携手'+hopNames.slice(1).join('、'):'独挑大梁'}，${recipe.radar.hopAroma>60?'香气层次分明':'香气柔和克制'}`:''
+  ];
+  const maltNotes=[
+    maltNames.length>0?`${maltNames[0]}为底蕴增添${recipe.radar.sweet>50?'丰腴':'清淡'}的麦芽甜感。`:'',
+    maltNames.length>0?`麦芽层面，${maltNames[0]}${recipe.radar.sweet>50?'带来可感知的谷物甜香':'退居幕后提供支撑'}。`:'',
+    maltNames.length>0?`${maltNames[0]}的${recipe.radar.sweet>50?'饱满':'低调'}甜度构成风味基底。`:''
+  ];
+  const yeastNotes=[
+    yeast?yeast.name+'酵母'+(yeast.flavor==='clean'?'保持风味干净透明':'贡献了额外的发酵复杂度')+'。':'',
+    yeast?'发酵层面，'+yeast.name+(yeast.flavor==='clean'?'确保酒花和麦芽本色呈现':'增加辛香/果酯的隐藏维度')+'。':'',
+    yeast?yeast.name+'酵母的'+(yeast.flavor==='clean'?'中性特征让原料说话':'活跃个性为整体添彩')+'。':''
+  ];
+  comments.aroma=aromaIntros[cSeed]?`${aromaIntros[cSeed]}。${maltNotes[cSeed]}${yeastNotes[cSeed]}`:
+    `香气以${recipe.radar.sweet>50?'麦芽':'酒花'}为主导，${s.aroma>9?'层次丰富':'还有提升空间'}。`;
+
+  // Appearance (3 variants)
+  const appVariants=[
+    `预估SRM ${vs.srm}，${s.srmFit?'落在'+st.nameCN+'的色度标准内':'偏离风格预期色度'}。${st.clarity==='hazy'?'浑浊度合理。':'澄清度良好。'}`,
+    `色度${vs.srm} SRM，${s.srmFit?'色泽符合'+st.nameCN+'典型表现':'颜色有些出乎意料'}。${st.clarity==='hazy'?'雾感正合风格需要。':'通透清澈。'}`,
+    `SRM ${vs.srm}呈现${vs.srm<6?'浅金':vs.srm<14?'琥珀':'深褐'}色调，${s.srmFit?'在风格范围':'略偏离范围'}。${st.clarity==='hazy'?'浊度到位。':'清亮通透。'}`
+  ];
+  comments.appearance=appVariants[cSeed];
+
+  // Flavor (3 variants)
+  const balDesc=recipe.radar.bitter>recipe.radar.sweet?['苦味主导收尾','苦感引领走向','以苦度作为风味锚点']:['甜感较为突出','甜度成为主角','麦芽甜味挂帅'];
+  const flvVariants=[
+    `IBU ${vs.ibu}${s.ibuFit?'（风格范围内）':'（偏离标准）'}。${balDesc[0]}，${s.flavor>15?'整体平衡出色':'平衡度尚可优化'}。${hopNames.length>1?'多种酒花编织复合风味。':''}`,
+    `苦度IBU ${vs.ibu}${s.ibuFit?'恰好合拍':'需要校准'}。${balDesc[1]}，${s.flavor>15?'风味走向流畅':'还有微调空间'}。${recipe.malts.length>1?'多层麦芽增添深度。':''}`,
+    `${vs.ibu} IBU的苦度${s.ibuFit?'精准落位':'偏离靶心'}。${balDesc[2]}，${s.flavor>15?'味蕾旅程完整':'旅程中有断点需修补'}。`
+  ];
+  comments.flavor=flvVariants[cSeed];
+
+  // Mouthfeel (3 variants)
+  const mfVariants=[
+    `预估ABV ${vs.abv}%，酒体${recipe.radar.body>60?'饱满':'中等'}。${s.mouthfeel>4?'口感顺滑舒适。':'口感可进一步优化。'}`,
+    `${vs.abv}%的酒精度${recipe.radar.body>60?'搭配厚实酒体':'配合适中骨架'}，${s.mouthfeel>4?'入口丝滑。':'可能略显单薄。'}`,
+    `酒体${recipe.radar.body>60?'浓郁':'轻盈'}，ABV ${vs.abv}%${s.mouthfeel>4?'恰到好处地温暖口腔':'的酒精感需要更好地融入'}。`
+  ];
+  comments.mouthfeel=mfVariants[cSeed];
+
+  // Overall (varied)
+  const overallHigh=[
+    `一款${s.grade.split('·')[1]||'出色'}的${st.nameCN}配方。${hopNames.length>0?hopNames[0]+'的运用是最大亮点。':'整体平衡是最大亮点。'}`,
+    `令人印象深刻的${st.nameCN}。${hopNames.length>0?'以'+hopNames[0]+'为核心风味锚点，':''}值得细品。`,
+    `这杯${st.nameCN}展现了扎实的风格理解。${(recipe.malts.length+recipe.hops.length)>=4?'原料选择丰富且协调。':'简约中见功力。'}`
+  ];
+  const overallMid=[
+    `${st.nameCN}配方的${s.total>=30?'不错':'初步'}尝试。建议关注${s.flavor<15?'风味平衡':'各维度均衡度'}以提升评分。`,
+    `有潜力的${st.nameCN}，${s.total>=30?'基础扎实':'方向正确'}。${s.flavor<15?'风味平衡是突破口。':'整体协调性可以更上层楼。'}`,
+    `${st.nameCN}的${s.total>=30?'可靠':'探索性'}版本。${s.aroma<s.flavor?'在香气层面多投入一些关注。':'尝试收紧风味焦点。'}`
+  ];
+  comments.overall=s.total>=38?overallHigh[cSeed]:overallMid[cSeed];
+  return comments;
+}
+
+// --- Save/Load Recipes ---
+function saveRecipe(recipe,scores){
+  const recipes=JSON.parse(localStorage.getItem('tomo_recipes')||'[]');
+  const entry={
+    id:Date.now(),name:recipe.recipeName||'未命名配方',
+    styleId:recipe.styleId,radar:{...recipe.radar},
+    malts:[...recipe.malts],hops:[...recipe.hops],yeast:recipe.yeast,
+    total:scores.total,grade:scores.grade,gradeIcon:scores.gradeIcon,
+    ts:Date.now(),date:new Date().toLocaleDateString('zh-CN')
+  };
+  recipes.unshift(entry);
+  if(recipes.length>50) recipes.length=50;
+  localStorage.setItem('tomo_recipes',JSON.stringify(recipes));
+  return entry;
+}
+function getRecipes(){return JSON.parse(localStorage.getItem('tomo_recipes')||'[]');}
+function checkStorageUsage(){
+  try{
+    let total=0;for(let k in localStorage){if(localStorage.hasOwnProperty(k))total+=localStorage[k].length;}
+    const pct=Math.round(total/5000000*100); // ~5MB limit
+    if(pct>80) showToast('存储空间已使用'+pct+'%，建议清理旧配方','⚠️');
+  }catch(e){}
+}
+
+// --- Render: Brew Page (Step 1: Select Style) ---
+function renderBrewPage(){
+  if(!isSpadeKOrAbove()){
+    document.getElementById('sBrew').innerHTML=`<div class="pi">${renderGateBlock('味觉酿造')}</div>`;
+    return;
+  }
+  const result=JSON.parse(localStorage.getItem('tomo_result')||'null');
+  const userQuad=result?result.quadrant:'EDGE';
+  const recommended=BJCP_STYLES.filter(s=>s.quad===userQuad);
+  const others=BJCP_STYLES.filter(s=>s.quad!==userQuad);
+
+  document.getElementById('sBrew').innerHTML=`<div class="pi">
+    <div class="brew-hero">
+      <div class="brew-step">STEP 1 / 4</div>
+      <div class="brew-title">选择你要酿的风格</div>
+      <div class="brew-sub">从你的象限出发，或跨界挑战</div>
+    </div>
+
+    <div style="font-size:13px;color:var(--gold);font-weight:600;margin-bottom:8px;letter-spacing:2px">${userQuad} · 推荐</div>
+    <div class="style-grid">
+      ${recommended.map(s=>`
+        <div class="style-card" onclick="selectBrewStyle('${s.id}')">
+          <div class="style-icon">🍺</div>
+          <div class="style-info">
+            <div class="style-name">${s.nameCN}</div>
+            <div class="style-meta">${s.id} · IBU ${s.ibu[0]}-${s.ibu[1]} · ABV ${s.abv[0]}-${s.abv[1]}%</div>
+            <div style="font-size:12px;color:var(--t3);margin-top:2px">${s.desc}</div>
+          </div>
+          <div class="style-quad" style="color:${QUAD_COLORS[s.quad]};background:${QUAD_COLORS[s.quad]}15;border:1px solid ${QUAD_COLORS[s.quad]}30">${s.quad}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    <div style="font-size:13px;color:var(--t3);font-weight:600;margin:16px 0 8px;letter-spacing:2px">跨界挑战</div>
+    <div class="style-grid">
+      ${others.map(s=>`
+        <div class="style-card" onclick="selectBrewStyle('${s.id}')">
+          <div class="style-icon">🍺</div>
+          <div class="style-info">
+            <div class="style-name">${s.nameCN}</div>
+            <div class="style-meta">${s.id} · IBU ${s.ibu[0]}-${s.ibu[1]} · ABV ${s.abv[0]}-${s.abv[1]}%</div>
+          </div>
+          <div class="style-quad" style="color:${QUAD_COLORS[s.quad]};background:${QUAD_COLORS[s.quad]}15;border:1px solid ${QUAD_COLORS[s.quad]}30">${s.quad}</div>
+        </div>
+      `).join('')}
+    </div>
+
+    ${getRecipes().length>0?`
+    <div style="margin-top:20px">
+      <div style="font-size:13px;color:var(--t3);font-weight:600;margin-bottom:8px;letter-spacing:2px">我的配方 (${getRecipes().length})</div>
+      ${getRecipes().slice(0,3).map(r=>`
+        <div class="recipe-card" onclick="viewSavedRecipe(${r.id})">
+          <div class="recipe-card-head">
+            <div class="recipe-card-name">${r.gradeIcon} ${esc(r.name)}</div>
+            <div class="recipe-card-score">${r.total}</div>
+          </div>
+          <div class="recipe-card-meta">${BJCP_STYLES.find(s=>s.id===r.styleId)?.nameCN||r.styleId} · ${r.date}</div>
+        </div>
+      `).join('')}
+    </div>
+    `:''}
+
+    <!-- R8: Training entry -->
+    <div style="margin-top:24px;padding:16px;background:rgba(209,174,107,.06);border:1px solid rgba(209,174,107,.12);border-radius:14px;text-align:center">
+      <div style="font-size:14px;color:var(--gold);font-weight:600;margin-bottom:4px">🎯 提升品鉴力</div>
+      <div style="font-size:12px;color:var(--t3);margin-bottom:10px">训练你的味觉，解锁更高评分潜力</div>
+      <button class="btn-g btn-s" onclick="tabGo('sTrain')">进入训练 →</button>
+    </div>
+  </div>`;
+}
+
+function selectBrewStyle(styleId){
+  const style=BJCP_STYLES.find(s=>s.id===styleId);
+  if(!style) return;
+  _brewState.styleId=styleId;
+  // Initialize radar to style midpoints
+  _brewState.radar={
+    bitter:Math.round((style.ibu[0]+style.ibu[1])/2/style.ibu[1]*100),
+    sweet:style.balance==='sweet'?60:style.balance==='bitter'?35:50,
+    hopAroma:style.hopAroma==='high'?75:style.hopAroma==='medium-high'?60:style.hopAroma==='medium'?50:30,
+    body:style.body==='medium-full'?65:style.body==='medium'?50:style.body==='light-medium'?35:50,
+    sour:style.balance==='dry'?40:15,
+    abv:Math.round(((style.abv[0]+style.abv[1])/2)/10*100)
+  };
+  _brewState.malts=[];_brewState.hops=[];_brewState.yeast=null;
+  renderBrewRadar();
+  go('sBrewRadar');
+}
+
+// --- Render: Brew Radar (Step 2: 6-axis drag) ---
+var _radarDragging=null;
+const RADAR_AXES=['bitter','sweet','hopAroma','body','sour','abv'];
+const RADAR_LABELS={bitter:'苦度',sweet:'甜度',hopAroma:'酒花香',body:'酒体',sour:'酸度',abv:'酒精度'};
+
+function renderBrewRadar(){
+  const style=BJCP_STYLES.find(s=>s.id===_brewState.styleId);
+  if(!style) return;
+  const vs=calcVitalStats(_brewState);
+  const r=_brewState.radar;
+
+  const fits=[paramFit(vs.ibu,style.ibu[0],style.ibu[1]),paramFit(vs.abv,style.abv[0],style.abv[1]),
+    paramFit(vs.og,style.og[0],style.og[1])];
+  const avgFit=fits.reduce((a,b)=>a+b)/fits.length;
+  const zone=avgFit>0.8?'safe':avgFit>0.5?'bold':'wild';
+  const zoneText=zone==='safe'?'风格匹配 ✓':zone==='bold'?'大胆创新！评分可能受影响':'已偏离风格标准';
+  const srmColor=srmToHex(vs.srm);
+
+  document.getElementById('sBrewRadar').innerHTML=`<div class="pi">
+    <div class="brew-hero">
+      <div onclick="go('sBrew')" style="cursor:pointer;font-size:20px;color:var(--t2);position:absolute;left:24px;top:48px">←</div>
+      <div class="brew-step">STEP 2 / 4</div>
+      <div class="brew-title">拖拽调味</div>
+      <div class="brew-sub">${style.nameCN} · ${style.id} · 拖动顶点调整参数</div>
+    </div>
+
+    <canvas id="brewRadarCanvas" class="brew-radar-canvas" width="600" height="600" style="width:300px;height:300px"></canvas>
+
+    <div style="text-align:center;margin:8px 0">
+      <div class="brew-zone-hint ${zone}">${zoneText}</div>
+    </div>
+
+    <!-- Beer Glass SVG -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;margin-bottom:8px">
+      <div>${renderBeerSVG(vs.srm,r.body,50)}</div>
+      <div class="brew-stats" style="margin:0;flex-wrap:nowrap">
+        <div class="brew-stat"><div class="brew-stat-val ${paramFit(vs.og,style.og[0],style.og[1])>=0.7?'in-range':'out-range'}">${vs.og.toFixed(3)}</div><div class="brew-stat-lbl">OG</div></div>
+        <div class="brew-stat"><div class="brew-stat-val ${paramFit(vs.fg,style.fg[0],style.fg[1])>=0.7?'in-range':'out-range'}">${vs.fg.toFixed(3)}</div><div class="brew-stat-lbl">FG</div></div>
+        <div class="brew-stat"><div class="brew-stat-val ${paramFit(vs.ibu,style.ibu[0],style.ibu[1])>=0.7?'in-range':'out-range'}">${vs.ibu}</div><div class="brew-stat-lbl">IBU</div></div>
+        <div class="brew-stat"><div class="brew-stat-val ${vs.srm>=style.srm[0]&&vs.srm<=style.srm[1]?'in-range':'out-range'}">${vs.srm}</div><div class="brew-stat-lbl">SRM</div></div>
+        <div class="brew-stat"><div class="brew-stat-val ${paramFit(vs.abv,style.abv[0],style.abv[1])>=0.7?'in-range':'out-range'}">${vs.abv}%</div><div class="brew-stat-lbl">ABV</div></div>
+      </div>
+    </div>
+    <div style="text-align:center;font-size:11px;color:var(--t3);margin-bottom:8px">绿色=风格范围内 · 黄色=偏离</div>
+
+    <!-- Folded sliders for precision -->
+    <div class="brew-sliders-toggle" onclick="this.nextElementSibling.classList.toggle('open')">▼ 精确调节滑块</div>
+    <div class="brew-sliders-fold">
+      <div class="cps-sliders">
+        ${RADAR_AXES.map(axis=>`
+        <div class="cps-row">
+          <div class="cps-label">${RADAR_LABELS[axis]}</div>
+          <input type="range" class="cps-range" min="0" max="100" value="${r[axis]}"
+            oninput="updateBrewAxis('${axis}',this.value)">
+          <div class="cps-val">${r[axis]}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+
+    <button class="btn" onclick="goBrewIngredients()">下一步：选原料 →</button>
+  </div>`;
+
+  // Draw radar after DOM update
+  setTimeout(()=>drawBrewRadar(),0);
+}
+
+function drawBrewRadar(){
+  const c=document.getElementById('brewRadarCanvas');
+  if(!c)return;
+  const ctx=c.getContext('2d');
+  const W=600,H=600,cx=W/2,cy=H/2,R=220;
+  ctx.clearRect(0,0,W,H);
+  const r=_brewState.radar;
+  const style=BJCP_STYLES.find(s=>s.id===_brewState.styleId);
+
+  const n=RADAR_AXES.length;
+  function axisXY(i,pct){const a=-Math.PI/2+i*(2*Math.PI/n);return[cx+Math.cos(a)*R*pct,cy+Math.sin(a)*R*pct];}
+
+  // Grid rings
+  for(let ring=0.25;ring<=1;ring+=0.25){
+    ctx.beginPath();
+    for(let i=0;i<n;i++){const[x,y]=axisXY(i,ring);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+    ctx.closePath();ctx.strokeStyle='rgba(255,255,255,.08)';ctx.lineWidth=1;ctx.stroke();
+  }
+
+  // Axis lines + labels
+  ctx.font='22px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';
+  for(let i=0;i<n;i++){
+    const[x,y]=axisXY(i,1);
+    ctx.beginPath();ctx.moveTo(cx,cy);ctx.lineTo(x,y);ctx.strokeStyle='rgba(255,255,255,.12)';ctx.lineWidth=1;ctx.stroke();
+    const[lx,ly]=axisXY(i,1.18);
+    ctx.fillStyle='rgba(255,255,255,.6)';ctx.fillText(RADAR_LABELS[RADAR_AXES[i]],lx,ly);
+    // Value under label
+    ctx.font='18px sans-serif';ctx.fillStyle='rgba(209,174,107,.8)';ctx.fillText(r[RADAR_AXES[i]],lx,ly+22);ctx.font='22px sans-serif';
+  }
+
+  // Safe zone (style midpoint ± tolerance as translucent gold)
+  if(style){
+    ctx.beginPath();
+    const safeMap={bitter:{t:'balance',vals:{bitter:65,balanced:50,sweet:35,dry:60}},sweet:{t:'maltAroma',vals:{low:20,medium:50,high:80}},
+      hopAroma:{t:'hopAroma',vals:{low:20,'low-medium':35,medium:50,'medium-high':70,high:85}},
+      body:{t:'body',vals:{light:25,'light-medium':37,medium:50,'medium-full':65,full:80}},sour:{v:15},abv:{v:Math.round(((style.abv[0]+style.abv[1])/2)/10*100)}};
+    for(let i=0;i<n;i++){
+      const axis=RADAR_AXES[i];const sm=safeMap[axis];
+      const mid=sm.v!==undefined?sm.v:(sm.vals[style[sm.t]]||50);
+      const lo=Math.max(0,mid-20)/100,hi=Math.min(100,mid+20)/100;
+      const[x1,y1]=axisXY(i,lo);const[x2,y2]=axisXY(i,hi);
+      // Draw as thick line segment for each axis
+    }
+    // Draw safe zone polygon at midpoints
+    ctx.beginPath();
+    for(let i=0;i<n;i++){
+      const axis=RADAR_AXES[i];const sm=safeMap[axis];
+      const mid=(sm.v!==undefined?sm.v:(sm.vals[style[sm.t]]||50))/100;
+      const[x,y]=axisXY(i,mid);
+      i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);
+    }
+    ctx.closePath();ctx.fillStyle='rgba(209,174,107,.08)';ctx.fill();
+    ctx.strokeStyle='rgba(209,174,107,.25)';ctx.lineWidth=2;ctx.setLineDash([6,4]);ctx.stroke();ctx.setLineDash([]);
+  }
+
+  // User values polygon
+  ctx.beginPath();
+  for(let i=0;i<n;i++){const[x,y]=axisXY(i,r[RADAR_AXES[i]]/100);i===0?ctx.moveTo(x,y):ctx.lineTo(x,y);}
+  ctx.closePath();ctx.fillStyle='rgba(209,174,107,.15)';ctx.fill();
+  ctx.strokeStyle='rgba(209,174,107,.7)';ctx.lineWidth=3;ctx.stroke();
+
+  // Draggable points
+  for(let i=0;i<n;i++){
+    const[x,y]=axisXY(i,r[RADAR_AXES[i]]/100);
+    ctx.beginPath();ctx.arc(x,y,14,0,Math.PI*2);
+    ctx.fillStyle='rgba(209,174,107,.9)';ctx.fill();
+    ctx.strokeStyle='#fff';ctx.lineWidth=2;ctx.stroke();
+  }
+
+  // Attach drag handlers (only once)
+  if(!c._dragBound){
+    c._dragBound=true;
+    function getTouch(e){const rect=c.getBoundingClientRect();const t=e.touches?e.touches[0]:e;return[(t.clientX-rect.left)/rect.width*W,(t.clientY-rect.top)/rect.height*H];}
+    function findAxis(px,py){
+      for(let i=0;i<n;i++){const[x,y]=axisXY(i,r[RADAR_AXES[i]]/100);if(Math.hypot(px-x,py-y)<30)return i;}
+      return -1;
+    }
+    function onStart(e){e.preventDefault();const[px,py]=getTouch(e);const idx=findAxis(px,py);if(idx>=0)_radarDragging=idx;}
+    function onMove(e){
+      if(_radarDragging===null)return;e.preventDefault();
+      const[px,py]=getTouch(e);const i=_radarDragging;
+      const a=-Math.PI/2+i*(2*Math.PI/n);
+      const dx=px-cx,dy=py-cy;
+      const proj=(dx*Math.cos(a)+dy*Math.sin(a))/R;
+      const val=Math.max(0,Math.min(100,Math.round(proj*100)));
+      _brewState.radar[RADAR_AXES[i]]=val;
+      drawBrewRadar();
+      // Update vital stats display
+      const vs=calcVitalStats(_brewState);const style2=BJCP_STYLES.find(s=>s.id===_brewState.styleId);
+      if(style2){
+        const fits2=[paramFit(vs.ibu,style2.ibu[0],style2.ibu[1]),paramFit(vs.abv,style2.abv[0],style2.abv[1]),paramFit(vs.og,style2.og[0],style2.og[1])];
+        const af=fits2.reduce((a,b)=>a+b)/fits2.length;
+        const z=af>0.8?'safe':af>0.5?'bold':'wild';
+        const zh=document.querySelector('.brew-zone-hint');
+        if(zh){zh.className='brew-zone-hint '+z;zh.textContent=z==='safe'?'风格匹配 ✓':z==='bold'?'大胆创新！评分可能受影响':'已偏离风格标准';}
+      }
+    }
+    function onEnd(){_radarDragging=null;}
+    c.addEventListener('mousedown',onStart);c.addEventListener('mousemove',onMove);c.addEventListener('mouseup',onEnd);c.addEventListener('mouseleave',onEnd);
+    c.addEventListener('touchstart',onStart,{passive:false});c.addEventListener('touchmove',onMove,{passive:false});c.addEventListener('touchend',onEnd);
+  }
+}
+
+function renderBeerSVG(srm,body,carb){
+  const color=srmToHex(srm);
+  const foamH=6+body/100*10;
+  const opacity=0.7+srm/50*0.3;
+  const bubbles=Array.from({length:Math.round(3+carb/100*8)},(_,i)=>{
+    const x=15+Math.random()*30;const d=1+Math.random()*2.5;const dur=1.5+Math.random()*2;const delay=Math.random()*3;
+    return `<circle cx="${x}" cy="65" r="${d}" fill="rgba(255,255,255,.3)"><animate attributeName="cy" from="65" to="${foamH+5}" dur="${dur}s" begin="${delay}s" repeatCount="indefinite"/><animate attributeName="opacity" from="0.4" to="0" dur="${dur}s" begin="${delay}s" repeatCount="indefinite"/></circle>`;
+  }).join('');
+  return `<svg viewBox="0 0 60 90" width="60" height="90" style="display:block;margin:0 auto">
+    <defs><clipPath id="gc"><rect x="5" y="5" width="50" height="70" rx="6"/></clipPath></defs>
+    <rect x="5" y="5" width="50" height="70" rx="6" fill="none" stroke="rgba(255,255,255,.2)" stroke-width="2"/>
+    <rect x="5" y="${75-65*opacity}" width="50" height="${65*opacity}" fill="${color}" opacity="${opacity}" clip-path="url(#gc)"/>
+    <g clip-path="url(#gc)">${bubbles}</g>
+    <rect x="5" y="5" width="50" height="${foamH}" rx="4" fill="rgba(255,245,220,.75)" clip-path="url(#gc)"/>
+    <rect x="24" y="76" width="12" height="10" rx="3" fill="rgba(255,255,255,.08)"/>
+    <rect x="20" y="85" width="20" height="4" rx="2" fill="rgba(255,255,255,.08)"/>
+  </svg>`;
+}
+
+function srmToHex(srm){
+  if(srm<=2) return '#FFE699';
+  if(srm<=4) return '#FFD878';
+  if(srm<=6) return '#FFCA5A';
+  if(srm<=9) return '#FFBF42';
+  if(srm<=14) return '#D99C3B';
+  if(srm<=20) return '#B07030';
+  if(srm<=30) return '#8B4C26';
+  if(srm<=40) return '#5A2D0E';
+  return '#2C1507';
+}
+
+function updateBrewAxis(axis,val){
+  _brewState.radar[axis]=parseInt(val);
+  drawBrewRadar();
+  // Update vital stats inline without full re-render
+  const vs=calcVitalStats(_brewState);const style=BJCP_STYLES.find(s=>s.id===_brewState.styleId);
+  if(!style)return;
+  const fits=[paramFit(vs.ibu,style.ibu[0],style.ibu[1]),paramFit(vs.abv,style.abv[0],style.abv[1]),paramFit(vs.og,style.og[0],style.og[1])];
+  const af=fits.reduce((a,b)=>a+b)/fits.length;const z=af>0.8?'safe':af>0.5?'bold':'wild';
+  const zh=document.querySelector('.brew-zone-hint');
+  if(zh){zh.className='brew-zone-hint '+z;zh.textContent=z==='safe'?'风格匹配 ✓':z==='bold'?'大胆创新！评分可能受影响':'已偏离风格标准';}
+}
+
+function goBrewIngredients(){
+  renderBrewIngr();
+  go('sBrewIngr');
+}
+
+// --- Render: Ingredients (Step 3) ---
+function renderBrewIngr(){
+  const style=BJCP_STYLES.find(s=>s.id===_brewState.styleId);
+  if(!style) return;
+
+  document.getElementById('sBrewIngr').innerHTML=`<div class="pi">
+    <div class="brew-hero">
+      <div onclick="go('sBrewRadar')" style="cursor:pointer;font-size:20px;color:var(--t2);position:absolute;left:24px;top:48px">←</div>
+      <div class="brew-step">STEP 3 / 4</div>
+      <div class="brew-title">选原料 + 命名</div>
+      <div class="brew-sub">可选 · 不选则系统自动匹配</div>
+    </div>
+
+    <div class="ingr-section">
+      <div class="ingr-title">🌾 基础麦芽</div>
+      <div class="ingr-grid">
+        ${MALTS.map(m=>`
+          <div class="ingr-chip ${_brewState.malts.includes(m.id)?'sel':''}" onclick="toggleIngr('malts','${m.id}',this)">
+            ${m.name}
+          </div>
+        `).join('')}
+      </div>
+      <div class="ingr-tip">${_brewState.malts.length>0?MALTS.find(m=>m.id===_brewState.malts[_brewState.malts.length-1])?.tip||'':'点击选择1-3种麦芽'}</div>
+    </div>
+
+    <div class="ingr-section">
+      <div class="ingr-title">🌿 酒花</div>
+      <div class="ingr-grid">
+        ${HOPS.map(h=>`
+          <div class="ingr-chip ${_brewState.hops.includes(h.id)?'sel':''}" onclick="toggleIngr('hops','${h.id}',this)">
+            ${h.name}
+          </div>
+        `).join('')}
+      </div>
+      <div class="ingr-tip">${_brewState.hops.length>0?HOPS.find(h=>h.id===_brewState.hops[_brewState.hops.length-1])?.tip||'':'点击选择1-3种酒花'}</div>
+    </div>
+
+    <div class="ingr-section">
+      <div class="ingr-title">🧫 酵母</div>
+      <div class="ingr-grid">
+        ${YEASTS.map(y=>`
+          <div class="ingr-chip ${_brewState.yeast===y.id?'sel':''}" onclick="selectYeast('${y.id}',this)">
+            ${y.name}
+          </div>
+        `).join('')}
+      </div>
+      <div class="ingr-tip">${_brewState.yeast?YEASTS.find(y=>y.id===_brewState.yeast)?.tip||'':'选择一种酵母'}</div>
+    </div>
+
+    <div class="ingr-section" style="margin-top:20px">
+      <div class="ingr-title">✏️ 给你的配方起个名字</div>
+      <input type="text" class="brew-name-input" placeholder="例：午夜柑橘风暴" maxlength="20"
+        value="${_brewState.recipeName}" oninput="_brewState.recipeName=this.value">
+      <div style="display:flex;gap:8px;margin-top:8px">
+        <button class="btn-g btn-s" onclick="randomRecipeName()">随机灵感</button>
+      </div>
+    </div>
+
+    <button class="btn" style="margin-top:20px" onclick="submitBrew()">🏆 提交参赛</button>
+  </div>`;
+}
+
+function toggleIngr(type,id,el){
+  const arr=_brewState[type];
+  const idx=arr.indexOf(id);
+  if(idx>=0){arr.splice(idx,1);}
+  else{if(arr.length>=3){arr.shift();}arr.push(id);}
+  renderBrewIngr();
+}
+function selectYeast(id){
+  _brewState.yeast=_brewState.yeast===id?null:id;
+  renderBrewIngr();
+}
+function randomRecipeName(){
+  const adj=['午夜','晨光','暴风','幻境','深渊','星辰','烈焰','冰霜','迷雾','流浪'];
+  const noun=['柑橘','松林','麦浪','蜂蜜','焦糖','花园','海岸','山谷','瀑布','极光'];
+  const suffix=['风暴','之歌','幻想','传说','回声','密语','宣言','觉醒'];
+  _brewState.recipeName=adj[Math.floor(Math.random()*adj.length)]+
+    noun[Math.floor(Math.random()*noun.length)]+
+    suffix[Math.floor(Math.random()*suffix.length)];
+  renderBrewIngr();
+}
+
+// --- Submit Brew & Show Scorecard ---
+function submitBrew(){
+  // Default ingredients if none selected
+  if(_brewState.malts.length===0) _brewState.malts=['pilsner'];
+  if(_brewState.hops.length===0) _brewState.hops=['cascade'];
+  if(!_brewState.yeast) _brewState.yeast='usClean';
+  if(!_brewState.recipeName) randomRecipeName();
+
+  const scores=scoreBJCP(_brewState);
+  if(!scores) return;
+  _brewState.scores=scores;
+
+  const saved=saveRecipe(_brewState,scores);
+  addTrainXP(15,'brew_submit');
+  checkStorageUsage();
+
+  renderScorecard(scores,_brewState);
+  go('sScorecard');
+}
+
+function renderScorecard(scores,recipe){
+  const s=scores;const st=s.style;const vs=s.vitalStats;
+  const comments=genComment(s,recipe);
+  const dims=[
+    {name:'香气 Aroma',score:s.aroma,max:12,comment:comments.aroma},
+    {name:'外观 Appearance',score:s.appearance,max:3,comment:comments.appearance},
+    {name:'风味 Flavor',score:s.flavor,max:20,comment:comments.flavor},
+    {name:'口感 Mouthfeel',score:s.mouthfeel,max:5,comment:comments.mouthfeel},
+    {name:'综合 Overall',score:s.overall,max:10,comment:comments.overall}
+  ];
+
+  document.getElementById('sScorecard').innerHTML=`<div class="pi">
+    <div class="scorecard">
+      <div class="scorecard-header">
+        <div class="scorecard-title">TOMO PALATE ACADEMY · 品鉴评分卡</div>
+        <div style="font-size:10px;color:var(--t3);opacity:.6;letter-spacing:1px;margin-top:2px">本地演示版 · 评分仅供参考</div>
+        <div class="scorecard-recipe">${esc(recipe.recipeName)||'未命名配方'}</div>
+        <div class="scorecard-style">${st.id} · ${st.nameCN}</div>
+      </div>
+
+      <div class="scorecard-total">
+        <div class="scorecard-score">${s.total}<span class="scorecard-max"> / 50</span></div>
+        <div class="scorecard-grade" style="color:${s.total>=38?'#10B981':s.total>=30?'var(--gold)':s.total>=21?'var(--t2)':'#EF4444'}">${s.gradeIcon} ${s.grade}</div>
+      </div>
+
+      ${dims.map(d=>`
+        <div class="scorecard-dim">
+          <div class="scorecard-dim-head">
+            <div class="scorecard-dim-name">${d.name}</div>
+            <div class="scorecard-dim-score">${d.score} / ${d.max}</div>
+          </div>
+          <div class="scorecard-dim-bar">
+            <div class="scorecard-dim-fill" style="width:${d.score/d.max*100}%"></div>
+          </div>
+          <div class="scorecard-comment">${d.comment}</div>
+        </div>
+      `).join('')}
+
+      ${s.flaws&&s.flaws.length>0?`
+        <div style="margin:12px 0;padding:10px 14px;background:rgba(239,68,68,.06);border:1px solid rgba(239,68,68,.15);border-radius:12px">
+          <div style="font-size:12px;font-weight:600;color:#EF4444;margin-bottom:6px">⚠️ 缺陷检测</div>
+          ${s.flaws.map(f=>`<div style="font-size:12px;color:var(--t2);margin-bottom:4px">• <b>${esc(f.name)}</b> (-${f.penalty}分) — ${esc(f.msg)}</div>`).join('')}
+        </div>
+      `:''}
+      <div style="text-align:center;font-size:13px;color:var(--t3);margin:12px 0 8px">Vital Statistics 对标</div>
+      <div class="scorecard-vitals">
+        <div class="scorecard-vital ${s.ogFit?'pass':'fail'}">OG ${vs.og.toFixed(3)}</div>
+        <div class="scorecard-vital ${s.fgFit?'pass':'fail'}">FG ${vs.fg.toFixed(3)}</div>
+        <div class="scorecard-vital ${s.ibuFit?'pass':'fail'}">IBU ${vs.ibu}</div>
+        <div class="scorecard-vital ${s.srmFit?'pass':'fail'}">SRM ${vs.srm}</div>
+        <div class="scorecard-vital ${s.abvFit?'pass':'fail'}">ABV ${vs.abv}%</div>
+      </div>
+    </div>
+
+    <div style="display:flex;gap:8px">
+      <button class="btn-g" style="flex:1" onclick="tabGo('sArena')">查看排行榜</button>
+      <button class="btn" style="flex:1" onclick="tabGo('sBrew')">再调一杯</button>
+    </div>
+    <button class="btn-g" style="margin-top:8px;width:100%" onclick="improveBrew()">🔄 改进这杯 → 保留参数微调</button>
+    <button class="btn-g" style="margin-top:8px;width:100%" onclick="shareScorecard(${s.total},'${esc(recipe.recipeName)}','${st.nameCN}')">分享评分卡</button>
+  </div>`;
+}
+
+function shareScorecard(total,name,style){
+  // Try canvas image share first, fallback to text
+  try{
+    const cvs=document.createElement('canvas');cvs.width=640;cvs.height=400;
+    const ctx=cvs.getContext('2d');
+    // Background
+    ctx.fillStyle='#2C2C34';ctx.fillRect(0,0,640,400);
+    // Gold border
+    ctx.strokeStyle='#D1AE6B';ctx.lineWidth=3;ctx.strokeRect(10,10,620,380);
+    // Header
+    ctx.fillStyle='#D1AE6B';ctx.font='bold 14px sans-serif';ctx.textAlign='center';
+    ctx.fillText('TOMO PALATE ACADEMY · 品鉴评分卡',320,45);
+    // Recipe name
+    ctx.fillStyle='#fff';ctx.font='bold 24px sans-serif';
+    ctx.fillText(name||'未命名配方',320,85);
+    // Style
+    ctx.fillStyle='rgba(255,255,255,.6)';ctx.font='14px sans-serif';
+    ctx.fillText(style,320,110);
+    // Score circle
+    ctx.beginPath();ctx.arc(320,190,60,0,Math.PI*2);ctx.fillStyle='rgba(209,174,107,.1)';ctx.fill();
+    ctx.strokeStyle='#D1AE6B';ctx.lineWidth=3;ctx.stroke();
+    ctx.fillStyle='#D1AE6B';ctx.font='bold 48px sans-serif';ctx.fillText(total,320,205);
+    ctx.font='16px sans-serif';ctx.fillText('/ 50',320,230);
+    // Grade
+    const grade=total>=45?'Outstanding':total>=38?'Excellent':total>=30?'Very Good':total>=21?'Good':'Fair';
+    ctx.fillStyle=total>=38?'#10B981':total>=30?'#D1AE6B':'rgba(255,255,255,.5)';
+    ctx.font='bold 18px sans-serif';ctx.fillText(grade,320,275);
+    // CTA
+    ctx.fillStyle='rgba(255,255,255,.4)';ctx.font='13px sans-serif';
+    ctx.fillText('你能超越我吗？→ tomo-taste.github.io/tomo-taste',320,330);
+    // Logo
+    ctx.fillStyle='rgba(209,174,107,.3)';ctx.font='12px sans-serif';
+    ctx.fillText('TOMO · 味觉学校',320,370);
+
+    cvs.toBlob(blob=>{
+      if(blob&&navigator.share&&navigator.canShare){
+        const file=new File([blob],'tomo-scorecard.png',{type:'image/png'});
+        if(navigator.canShare({files:[file]})){
+          navigator.share({files:[file],title:'TOMO评分卡'}).catch(()=>shareText(total,name,style));
+          return;
+        }
+      }
+      // Fallback: show image for long-press save
+      const url=URL.createObjectURL(blob);
+      const modal=document.createElement('div');
+      modal.style.cssText='position:fixed;inset:0;z-index:9999;background:rgba(0,0,0,.85);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:20px';
+      modal.innerHTML=`<img src="${url}" style="max-width:90%;border-radius:12px;margin-bottom:16px">
+        <div style="color:#fff;font-size:14px;margin-bottom:12px">长按图片保存到相册分享</div>
+        <button style="background:#D1AE6B;color:#1a1a1a;border:none;padding:10px 24px;border-radius:8px;font-size:14px;cursor:pointer" onclick="this.parentElement.remove()">关闭</button>`;
+      document.body.appendChild(modal);
+    },'image/png');
+  }catch(e){shareText(total,name,style);}
+}
+function shareText(total,name,style){
+  const txt=`🏆 我在TOMO味觉学校调了一杯「${name}」(${style})，BJCP评分 ${total}/50！你能超越我吗？\n\nhttps://tomo-taste.github.io/tomo-taste/`;
+  if(navigator.share){navigator.share({title:'TOMO评分卡',text:txt}).catch(()=>{});}
+  else{navigator.clipboard.writeText(txt).then(()=>alert('已复制，去朋友圈粘贴吧！')).catch(()=>alert(txt));}
+}
+
+function viewSavedRecipe(id){
+  const recipes=getRecipes();
+  const r=recipes.find(x=>x.id===id);
+  if(!r) return;
+  // Reconstruct brew state and re-score
+  _brewState.styleId=r.styleId;_brewState.radar=r.radar;
+  _brewState.malts=r.malts;_brewState.hops=r.hops;_brewState.yeast=r.yeast;
+  _brewState.recipeName=r.name;
+  const scores=scoreBJCP(_brewState);
+  if(scores){renderScorecard(scores,_brewState);go('sScorecard');}
+}
+
+// ============================================================
+//  MODULE: ARENA (竞技场 — 每日赛 + 排行榜)
+// ============================================================
+
+function getTodayChallenge(forQuad){
+  const today=new Date();
+  const dayOfYear=Math.floor((today-new Date(today.getFullYear(),0,0))/(1000*60*60*24));
+  const result=JSON.parse(localStorage.getItem('tomo_result')||'null');
+  const userQuad=result?result.quadrant:'EDGE';
+  const targetQuad=forQuad||userQuad;
+  // Each quadrant gets its own daily style
+  const quadStyles=BJCP_STYLES.filter(s=>s.quad===targetQuad);
+  if(quadStyles.length===0){
+    const style=BJCP_STYLES[dayOfYear%BJCP_STYLES.length];
+    return {style,quad:targetQuad,date:today.toLocaleDateString('zh-CN'),userQuad};
+  }
+  const style=quadStyles[dayOfYear%quadStyles.length];
+  return {style,quad:targetQuad,date:today.toLocaleDateString('zh-CN'),userQuad};
+}
+function getAllDailyChallenges(){
+  return ['EDGE','BLOOM','EASY','DROP'].map(q=>getTodayChallenge(q));
+}
+
+function getLeaderboard(){
+  // User's real recipes for today's challenge style
+  const challenge=getTodayChallenge();
+  const userRecipes=getRecipes().filter(r=>r.styleId===challenge.style.id);
+
+  // Build board from user's real submissions only
+  let realBoard=userRecipes.map(r=>({
+    name:'我 · '+esc(r.name),score:r.total,isUser:true,isBot:false
+  }));
+
+  // Simulated "ghost" opponents for context (clearly marked)
+  const ghosts=['酿造新星·AI','麦芽猎人·AI','酒花忍者·AI','味觉觉醒者·AI','苦味诗人·AI','焦糖行者·AI'];
+  const ghostBoard=ghosts.map((name,i)=>({
+    name,score:Math.round((42-i*1.5+Math.random()*3)*10)/10,
+    isUser:false,isBot:true
+  }));
+
+  let board=[...realBoard,...ghostBoard];
+  board.sort((a,b)=>b.score-a.score);
+  return board;
+}
+
+function getWeeklyQuadBattle(){
+  const quads=['EDGE','BLOOM','EASY','DROP'];
+  const today=new Date();
+  const weekSeed=Math.floor(today.getTime()/(1000*60*60*24*7));
+  return quads.map((q,i)=>{
+    const base=39-i*1.2;
+    const score=Math.round((base+Math.sin(weekSeed+i)*2)*10)/10;
+    const count=Math.round(25+Math.random()*30);
+    return {quad:q,score,count};
+  }).sort((a,b)=>b.score-a.score);
+}
+
+var _arenaTab='leaderboard';
+
+function renderArenaPage(){
+  if(!isSpadeKOrAbove()){
+    document.getElementById('sArena').innerHTML=`<div class="pi">${renderGateBlock('味觉竞技场')}</div>`;
+    return;
+  }
+  const challenge=getTodayChallenge();
+  const allChallenges=getAllDailyChallenges();
+  const crossChallenges=allChallenges.filter(c=>c.quad!==challenge.quad);
+  const now=new Date();
+  const endOfDay=new Date(now.getFullYear(),now.getMonth(),now.getDate()+1);
+  const hoursLeft=Math.floor((endOfDay-now)/(1000*60*60));
+  const minsLeft=Math.floor(((endOfDay-now)%(1000*60*60))/(1000*60));
+
+  document.getElementById('sArena').innerHTML=`<div class="pi">
+    <div class="arena-hero">
+      <div style="font-size:14px;color:var(--gold);letter-spacing:4px;margin-bottom:4px">TOMO PALATE ACADEMY</div>
+      <div class="serif" style="font-size:22px;margin-bottom:6px">味觉竞技场</div>
+    </div>
+
+    <div class="arena-daily">
+      <div class="arena-daily-label">你的象限 · ${challenge.quad} 今日赛题</div>
+      <div class="arena-daily-style">${challenge.style.nameCN}</div>
+      <div class="arena-daily-desc">${challenge.style.id} · ${challenge.style.desc}</div>
+      <div class="arena-countdown">剩余 ${hoursLeft}h ${minsLeft}m</div>
+      <button class="btn" style="margin-top:12px" onclick="startDailyChallenge('${challenge.style.id}')">参赛 →</button>
+    </div>
+
+    <!-- Cross-quadrant challenges -->
+    <div style="margin-top:12px">
+      <div style="font-size:12px;color:var(--t3);letter-spacing:2px;margin-bottom:6px;text-align:center">跨象限挑战</div>
+      <div style="display:flex;gap:6px;overflow-x:auto;padding-bottom:4px">
+        ${crossChallenges.map(c=>`
+          <div style="flex:0 0 auto;padding:8px 12px;background:var(--glass);border:1px solid var(--glass-b);border-radius:10px;min-width:120px;cursor:pointer" onclick="startDailyChallenge('${c.style.id}')">
+            <div style="font-size:11px;color:${QUAD_COLORS[c.quad]};font-weight:600">${c.quad}</div>
+            <div style="font-size:13px;color:var(--t1)">${c.style.nameCN}</div>
+            <div style="font-size:10px;color:var(--t3)">${c.style.id}</div>
+          </div>
+        `).join('')}
+      </div>
+    </div>
+
+    <div class="arena-tab-row">
+      <div class="arena-tab ${_arenaTab==='leaderboard'?'active':''}" onclick="switchArenaTab('leaderboard')">今日排行</div>
+      <div class="arena-tab ${_arenaTab==='weekly'?'active':''}" onclick="switchArenaTab('weekly')">本周象限</div>
+      <div class="arena-tab ${_arenaTab==='history'?'active':''}" onclick="switchArenaTab('history')">我的配方</div>
+    </div>
+
+    <div id="arenaContent">${renderArenaTabContent()}</div>
+  </div>`;
+}
+
+function switchArenaTab(tab){
+  _arenaTab=tab;
+  const el=document.getElementById('arenaContent');
+  if(el) el.innerHTML=renderArenaTabContent();
+  document.querySelectorAll('.arena-tab').forEach(t=>t.classList.toggle('active',t.textContent.includes(
+    tab==='leaderboard'?'今日':tab==='weekly'?'象限':'配方'
+  )));
+}
+
+function renderArenaTabContent(){
+  if(_arenaTab==='leaderboard'){
+    const board=getLeaderboard();
+    const hasReal=board.some(e=>!e.isBot);
+    return `
+      ${!hasReal?'<div style="text-align:center;font-size:13px;color:var(--t3);padding:8px 0;margin-bottom:8px;border-bottom:1px solid var(--glass-b)">🤖 当前为AI模拟赛况 · 提交配方后显示你的真实排名</div>':''}
+      <div>
+        ${board.map((entry,i)=>`
+          <div class="lb-item ${entry.isUser?'me':''}">
+            <div class="lb-rank ${i<3?'gold':''}">${i===0?'🥇':i===1?'🥈':i===2?'🥉':i+1}</div>
+            <div class="lb-name">${entry.isUser?'<b>'+entry.name+'</b>':entry.name}${entry.isBot?' <span style="font-size:10px;color:var(--t3);opacity:.6">模拟</span>':''}</div>
+            <div class="lb-score">${entry.score}</div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="text-align:center;font-size:12px;color:var(--t3);margin-top:12px">
+        排行榜每日00:00刷新 · 标记"模拟"为AI陪练对手
+      </div>`;
+  }
+  if(_arenaTab==='weekly'){
+    const battle=getWeeklyQuadBattle();
+    return `
+      <div style="font-size:14px;color:var(--t2);text-align:center;margin-bottom:12px">本周象限战力排名</div>
+      <div class="quad-battle">
+        ${battle.map((q,i)=>`
+          <div class="quad-battle-card ${i===0?'winner':''}">
+            <div class="quad-battle-name" style="color:${QUAD_COLORS[q.quad]}">${i===0?'🏆 ':''} ${q.quad}</div>
+            <div class="quad-battle-score">${q.score}</div>
+            <div class="quad-battle-count">${q.count} 位参赛者</div>
+          </div>
+        `).join('')}
+      </div>
+      <div style="font-size:12px;color:var(--t3);text-align:center">
+        每周日汇总 · 当前为模拟数据预览
+      </div>`;
+  }
+  if(_arenaTab==='history'){
+    const recipes=getRecipes();
+    if(recipes.length===0){
+      return `<div style="text-align:center;padding:40px 0">
+        <div style="font-size:40px;margin-bottom:12px">⚗️</div>
+        <div style="font-size:15px;color:var(--t2)">还没有配方</div>
+        <div style="font-size:13px;color:var(--t3);margin-top:4px">去「酿造」页调一杯参赛吧</div>
+      </div>`;
+    }
+    return `
+      <div>
+        ${recipes.map(r=>`
+          <div class="recipe-card" onclick="viewSavedRecipe(${r.id})">
+            <div class="recipe-card-head">
+              <div class="recipe-card-name">${r.gradeIcon} ${esc(r.name)}</div>
+              <div class="recipe-card-score">${r.total}</div>
+            </div>
+            <div class="recipe-card-meta">${BJCP_STYLES.find(s=>s.id===r.styleId)?.nameCN||r.styleId} · ${r.date} · ${r.grade.split('·')[0]}</div>
+          </div>
+        `).join('')}
+      </div>`;
+  }
+  return '';
+}
+
+function improveBrew(){
+  // Keep current _brewState (radar, malts, hops, yeast, style) and go back to radar
+  renderBrewRadar();
+  go('sBrewRadar');
+}
+
+function startDailyChallenge(styleId){
+  selectBrewStyle(styleId);
 }
 
 // ============================================================
