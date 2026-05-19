@@ -155,24 +155,18 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 
 /* SHARE CARD (hidden, used for html2canvas capture) */
 #shareCardWrap{position:fixed;left:-9999px;top:0;z-index:-1}
-#shareCard{width:375px;height:667px;background:#0a0a12;padding:40px 28px;font-family:'Noto Sans SC',sans-serif;color:#fff;display:flex;flex-direction:column;align-items:center}
-#shareCard .sc-title{font-family:'Noto Serif SC',serif;font-size:16px;color:var(--gold);letter-spacing:4px;margin-bottom:24px}
-#shareCard .sc-emoji{font-size:64px;margin-bottom:8px}
-#shareCard .sc-name{font-family:'Noto Serif SC',serif;font-size:32px;color:var(--gold);margin-bottom:4px}
-#shareCard .sc-sub{font-size:12px;color:#666;letter-spacing:3px;margin-bottom:6px}
-#shareCard .sc-motto{font-size:14px;color:#aaa;margin-bottom:20px;letter-spacing:2px}
-#shareCard .sc-desc{font-size:12px;color:#888;line-height:1.9;text-align:left;width:100%;margin-bottom:20px}
-#shareCard .sc-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:24px}
-#shareCard .sc-tag{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.2);border-radius:14px;padding:3px 10px;font-size:10px;color:var(--gold)}
-#shareCard .sc-bars{width:100%;margin-bottom:20px}
-#shareCard .sc-bar{display:flex;align-items:center;gap:6px;margin-bottom:6px}
-#shareCard .sc-bar-label{font-size:10px;color:#666;width:28px}
-#shareCard .sc-bar-track{flex:1;height:4px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden}
-#shareCard .sc-bar-fill{height:100%;background:linear-gradient(90deg,var(--gold),var(--gold-l));border-radius:2px}
-#shareCard .sc-bar-val{font-size:10px;color:var(--gold);width:20px;text-align:right}
-#shareCard .sc-footer{margin-top:auto;text-align:center}
-#shareCard .sc-cta{font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:4px}
-#shareCard .sc-brand{font-size:10px;color:#444;letter-spacing:2px}
+#shareCard{width:375px;height:667px;background:#0a0a12;padding:0;font-family:'Noto Sans SC',sans-serif;color:#fff;display:flex;flex-direction:column;align-items:center;overflow:hidden;position:relative}
+#shareCard .sc-img-wrap{width:375px;height:420px;display:flex;align-items:center;justify-content:center;overflow:hidden;background:radial-gradient(ellipse at center,rgba(201,168,76,.08) 0%,transparent 70%)}
+#shareCard .sc-img-wrap img{max-width:320px;max-height:400px;object-fit:contain}
+#shareCard .sc-info{flex:1;width:100%;padding:16px 28px 20px;display:flex;flex-direction:column;align-items:center;justify-content:center;background:linear-gradient(180deg,transparent 0%,rgba(10,10,18,.95) 20%)}
+#shareCard .sc-name{font-family:'Noto Serif SC',serif;font-size:30px;color:var(--gold);margin-bottom:4px;letter-spacing:4px}
+#shareCard .sc-sub{font-size:12px;color:#777;letter-spacing:3px;margin-bottom:8px}
+#shareCard .sc-motto{font-size:14px;color:#bbb;margin-bottom:12px;letter-spacing:2px}
+#shareCard .sc-tags{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-bottom:16px}
+#shareCard .sc-tag{background:rgba(201,168,76,.1);border:1px solid rgba(201,168,76,.25);border-radius:14px;padding:3px 12px;font-size:10px;color:var(--gold)}
+#shareCard .sc-footer{text-align:center;margin-top:auto;padding-bottom:4px}
+#shareCard .sc-cta{font-size:13px;color:var(--gold);letter-spacing:2px;margin-bottom:3px}
+#shareCard .sc-brand{font-size:10px;color:#555;letter-spacing:2px}
 
 /* SHARE MODAL */
 .modal-overlay{position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,.85);z-index:100;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .3s}
@@ -840,28 +834,23 @@ let shareCardDataUrl = null;
 function generateAndShowShareCard() {
   const p = currentPersona;
   if (!p) return;
-  const barLabels = ['苦度','甜度','清爽','复杂'];
 
-  // Build the offscreen card HTML
+  // Build the offscreen card HTML — animal image as hero
   const card = document.getElementById('shareCard');
+  const imgSrc = pImg(p);
   card.innerHTML = `
-    <div class="sc-title">你的 TOMO 味觉 DNA</div>
-    <div class="sc-emoji">${p.emoji}</div>
-    <div class="sc-name">${p.bio}</div>
-    <div class="sc-sub">${p.suit} · ${p.pro}</div>
-    <div class="sc-motto">${p.motto}</div>
-    <div class="sc-desc">${p.desc}</div>
-    <div class="sc-tags">${p.tags.map(t => `<span class="sc-tag">${t}</span>`).join('')}</div>
-    <div class="sc-bars">
-      ${barLabels.map((l, i) => `<div class="sc-bar">
-        <span class="sc-bar-label">${l}</span>
-        <div class="sc-bar-track"><div class="sc-bar-fill" style="width:${p.bars[i]}%"></div></div>
-        <span class="sc-bar-val">${p.bars[i]}</span>
-      </div>`).join('')}
+    <div class="sc-img-wrap">
+      <img src="${imgSrc}" crossorigin="anonymous" />
     </div>
-    <div class="sc-footer">
-      <div class="sc-cta">用 TOMO 发现你的味觉人格</div>
-      <div class="sc-brand">共醸 GÒNNIANG · JAM 即兴精酿</div>
+    <div class="sc-info">
+      <div class="sc-name">${p.bio}</div>
+      <div class="sc-sub">${p.suit} · ${p.pro}</div>
+      <div class="sc-motto">「${p.motto}」</div>
+      <div class="sc-tags">${p.tags.map(t => `<span class="sc-tag">${t}</span>`).join('')}</div>
+      <div class="sc-footer">
+        <div class="sc-cta">用 TOMO 发现你的味觉人格</div>
+        <div class="sc-brand">共醸 GÒNNIANG · JAM 即兴精酿</div>
+      </div>
     </div>
   `;
 
